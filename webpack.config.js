@@ -5,7 +5,9 @@ module.exports = {
     path: 'dist',
     filename: 'epcyp.js'
   },
-  target: "atom",
+  resolve: {
+    extensions: ['', '.js', '.json', '.coffee', 'scss']
+  },
   module: {
     loaders: [
       {
@@ -34,10 +36,12 @@ module.exports = {
         test: /\.jade$/,
         exclude: /node_modules/,
         loader: 'jade-loader'
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loaders: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   },
-  resolve: {
-    extensions: ['', '.js', '.json', '.coffee']
-  }
 };

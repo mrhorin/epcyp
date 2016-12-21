@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import cats from "../js/cats";
+import css from "!style-loader!css-loader!sass-loader!../scss/style.scss";
 
 // コンポーネント
 class Test extends React.Component {
