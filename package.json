@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
+    "watch": "webpack --watch",
+    "clean": "gulp clean",
     "start": "electron ./dist/main.js",
     "list": "npm list  --depth=0"
   },
