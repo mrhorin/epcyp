@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && ./node_modules/gulp/bin/gulp.js jade && ./node_modules/gulp/bin/gulp.js copy && webpack",
+    "build": "npm run clean && ./node_modules/gulp/bin/gulp.js && webpack",
     "watch": "webpack --watch",
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
@@ -24,6 +24,7 @@
     "css-loader": "^0.26.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.3",
     "gulp-jade": "^1.1.0",
     "gulp-plumber": "^1.1.0",
     "jade": "^1.11.0",

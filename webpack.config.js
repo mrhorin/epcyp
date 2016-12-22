@@ -1,4 +1,5 @@
-//webpack.config.js
+var path = require('path');
+
 module.exports = {
   entry: './src/jsx/index.jsx',
   output: {
@@ -6,15 +7,11 @@ module.exports = {
     filename: 'epcyp.js'
   },
   resolve: {
-    extensions: ['', '.js', '.json', '.coffee', 'scss']
+    extensions: ['', '.js', '.json', '.coffee', '.css', '.scss'],
+    root: [ path.resolve('./src/')]
   },
   module: {
     loaders: [
-      {
-        test: /\.coffee$/,
-        exclude: /node_modules/,
-        loader: 'coffee-loader'
-      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -36,6 +33,11 @@ module.exports = {
         test: /\.jade$/,
         exclude: /node_modules/,
         loader: 'jade-loader'
+      },
+      {
+        test: /\.coffee$/,
+        exclude: /node_modules/,
+        loader: 'coffee-loader'
       },
       {
         test: /\.scss$/,
