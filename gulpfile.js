@@ -4,8 +4,12 @@ var coffee = require("gulp-coffee");
 var jade = require("gulp-jade");
 var del = require('del');
 
+gulp.task('watch', function(){
+  gulp.watch(['src/coffee/main.coffee'], ['main-coffee']);
+});
+
 // mainプロセスファイルをcoffeeコンパイル
-gulp.task('coffee', function(){
+gulp.task('main-coffee', function(){
   gulp.src('src/coffee/main.coffee')
     .pipe(plumber())
     .pipe(coffee({
@@ -28,4 +32,4 @@ gulp.task('clean', function(cb) {
   del(['dist', '**/*.log'], cb);
 });
 
-gulp.task('default', ['coffee', 'jade']);
+gulp.task('default', ['main-coffee', 'jade']);
