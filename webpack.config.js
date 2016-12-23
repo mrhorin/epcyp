@@ -13,7 +13,8 @@ module.exports = {
   },
   externals: [
     'electron',
-    'fs'
+    'fs',
+    'ipc'
   ],
   module: {
     loaders: [

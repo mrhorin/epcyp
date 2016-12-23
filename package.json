@@ -9,7 +9,7 @@
     "watch": "webpack --watch",
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
-    "list": "npm list  --depth=0"
+    "list": "npm list --depth=0"
   },
   "author": "",
   "license": "ISC",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react-dom": "^15.4.1",
+    "superagent": "^3.3.1"
   }
 }
