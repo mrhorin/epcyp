@@ -4,12 +4,17 @@ module.exports = {
   entry: './src/jsx/index.jsx',
   output: {
     path: 'dist',
-    filename: 'epcyp.js'
+    filename: 'epcyp.js',
+    libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['', '.js', '.json', '.coffee', '.css', '.scss'],
     root: [ path.resolve('./src/')]
   },
+  externals: [
+    'electron',
+    'fs'
+  ],
   module: {
     loaders: [
       {
