@@ -1,24 +1,10 @@
 electron = require 'electron'
 request = require 'superagent'
-ipc = electron.ipcMain;
-
-# request.get("http://bayonet.ddo.jp/sp/index.txt").end((err,res)->
-#   console.log res.text
-# )
-
+ipcMain = electron.ipcMain
 app = electron.app
 BrowserWindow = electron.BrowserWindow
 
-mainWindow = null
-
-app.on('window-all-closed', ()->
-  if process.platform != 'darwin'
-    app.quit()
-)
-
 app.on('ready', ()->
-
-  # ブラウザ(Chromium)の起動, 初期画面のロード
   mainWindow = new BrowserWindow({width: 800, height: 600})
   mainWindow.openDevTools()
   mainWindow.loadURL('file://' + __dirname + '/index.html')
@@ -28,7 +14,21 @@ app.on('ready', ()->
   )
 )
 
-ipc.on('asynchronous-message', (event, arg) =>
-  console.log(arg)
-  event.sender.send('asynchronous-reply', 'reply from main.')
+# すべてのウィンドウが閉じた時
+app.on('window-all-closed', ()->
+  if process.platform != 'darwin'
+    app.quit()
+)
+
+# index.txtのURL受信時
+ipcMain.on('asyn-yp', (event, url) ->
+  try
+    request.get(url).end((err,res)->
+      if res.status == 200 && !res.error
+        event.sender.send('asyn-yp-reply', res.text)
+      else
+        event.sender.send('asyn-yp-reply', null)
+    )
+  catch
+    event.sender.send('asyn-yp-reply', null)
 )
