@@ -17,10 +17,16 @@ module.exports = class HeaderBox extends React.Component {
 
   render(){
     return(
-      <header className="header-box">
-        <button id="header-box-update" onClick={this.onClickUpdate}>
-          更新（{this.state.update ? "OFF" : "ON"}
-        </button>
+      <header className="toolbar toolbar-header">
+        <h1 className="title">
+          <span className="icon icon-megaphone"></span>
+          epcyp
+        </h1>
+        <div className="toolbar-actions">
+          <button className="btn btn-default" onClick={this.onClickUpdate}>
+            <span className="icon icon-arrows-ccw"></span>
+          </button>
+        </div>
       </header>
     )
   }

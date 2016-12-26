@@ -25,9 +25,8 @@ class Index extends React.Component {
       this.setState({
         channels: this.state.channels.concat(newChannels)
       })
-      // console.log(this.state.channels)
     })
-    this.fetchIndexTxt()
+    // this.fetchIndexTxt()
   }
 
   // index.txtを取得

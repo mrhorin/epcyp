@@ -14,7 +14,7 @@ module.exports = class ChannelBox extends React.Component {
       )
     })
     return(
-      <ul id="channel-box">
+      <ul id="channel-box" className="list-group">
         {channelItems}
       </ul>
     )

@@ -1,3 +1,34 @@
 body{
-  background: rgba(121,183,74,1);
+  background: #efefef;
+  overflow: auto;
+}
+header{
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  -webkit-app-region: drag; /* ドラッグ可能に */
+  -webkit-user-select: none; /* ドラッグはテキスト選択と競合するので禁止 */
+  .title>.icon{
+    margin-right: 5px;
+  }
+}
+.toolbar-actions{
+  margin-top: 10px;
+}
+#container{
+  position: relative;
+  padding-top: 60px;
+}
+.channel-item-name{
+  color: #116cd6;
+  font-weight: bold;
+}
+.channel-item-genre{
+  display: inline-block;
+}
+.channel-item-detail{
+  display: inline-block;
+}
+.list-group * {
+  overflow: visible;
 }

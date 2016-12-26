@@ -6,6 +6,7 @@ var del = require('del');
 
 gulp.task('watch', function(){
   gulp.watch(['src/coffee/main.coffee'], ['main-coffee']);
+  gulp.watch(['src/jade/**/*.jade'], ['jade']);
 });
 
 // mainプロセスファイルをcoffeeコンパイル

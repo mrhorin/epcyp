@@ -5,8 +5,14 @@ app = electron.app
 BrowserWindow = electron.BrowserWindow
 
 app.on('ready', ()->
-  mainWindow = new BrowserWindow({width: 800, height: 600})
-  mainWindow.openDevTools()
+  mainWindow = new BrowserWindow({
+    width: 500,
+    height: 800,
+    frame: false,
+    titleBarStyle: 'hidden-inset',
+    scrollBounce: true
+  })
+  # mainWindow.openDevTools()
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   mainWindow.on('closed', ()->
@@ -22,7 +28,6 @@ app.on('window-all-closed', ()->
 
 # index.txtのURL受信時
 ipcMain.on('asyn-yp', (event, yp) ->
-  console.log(yp)
   try
     request.get(yp.url).end((err,res)->
       yp["txt"] = if res.status == 200 && !res.error then res.text else null
