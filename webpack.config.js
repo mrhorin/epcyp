@@ -8,7 +8,7 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.json', '.coffee', '.css', '.scss'],
+    extensions: ['', '.js', '.jsx', '.coffee', '.css', '.scss'],
     root: [ path.resolve('./src/')]
   },
   externals: [

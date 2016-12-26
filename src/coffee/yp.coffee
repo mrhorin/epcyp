@@ -1,17 +1,20 @@
-request = require 'superagent'
-
 module.exports = class YP
 
   constructor: (name, url)->
     @name = name
     @url = url
-    @channels = []
+    # index.txt
+    @txt = null
 
   parseIndexTxt: (txt)=>
+    channels = []
     if txt?
       for line, index in txt.split(/\n/)
         line = line.split(/<>/)
+        # チャンネル名が空値
+        continue unless line[0]&&line[1]
         ch =
+          "key": line[0]+line[1]
           "name": line[0]
           "id": line[1]
           "tip": line[2]
@@ -24,5 +27,5 @@ module.exports = class YP
           "format": line[9]
           "time": line[15]
           "comment": line[16]
-        @channels.push ch
-    return @channels
+        channels.push ch
+    return channels

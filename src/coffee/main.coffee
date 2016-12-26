@@ -21,14 +21,13 @@ app.on('window-all-closed', ()->
 )
 
 # index.txtのURL受信時
-ipcMain.on('asyn-yp', (event, url) ->
+ipcMain.on('asyn-yp', (event, yp) ->
+  console.log(yp)
   try
-    request.get(url).end((err,res)->
-      if res.status == 200 && !res.error
-        event.sender.send('asyn-yp-reply', res.text)
-      else
-        event.sender.send('asyn-yp-reply', null)
+    request.get(yp.url).end((err,res)->
+      yp["txt"] = if res.status == 200 && !res.error then res.text else null
+      event.sender.send('asyn-yp-reply', yp)
     )
-  catch
-    event.sender.send('asyn-yp-reply', null)
+  catch e
+    console.log e
 )

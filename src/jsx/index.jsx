@@ -3,27 +3,53 @@ import ReactDOM from "react-dom"
 import electron from "electron"
 import css from "scss/style"
 import YP from "coffee/yp"
-const ipc = electron.ipcRenderer
+import HeaderBox from "jsx/header_box"
+import ChannelBox from "jsx/channel_box"
+const ipcRenderer = electron.ipcRenderer
 
-// コンポーネント
 class Index extends React.Component {
 
-  render(){
-    var sp = new YP("SP", "http://bayonet.ddo.jp/sp/index.txt")
-    // index.txtを取得
-    ipc.send('asyn-yp', sp.url)
-    ipc.on('asyn-yp-reply', (event, txt) => {
-      sp.parseIndexTxt(txt)
-      console.log(sp)
+  constructor(props){
+    super(props)
+    this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
+    this.state = {
+      ypList: [
+        new YP("SP", "http://bayonet.ddo.jp/sp/index.txt"),
+        new YP("TP", "http://temp.orz.hm/yp/index.txt")
+      ],
+      channels: []
+    }
+    ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
+      // 取得したチャンネル一覧
+      var newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
+      this.setState({
+        channels: this.state.channels.concat(newChannels)
+      })
+      // console.log(this.state.channels)
     })
-    return (
-      <h1>React.jsテスト{sp.url}</h1>
+    this.fetchIndexTxt()
+  }
+
+  // index.txtを取得
+  fetchIndexTxt(){
+    this.state.channels = []
+    for(var yp of this.state.ypList){
+      ipcRenderer.send('asyn-yp', yp)
+    }
+  }
+
+  render(){
+    return(
+      <div id="index">
+        <HeaderBox fetchIndexTxt={this.fetchIndexTxt} />
+        <ChannelBox channels={this.state.channels} />
+      </div>
     )
   }
 
 }
 
-// レンダリング
 ReactDOM.render(
-  <Index />, document.getElementById('container')
+  <Index />,
+  document.getElementById('container')
 )
