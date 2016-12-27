@@ -20,7 +20,8 @@ module.exports = {
     'ipc',
     'child_process',
     'superagent',
-    'path'
+    'path',
+    'electron-config'
   ],
   module: {
     loaders: [

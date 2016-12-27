@@ -1,18 +1,25 @@
 import electron from 'electron'
 import request from 'superagent'
 import path from 'path'
+import Config from 'electron-config'
 import {exec} from 'child_process'
 const ipcMain = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const config = new Config({
+  defaults: { bounds: { width: 800, height: 600 } }
+})
 
 var mainWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
+  const {width, height, x, y} = config.get('bounds')
   mainWindow = new BrowserWindow({
-    width: 500,
-    height: 800,
+    width: width,
+    height: height,
+    x: x,
+    y: y,
     frame: false,
     titleBarStyle: 'hidden-inset',
     scrollBounce: true
@@ -20,7 +27,8 @@ app.on('ready', ()=>{
   // mainWindow.openDevTools()
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
-  mainWindow.on('closed', ()=>{
+  mainWindow.on('close', ()=>{
+    config.set('bounds', mainWindow.getBounds())
     mainWindow = null
   })
 })
