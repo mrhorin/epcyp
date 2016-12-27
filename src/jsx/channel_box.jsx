@@ -19,7 +19,7 @@ module.exports = class ChannelBox extends React.Component {
           <tr>
             <th className="channel-box-col1">チャンネル詳細</th>
             <th className="channel-box-col2">リスナー</th>
-            <th className="channel-box-col3">bps</th>
+            <th className="channel-box-col3">kbps</th>
           </tr>
         </thead>
         <tbody>

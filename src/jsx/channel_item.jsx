@@ -33,7 +33,7 @@ module.exports = class ChannelItem extends React.Component {
           <div className="channel-item-time">{this.props.channel.time}</div>
         </td>
         <td className="channel-item-col3">
-          <div className="channel-item-bps">{this.props.channel.bps}</div>
+          <div className="channel-item-kbps">{this.props.channel.kbps}</div>
           <div className="channel-item-format">{this.props.channel.format}</div>
         </td>
       </tr>
