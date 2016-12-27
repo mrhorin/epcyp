@@ -14,9 +14,18 @@ module.exports = class ChannelBox extends React.Component {
       )
     })
     return(
-      <ul id="channel-box" className="list-group">
-        {channelItems}
-      </ul>
+      <table className="table-striped">
+        <thead>
+          <tr>
+            <th className="channel-box-col1">チャンネル詳細</th>
+            <th className="channel-box-col2">リスナー</th>
+            <th className="channel-box-col3">bps</th>
+          </tr>
+        </thead>
+        <tbody>
+          {channelItems}
+        </tbody>
+      </table>
     )
   }
 

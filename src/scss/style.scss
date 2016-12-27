@@ -1,3 +1,7 @@
+$col1-widrh: auto;
+$col2-widrh: 60px;
+$col3-widrh: 30px;
+
 body{
   background: #efefef;
   overflow: auto;
@@ -19,16 +23,54 @@ header{
   position: relative;
   padding-top: 60px;
 }
-.channel-item-name{
-  color: #116cd6;
-  font-weight: bold;
+
+tr{
+  overflow: hidden;
 }
-.channel-item-genre{
-  display: inline-block;
+
+/* ChannelBox */
+th.channel-box-col1{
+  box-sizing: border-box;
+  width: $col1-widrh;
+  margin-right: -110px;
+	padding-right: 110px;
 }
-.channel-item-detail{
-  display: inline-block;
+th.channel-box-col2{
+  box-sizing: border-box;
+  width: $col2-widrh;
+  padding: 2px 5px;
 }
-.list-group * {
-  overflow: visible;
+th.channel-box-col3{
+  box-sizing: border-box;
+  width: $col3-widrh;
+  padding: 2px 5px;
+}
+
+/* ChannelItem */
+td.channel-item-col1{
+  width: $col1-widrh;
+  .channel-item-name{
+    color: #116cd6;
+    font-weight: bold;
+  }
+  .channel-item-genre{
+    float: left;
+  }
+  .channel-item-detail{
+    white-space: pre-line;
+    overflow: visible;
+    text-overflow: ellipsis;
+  }
+}
+td.channel-item-col2{
+  box-sizing: border-box;
+  width: $col2-widrh;
+  padding: 2px 5px;
+  text-align: right;
+}
+td.channel-item-col3{
+  box-sizing: border-box;
+  width: $col3-widrh;
+  padding: 2px 5px;
+  text-align: right;
 }
