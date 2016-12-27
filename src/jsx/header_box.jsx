@@ -1,4 +1,5 @@
 import React from "react"
+import HeaderButton from "jsx/header_button.jsx"
 
 module.exports = class HeaderBox extends React.Component {
 
@@ -20,9 +21,7 @@ module.exports = class HeaderBox extends React.Component {
           epcyp
         </h1>
         <div className="toolbar-actions">
-          <button className="btn btn-default" onClick={this.onClickUpdate}>
-            <span className="icon icon-arrows-ccw"></span>
-          </button>
+          <HeaderButton key={1} icon={"icon-arrows-ccw"} onClickUpdate={this.onClickUpdate}/>
         </div>
       </header>
     )
