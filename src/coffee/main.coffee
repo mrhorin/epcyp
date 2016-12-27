@@ -1,9 +1,11 @@
 electron = require 'electron'
 request = require 'superagent'
+exec = require('child_process').exec
 ipcMain = electron.ipcMain
 app = electron.app
 BrowserWindow = electron.BrowserWindow
 
+# 起動準備ができた時
 app.on('ready', ()->
   mainWindow = new BrowserWindow({
     width: 500,
@@ -12,7 +14,6 @@ app.on('ready', ()->
     titleBarStyle: 'hidden-inset',
     scrollBounce: true
   })
-  # mainWindow.openDevTools()
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   mainWindow.on('closed', ()->
@@ -26,7 +27,7 @@ app.on('window-all-closed', ()->
     app.quit()
 )
 
-# index.txtのURL受信時
+# index.txtの取得
 ipcMain.on('asyn-yp', (event, yp) ->
   try
     request.get(yp.url).end((err,res)->
@@ -35,4 +36,12 @@ ipcMain.on('asyn-yp', (event, yp) ->
     )
   catch e
     console.log e
+)
+
+# プレイヤーの起動
+ipcMain.on('asyn-play', (event, channel, url) ->
+  command = "open -a /Applications/VLC.app #{url}"
+  exec(command, (error, stdout, stderr) ->
+    console.log stdout
+  )
 )

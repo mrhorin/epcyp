@@ -3,8 +3,8 @@ import ChannelItem from "jsx/channel_item.jsx"
 
 module.exports = class ChannelBox extends React.Component {
 
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
   }
 
   render(){

@@ -4,9 +4,6 @@ module.exports = class HeaderBox extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = {
-      update: false
-    }
     this.onClickUpdate = this.onClickUpdate.bind(this)
   }
 

@@ -1,10 +1,28 @@
 import React from "react"
+import {ipcRenderer} from "electron"
 
 module.exports = class ChannelItem extends React.Component {
 
+  constructor(props){
+    super(props)
+    this.streamURL = this.streamURL.bind(this)
+    this.play = this.play.bind(this)
+  }
+
+  streamURL(){
+    let port = 7144
+    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
+    return url
+  }
+
+  // プレイヤー起動
+  play(){
+    ipcRenderer.send('asyn-play', this.props.channel, this.streamURL())
+  }
+
   render(){
     return(
-      <tr>
+      <tr onClick={this.play}>
         <td className="channel-item-col1">
           <div className="channel-item-name">{this.props.channel.name}</div>
           <div className="channel-item-genre">{this.props.channel.genre}</div>
