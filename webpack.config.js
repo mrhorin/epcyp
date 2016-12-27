@@ -1,10 +1,13 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/jsx/index.jsx',
+  entry: {
+    "epcyp": './src/jsx/index.jsx',
+    "main": './src/js/main.js'
+  },
   output: {
     path: 'dist',
-    filename: 'epcyp.js',
+    filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
@@ -14,7 +17,10 @@ module.exports = {
   externals: [
     'electron',
     'fs',
-    'ipc'
+    'ipc',
+    'child_process',
+    'superagent',
+    'path'
   ],
   module: {
     loaders: [
