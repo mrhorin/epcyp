@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import electron from "electron"
 import css from "scss/style"
-import YP from "coffee/yp"
+import YP from "js/yp"
 import HeaderBox from "jsx/header_box"
 import ChannelBox from "jsx/channel_box"
 const ipcRenderer = electron.ipcRenderer
