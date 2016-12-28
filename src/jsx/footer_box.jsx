@@ -5,30 +5,31 @@ module.exports = class FooterBox extends React.Component {
 
   constructor(props){
     super(props)
-    this.enableAutoUpdate = this.enableAutoUpdate.bind(this)
-    this.disableAutoUpdate = this.disableAutoUpdate.bind(this)
+    this.startUpdateTimer = this.startUpdateTimer.bind(this)
     this.state = {
-      updateCount: this.props.updateCount
+      autoUpdateCount: this.props.autoUpdateCount
     }
-    this.enableAutoUpdate()
+    this.startUpdateTimer()
   }
 
-  // 自動更新有効
-  enableAutoUpdate(){
+  // 自動更新タイマーの開始
+  startUpdateTimer(){
     this.countTimer = setInterval(()=>{
-      if(this.state.updateCount < 1){
-        this.props.onUpdateHandler()
-        this.setState({ updateCount: this.props.updateCount })
+      if(this.props.autoUpdate){
+        // 自動更新ON時の処理
+        if(this.state.autoUpdateCount < 1){
+          this.props.onUpdateHandler()
+          this.setState({ autoUpdateCount: this.props.autoUpdateCount })
+        }else{
+          this.setState({autoUpdateCount: this.state.autoUpdateCount -1})
+        }
       }else{
-        this.setState({updateCount: this.state.updateCount -1})
+        // 自動更新OFF時の処理
+        if(this.state.autoUpdateCount != this.props.autoUpdateCount){
+          this.setState({ autoUpdateCount: this.props.autoUpdateCount })
+        }
       }
     }, 1000)
-  }
-
-  // 自動更新無効
-  disableAutoUpdate(){
-    clearInterval(this.countTimer)
-    this.setState({ updateCount: this.props.updateCount })
   }
 
   // mm:ssに変換
@@ -44,7 +45,7 @@ module.exports = class FooterBox extends React.Component {
     return(
       <footer className="toolbar toolbar-footer">
         <div className="footer-right">
-          {this.toTimeFormat(this.state.updateCount)}
+          {this.toTimeFormat(this.state.autoUpdateCount)}
         </div>
       </footer>
     )

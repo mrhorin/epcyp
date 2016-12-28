@@ -109,3 +109,11 @@ td.channel-item-col3{
 #settings-ok{
  margin-right: 5px;
 }
+
+/* override photon.css */
+.btn-primary > .icon,
+.btn-positive > .icon,
+.btn-negative > .icon,
+.btn-warning > .icon{
+  color: #fff;
+}

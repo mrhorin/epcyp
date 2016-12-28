@@ -6,7 +6,7 @@ module.exports = class HeaderButton extends React.Component {
     // photon.cssアイコンのクラス名
     const classNameIcon = `icon ${this.props.icon}`
     return(
-      <button className="btn btn-default" onClick={this.props.onClickhandler}>
+      <button className={this.props.btnClass} onClick={this.props.onClickhandler}>
         <span className={classNameIcon}></span>
       </button>
     )

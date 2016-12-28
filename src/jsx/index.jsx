@@ -11,6 +11,7 @@ class Index extends React.Component {
 
   constructor(props){
     super(props)
+    this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
     this.state = {
       ypList: [
@@ -18,18 +19,23 @@ class Index extends React.Component {
         new YP("TP", "http://temp.orz.hm/yp/index.txt")
       ],
       channels: [],
-      updateCount: 60
+      autoUpdate: true,
+      autoUpdateCount: 60
     }
     // index.txtを格納
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       let channels = this.state.channels.concat(newChannels)
       this.setState({
-        channels: channels,
-        updateCount: 60
+        channels: channels
       })
     })
     this.fetchIndexTxt()
+  }
+
+  // 自動更新ON/OFF
+  switchAutoUpdate(){
+    this.setState({autoUpdate: !this.state.autoUpdate})
   }
 
   // index.txtを取得
@@ -43,9 +49,9 @@ class Index extends React.Component {
   render(){
     return(
       <div id="index">
-        <HeaderBox onClickHandler={this.fetchIndexTxt} />
+        <HeaderBox autoUpdate={this.state.autoUpdate} onClickHandler={this.switchAutoUpdate} />
         <ChannelBox channels={this.state.channels} />
-        <FooterBox updateCount={this.state.updateCount} onUpdateHandler={this.fetchIndexTxt}/>
+        <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} onUpdateHandler={this.fetchIndexTxt}/>
       </div>
     )
   }

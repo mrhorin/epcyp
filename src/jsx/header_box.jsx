@@ -20,6 +20,8 @@ module.exports = class HeaderBox extends React.Component {
   }
 
   render(){
+    // 更新ボタンのCSSクラス
+    var autoUpdateClass = this.props.autoUpdate ? "btn btn-primary" : "btn btn-default"
     return(
       <header className="toolbar toolbar-header">
         <h1 className="title">
@@ -27,10 +29,10 @@ module.exports = class HeaderBox extends React.Component {
           epcyp
         </h1>
         <div className="toolbar-actions">
-          <HeaderButton key={1} icon={"icon-arrows-ccw"} onClickhandler={this.onClickUpdate}/>
+          <HeaderButton key={1} btnClass={autoUpdateClass} icon={"icon-arrows-ccw"} onClickhandler={this.onClickUpdate}/>
           <div className="btn-group">
-            <HeaderButton key={2} icon={"icon-star"} onClickhandler={this.onClickConfig}/>
-            <HeaderButton key={3} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
+            <HeaderButton key={2} btnClass="btn btn-default" icon={"icon-star"} onClickhandler={this.onClickConfig}/>
+            <HeaderButton key={3} btnClass="btn btn-default" icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
           </div>
         </div>
       </header>
