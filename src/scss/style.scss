@@ -54,9 +54,10 @@ td.channel-item-col1{
     font-weight: bold;
   }
   .channel-item-genre{
-    float: left;
+    display: inline;
   }
-  .channel-item-detail{
+  .channel-item-detail, .channel-item-comment{
+    display: inline;
     white-space: pre-line;
     overflow: visible;
     text-overflow: ellipsis;

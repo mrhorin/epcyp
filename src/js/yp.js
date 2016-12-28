@@ -25,7 +25,7 @@ module.exports = class YP{
           kbps: Number(line[8]),
           format: line[9],
           time: line[15],
-          comment: this.unEscapeHTML(line[16]),
+          comment: this.unEscapeHTML(line[17]),
         }
         if(line[4]) ch['genre'] = `［${line[4]}］`;
         channels.push(ch)

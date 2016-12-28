@@ -31,6 +31,7 @@ module.exports = class ChannelItem extends React.Component {
           <div className="channel-item-name">{this.props.channel.name}</div>
           <div className="channel-item-genre">{this.props.channel.genre}</div>
           <div className="channel-item-detail">{this.props.channel.detail}</div>
+          <div className="channel-item-comment">{this.props.channel.comment}</div>
         </td>
         <td className="channel-item-col2">
           <div className="channel-item-listener">{this.props.channel.listener}/{this.props.channel.relay}</div>
