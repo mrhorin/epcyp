@@ -1,9 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import electron from 'electron'
+import {ipcRenderer} from "electron"
 import css from "scss/style"
 import Config from 'electron-config'
-const ipcRenderer = electron.ipcRenderer
 const config = new Config({
   defaults: { port: 7144, player: "" }
 })

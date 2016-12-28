@@ -1,11 +1,10 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import electron from "electron"
+import {ipcRenderer} from "electron"
 import css from "scss/style"
 import YP from "js/yp"
 import HeaderBox from "jsx/header_box"
 import ChannelBox from "jsx/channel_box"
-const ipcRenderer = electron.ipcRenderer
 
 class Index extends React.Component {
 
@@ -19,11 +18,13 @@ class Index extends React.Component {
       ],
       channels: []
     }
+    // index.txtを格納
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
-      // 取得したチャンネル一覧
-      var newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
+      let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
+      let channels = this.state.channels.concat(newChannels)
+      channels = this.sortDESC(channels, 'listener')
       this.setState({
-        channels: this.state.channels.concat(newChannels)
+        channels: channels
       })
     })
     // this.fetchIndexTxt()
@@ -35,6 +36,26 @@ class Index extends React.Component {
     for(var yp of this.state.ypList){
       ipcRenderer.send('asyn-yp', yp)
     }
+  }
+
+  // 昇順ソート
+  sortASC(hash, key){
+    hash.sort((a, b) =>{
+      if(a[key] < b[key]) return -1;
+      if(a[key] > b[key]) return 1;
+      return 0;
+    })
+    return hash
+  }
+
+  // 降順ソート
+  sortDESC(hash, key){
+    hash.sort((a, b) =>{
+      if(a[key] > b[key]) return -1;
+      if(a[key] < b[key]) return 1;
+      return 0;
+    })
+    return hash
   }
 
   render(){
