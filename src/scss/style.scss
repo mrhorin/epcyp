@@ -42,10 +42,6 @@ footer{
 }
 
 /* ChannelBox */
-table.table-striped>thead>tr,
-table.table-striped>tbody>tr{
-  overflow: hidden;
-}
 th.channel-box-col1{
   font-size: 10px;
   box-sizing: border-box;
@@ -76,16 +72,12 @@ td.channel-item-col1{
     font-weight: bold;
   }
   .channel-item-genre{
-    font-size: 11px;
-    display: inline;
-    word-break: break-all;
   }
   .channel-item-detail{
     font-size: 11px;
-    display: inline;
-    white-space: pre-line;
-    overflow: visible;
-    text-overflow: ellipsis;
+    display: block;
+    white-space: normal;
+    overflow: hidden;
     word-break: break-all;
   }
   .channel-item-comment{
