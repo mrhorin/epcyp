@@ -1,11 +1,15 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import {ipcRenderer} from "electron"
+import Config from 'electron-config'
 import css from "scss/style"
 import YP from "js/yp"
 import HeaderBox from "jsx/header_box"
 import ChannelBox from "jsx/channel_box"
 import FooterBox from "jsx/footer_box"
+const config = new Config({
+  defaults: { autoUpdate: false }
+})
 
 class Index extends React.Component {
 
@@ -19,7 +23,7 @@ class Index extends React.Component {
         new YP("TP", "http://temp.orz.hm/yp/index.txt")
       ],
       channels: [],
-      autoUpdate: true,
+      autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60
     }
     // index.txtを格納
@@ -35,6 +39,7 @@ class Index extends React.Component {
 
   // 自動更新ON/OFF
   switchAutoUpdate(){
+    config.set('autoUpdate', !this.state.autoUpdate)
     this.setState({autoUpdate: !this.state.autoUpdate})
   }
 
