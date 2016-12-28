@@ -7,6 +7,13 @@ body{
   background: #efefef;
   overflow: auto;
 }
+#container{
+  position: relative;
+  padding-top: 60px;
+  padding-bottom: 20px;
+}
+
+/* HeaderBox */
 header{
   position: fixed;
   top: 0px;
@@ -16,19 +23,27 @@ header{
   .title>.icon{
     margin-right: 5px;
   }
+  .toolbar-actions{
+    margin-top: 10px;
+  }
 }
-.toolbar-actions{
-  margin-top: 10px;
-}
-#container{
-  position: relative;
-  padding-top: 60px;
-}
-tr{
-  overflow: hidden;
+
+/* FooterBox */
+footer{
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  .footer-right{
+    text-align: right;
+    padding: 0px 10px;
+  }
 }
 
 /* ChannelBox */
+table.table-striped>thead>tr,
+table.table-striped>tbody>tr{
+  overflow: hidden;
+}
 th.channel-box-col1{
   box-sizing: border-box;
   width: $col1-widrh;
@@ -49,18 +64,26 @@ th.channel-box-col3{
 /* ChannelItem */
 td.channel-item-col1{
   width: $col1-widrh;
+  max-width: 100%;
+  padding-right: 0px;
   .channel-item-name{
     color: #116cd6;
     font-weight: bold;
   }
   .channel-item-genre{
+    font-size: 11px;
     display: inline;
+    word-break: break-all;
   }
-  .channel-item-detail, .channel-item-comment{
+  .channel-item-detail{
+    font-size: 11px;
     display: inline;
     white-space: pre-line;
     overflow: visible;
     text-overflow: ellipsis;
+    word-break: break-all;
+  }
+  .channel-item-comment{
   }
 }
 td.channel-item-col2{

@@ -19,7 +19,7 @@ module.exports = class YP{
           tip: line[2],
           url: line[3],
           genre: this.unEscapeHTML(line[4]),
-          detail: this.unEscapeHTML(line[5]).replace(/(- <Free>)|(- <Open>)/, ''),
+          detail: this.unEscapeHTML(line[5]).replace(/(<Free>)|(<Open>)/, '').replace(/(- )$/, ''),
           listener: Number(line[6]),
           relay: Number(line[7]),
           kbps: Number(line[8]),

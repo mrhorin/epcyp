@@ -5,6 +5,7 @@ import css from "scss/style"
 import YP from "js/yp"
 import HeaderBox from "jsx/header_box"
 import ChannelBox from "jsx/channel_box"
+import FooterBox from "jsx/footer_box"
 
 class Index extends React.Component {
 
@@ -16,18 +17,19 @@ class Index extends React.Component {
         new YP("SP", "http://bayonet.ddo.jp/sp/index.txt"),
         new YP("TP", "http://temp.orz.hm/yp/index.txt")
       ],
-      channels: []
+      channels: [],
+      updateCount: 60
     }
     // index.txtを格納
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       let channels = this.state.channels.concat(newChannels)
-      channels = this.sortDESC(channels, 'listener')
       this.setState({
-        channels: channels
+        channels: channels,
+        updateCount: 60
       })
     })
-    // this.fetchIndexTxt()
+    this.fetchIndexTxt()
   }
 
   // index.txtを取得
@@ -38,31 +40,12 @@ class Index extends React.Component {
     }
   }
 
-  // 昇順ソート
-  sortASC(hash, key){
-    hash.sort((a, b) =>{
-      if(a[key] < b[key]) return -1;
-      if(a[key] > b[key]) return 1;
-      return 0;
-    })
-    return hash
-  }
-
-  // 降順ソート
-  sortDESC(hash, key){
-    hash.sort((a, b) =>{
-      if(a[key] > b[key]) return -1;
-      if(a[key] < b[key]) return 1;
-      return 0;
-    })
-    return hash
-  }
-
   render(){
     return(
       <div id="index">
-        <HeaderBox onClickhandler={this.fetchIndexTxt} />
+        <HeaderBox onClickHandler={this.fetchIndexTxt} />
         <ChannelBox channels={this.state.channels} />
+        <FooterBox updateCount={this.state.updateCount} onUpdateHandler={this.fetchIndexTxt}/>
       </div>
     )
   }

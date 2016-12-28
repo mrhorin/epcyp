@@ -11,7 +11,7 @@ module.exports = class HeaderBox extends React.Component {
 
   // 更新ボタン押下時
   onClickUpdate(){
-    this.props.onClickhandler()
+    this.props.onClickHandler()
   }
 
   // 設定ボタン押下時
