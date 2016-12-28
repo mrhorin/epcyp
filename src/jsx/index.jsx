@@ -40,7 +40,7 @@ class Index extends React.Component {
   render(){
     return(
       <div id="index">
-        <HeaderBox fetchIndexTxt={this.fetchIndexTxt} />
+        <HeaderBox onClickhandler={this.fetchIndexTxt} />
         <ChannelBox channels={this.state.channels} />
       </div>
     )

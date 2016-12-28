@@ -2,6 +2,7 @@ $col1-widrh: auto;
 $col2-widrh: 60px;
 $col3-widrh: 30px;
 
+/* Index */
 body{
   background: #efefef;
   overflow: auto;
@@ -23,7 +24,6 @@ header{
   position: relative;
   padding-top: 60px;
 }
-
 tr{
   overflow: hidden;
 }
@@ -73,4 +73,18 @@ td.channel-item-col3{
   width: $col3-widrh;
   padding: 2px 5px;
   text-align: right;
+}
+
+/* Settings */
+#container-settings{
+  padding-top: 30px;
+  header{
+    padding-bottom: 10px;
+  }
+  #settings-main{
+    padding: 15px;
+  }
+}
+#settings-ok{
+ margin-right: 5px;
 }

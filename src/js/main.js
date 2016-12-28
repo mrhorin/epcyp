@@ -11,6 +11,7 @@ const config = new Config({
 })
 
 var mainWindow = null
+var configWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
@@ -54,8 +55,24 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 
 // プレイヤーの起動
 ipcMain.on('asyn-play', (event, channel, url) =>{
-  var command = `open -a /Applications/VLC.app ${url}`
+  var command = `open -a ${config.get('player')} ${url}`
   exec(command, (error, stdout, stderr)=>{
     console.log(stdout)
   })
+})
+
+// 設定ウィンドウを開く
+ipcMain.on('asyn-config-window', (event) =>{
+  configWindow = new BrowserWindow({
+    width: 320,
+    height: 240,
+    frame: false,
+    titleBarStyle: 'hidden-inset'
+  })
+  configWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
+})
+// 設定ウィンドウを閉じる
+ipcMain.on('asyn-config-window-close', (event) =>{
+  configWindow.close()
+  configWindow = null
 })

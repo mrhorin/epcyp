@@ -3,6 +3,7 @@ var path = require('path');
 module.exports = {
   entry: {
     "epcyp": './src/jsx/index.jsx',
+    "settings": './src/jsx/settings.jsx',
     "main": './src/js/main.js'
   },
   output: {
@@ -11,7 +12,7 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.coffee', '.css', '.scss'],
+    extensions: ['', '.js', '.jsx', '.css', '.scss'],
     root: [ path.resolve('./src/')]
   },
   externals: [

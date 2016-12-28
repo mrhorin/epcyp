@@ -1,4 +1,5 @@
 import React from "react"
+import {ipcRenderer} from "electron"
 import HeaderButton from "jsx/header_button.jsx"
 
 module.exports = class HeaderBox extends React.Component {
@@ -10,7 +11,12 @@ module.exports = class HeaderBox extends React.Component {
 
   // 更新ボタン押下時
   onClickUpdate(){
-    this.props.fetchIndexTxt()
+    this.props.onClickhandler()
+  }
+
+  // 設定ボタン押下時
+  onClickConfig(){
+    ipcRenderer.send('asyn-config-window')
   }
 
   render(){
@@ -21,7 +27,11 @@ module.exports = class HeaderBox extends React.Component {
           epcyp
         </h1>
         <div className="toolbar-actions">
-          <HeaderButton key={1} icon={"icon-arrows-ccw"} onClickUpdate={this.onClickUpdate}/>
+          <HeaderButton key={1} icon={"icon-arrows-ccw"} onClickhandler={this.onClickUpdate}/>
+          <div className="btn-group">
+            <HeaderButton key={2} icon={"icon-star"} onClickhandler={this.onClickConfig}/>
+            <HeaderButton key={3} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
+          </div>
         </div>
       </header>
     )

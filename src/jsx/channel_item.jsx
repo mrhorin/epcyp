@@ -1,5 +1,9 @@
 import React from "react"
+import Config from 'electron-config'
 import {ipcRenderer} from "electron"
+const config = new Config({
+  defaults: { port: 7144 }
+})
 
 module.exports = class ChannelItem extends React.Component {
 
@@ -10,7 +14,7 @@ module.exports = class ChannelItem extends React.Component {
   }
 
   streamURL(){
-    let port = 7144
+    let port = config.get('port')
     var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
     return url
   }
