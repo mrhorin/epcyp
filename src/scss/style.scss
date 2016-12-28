@@ -1,9 +1,10 @@
 $col1-widrh: auto;
 $col2-widrh: 60px;
-$col3-widrh: 30px;
+$col3-widrh: 40px;
 
 /* Index */
 body{
+  font-size: 11px;
   background: #efefef;
   overflow: auto;
 }
@@ -30,6 +31,7 @@ header{
 
 /* FooterBox */
 footer{
+  font-size: 12px;
   position: fixed;
   bottom: 0px;
   width: 100%;
@@ -45,19 +47,22 @@ table.table-striped>tbody>tr{
   overflow: hidden;
 }
 th.channel-box-col1{
+  font-size: 10px;
   box-sizing: border-box;
   width: $col1-widrh;
   margin-right: -110px;
 	padding-right: 110px;
 }
 th.channel-box-col2{
+  font-size: 10px;
   box-sizing: border-box;
-  width: $col2-widrh;
+  max-width: $col2-widrh;
   padding: 2px 5px;
 }
 th.channel-box-col3{
+  font-size: 10px;
   box-sizing: border-box;
-  width: $col3-widrh;
+  max-width: $col3-widrh;
   padding: 2px 5px;
 }
 
@@ -88,13 +93,13 @@ td.channel-item-col1{
 }
 td.channel-item-col2{
   box-sizing: border-box;
-  width: $col2-widrh;
+  max-width: $col2-widrh;
   padding: 2px 5px;
   text-align: right;
 }
 td.channel-item-col3{
   box-sizing: border-box;
-  width: $col3-widrh;
+  max-width: $col3-widrh;
   padding: 2px 5px;
   text-align: right;
 }
