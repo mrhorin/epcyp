@@ -26,7 +26,7 @@ module.exports = class ChannelItem extends React.Component {
 
   render(){
     return(
-      <tr onClick={this.play}>
+      <tr onDoubleClick={this.play}>
         <td className="channel-item-col1">
           <div className="channel-item-name">{this.props.channel.name}</div>
           <div className="channel-item-detail">

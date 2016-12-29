@@ -117,3 +117,7 @@ td.channel-item-col3{
 .btn-warning > .icon{
   color: #fff;
 }
+tr:active:nth-child(even), tr:active{
+  color: #333 !important;
+  background: #5498e8 !important;
+}

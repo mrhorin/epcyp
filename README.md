@@ -5,6 +5,7 @@
 - お気に入り
 - Linux, windowsのプレイヤー起動対応
 - 各YPのチャンネル情報をまとめてsetStateしたい
+- superagentの例外処理
 
 - 設定ウィンドウ
   - peca本体起動（パスorコマンド指定）
