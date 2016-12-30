@@ -30,8 +30,8 @@ header{
 }
 
 /* HeaderUpdateButton */
-$header-update-ccw: #0EB90E;
-$header-update-star: #F6C500;
+$header-update-ccw: #00b900;
+$header-update-star: #efbf00;
 $header-update-cog: #808080;
 header{
   .icon-arrows-ccw{
@@ -136,6 +136,10 @@ td.channel-item-col3{
   }
 }
 #settings-player{
+  width: 80%;
+  margin-right: 5px;
+}
+#settings-bbs{
   width: 80%;
   margin-right: 5px;
 }

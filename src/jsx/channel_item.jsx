@@ -31,6 +31,12 @@ module.exports = class ChannelItem extends React.Component {
         this.openURL()
       }
     }))
+    this.state.menu.append(new MenuItem({
+      label: 'BBSブラウザで開く',
+      click: ()=>{
+        this.openBBS()
+      }
+    }))
   }
 
   streamURL(){
@@ -41,7 +47,12 @@ module.exports = class ChannelItem extends React.Component {
 
   // プレイヤー起動
   play(){
-    ipcRenderer.send('asyn-play', this.props.channel, this.streamURL())
+    ipcRenderer.send('asyn-play', this.streamURL())
+  }
+
+  // BBSブラウザで開く
+  openBBS(){
+    ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
   }
 
   // コンタクトURLを開く

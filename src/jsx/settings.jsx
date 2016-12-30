@@ -6,7 +6,7 @@ import css from "scss/style"
 import Config from 'electron-config'
 const dialog = remote.dialog
 const config = new Config({
-  defaults: { port: 7144, player: "" }
+  defaults: { port: 7144, player: "", bbs: "" }
 })
 
 class Settings extends React.Component {
@@ -16,10 +16,13 @@ class Settings extends React.Component {
     this.save = this.save.bind(this)
     this.onChangePort = this.onChangePort.bind(this)
     this.onChangePlayer = this.onChangePlayer.bind(this)
+    this.onChangeBbs = this.onChangeBbs.bind(this)
     this.onClickPlayerDialog = this.onClickPlayerDialog.bind(this)
+    this.onClickBbsDialog = this.onClickBbsDialog.bind(this)
     this.state = {
       port: config.get('port'),
-      player: config.get('player')
+      player: config.get('player'),
+      bbs: config.get('bbs')
     }
   }
 
@@ -27,6 +30,7 @@ class Settings extends React.Component {
   save(){
     config.set('port', this.state.port)
     config.set('player', this.state.player)
+    config.set('bbs', this.state.bbs)
     this.close()
   }
 
@@ -43,9 +47,18 @@ class Settings extends React.Component {
     this.setState({ player: event.target.value })
   }
 
+  onChangeBbs(event){
+    this.setState({ bbs: event.target.value })
+  }
+
   onClickPlayerDialog(){
     let path = dialog.showOpenDialog()
     this.setState({ player: path })
+  }
+
+  onClickBbsDialog(){
+    let path = dialog.showOpenDialog()
+    this.setState({ bbs: path })
   }
 
   render(){
@@ -66,6 +79,11 @@ class Settings extends React.Component {
             <label>再生プレイヤー</label>
             <input id="settings-player" type="text" className="form-control" ref="player" value={this.state.player} onChange={this.onChangePlayer} />
             <button id="settings-player-dialog" className="btn btn-default" onClick={this.onClickPlayerDialog}>参照</button>
+          </div>
+          <div className="form-group">
+            <label>BBSブラウザ</label>
+            <input id="settings-bbs" type="text" className="form-control" ref="bbs" value={this.state.bbs} onChange={this.onChangeBbs} />
+            <button id="settings-bbs-dialog" className="btn btn-default" onClick={this.onClickBbsDialog}>参照</button>
           </div>
           <button id="settings-ok" className="btn btn-default" onClick={this.save}>OK</button>
           <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>

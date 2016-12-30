@@ -54,8 +54,16 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 })
 
 // プレイヤーの起動
-ipcMain.on('asyn-play', (event, channel, url) =>{
+ipcMain.on('asyn-play', (event, url) =>{
   var command = `open -a ${config.get('player')} ${url}`
+  exec(command, (error, stdout, stderr)=>{
+    console.log(stdout)
+  })
+})
+
+// BBSブラウザの起動
+ipcMain.on('asyn-open-bbs', (event, url) =>{
+  var command = `open -a ${config.get('bbs')} ${url}`
   exec(command, (error, stdout, stderr)=>{
     console.log(stdout)
   })
@@ -65,7 +73,7 @@ ipcMain.on('asyn-play', (event, channel, url) =>{
 ipcMain.on('asyn-config-window', (event) =>{
   configWindow = new BrowserWindow({
     width: 320,
-    height: 240,
+    height: 320,
     frame: false,
     titleBarStyle: 'hidden-inset'
   })
