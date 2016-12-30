@@ -1,5 +1,5 @@
-import React from "react"
-import ChannelItem from "jsx/channel_item.jsx"
+import React from 'react'
+import ChannelItem from 'jsx/channel_item.jsx'
 
 module.exports = class ChannelBox extends React.Component {
 

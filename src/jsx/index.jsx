@@ -1,12 +1,12 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import {ipcRenderer} from "electron"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {ipcRenderer} from 'electron'
 import Config from 'electron-config'
-import css from "scss/style"
-import YP from "js/yp"
-import HeaderBox from "jsx/header_box"
-import ChannelBox from "jsx/channel_box"
-import FooterBox from "jsx/footer_box"
+import css from 'scss/style'
+import YP from 'js/yp'
+import HeaderBox from 'jsx/header_box'
+import ChannelBox from 'jsx/channel_box'
+import FooterBox from 'jsx/footer_box'
 const config = new Config({
   defaults: { autoUpdate: false }
 })
