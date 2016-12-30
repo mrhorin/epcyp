@@ -32,7 +32,7 @@ module.exports = class HeaderUpdateButton extends React.Component {
         <button className="btn btn-default" onClick={this.props.onClickUpdate}>
           <span className="icon icon-arrows-ccw"></span>
         </button>
-        <button id="header_update_dropdown" className="btn btn-default btn-dropdown" onClick={this.showContextMenu}>
+        <button id="header-update-dropdown" className="btn btn-default btn-dropdown" onClick={this.showContextMenu}>
         </button>
       </div>
     )
