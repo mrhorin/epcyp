@@ -73,9 +73,9 @@ ipcMain.on('asyn-open-bbs', (event, url) =>{
 ipcMain.on('asyn-config-window', (event) =>{
   configWindow = new BrowserWindow({
     width: 320,
-    height: 320,
+    height: 280,
     frame: false,
-    titleBarStyle: 'hidden-inset'
+    alwaysOnTop: true
   })
   configWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
 })
