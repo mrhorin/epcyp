@@ -1,17 +1,12 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
 import HeaderButton from 'jsx/header_button.jsx'
+import HeaderUpdateButton from 'jsx/header_update_button.jsx'
 
 module.exports = class HeaderBox extends React.Component {
 
   constructor(props){
     super(props)
-    this.onClickUpdate = this.onClickUpdate.bind(this)
-  }
-
-  // 更新ボタン押下時
-  onClickUpdate(){
-    this.props.onClickHandler()
   }
 
   // 設定ボタン押下時
@@ -29,10 +24,10 @@ module.exports = class HeaderBox extends React.Component {
           epcyp
         </h1>
         <div className="toolbar-actions">
-          <HeaderButton key={1} btnClass={autoUpdateClass} icon={"icon-arrows-ccw"} onClickhandler={this.onClickUpdate}/>
+          <HeaderUpdateButton autoUpdate={this.props.autoUpdate} onClickUpdate={this.props.onClickUpdate} onClickAutoUpdate={this.props.onClickAutoUpdate}/>
           <div className="btn-group">
-            <HeaderButton key={2} btnClass="btn btn-default" icon={"icon-star"} onClickhandler={this.onClickConfig}/>
-            <HeaderButton key={3} btnClass="btn btn-default" icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
+            <HeaderButton key={1} icon={"icon-star"} onClickhandler={this.onClickConfig}/>
+            <HeaderButton key={2} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
           </div>
         </div>
       </header>

@@ -1,4 +1,5 @@
 var path = require('path');
+var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
   entry: {
@@ -23,6 +24,9 @@ module.exports = {
     'superagent',
     'path',
     'electron-config'
+  ],
+  plugins: [
+    new WebpackNotifierPlugin()
   ],
   module: {
     loaders: [

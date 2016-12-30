@@ -54,7 +54,7 @@ class Index extends React.Component {
   render(){
     return(
       <div id="index">
-        <HeaderBox autoUpdate={this.state.autoUpdate} onClickHandler={this.switchAutoUpdate} />
+        <HeaderBox autoUpdate={this.state.autoUpdate} onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
         <ChannelBox channels={this.state.channels} />
         <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} onUpdateHandler={this.fetchIndexTxt}/>
       </div>

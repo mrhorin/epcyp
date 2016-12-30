@@ -42,9 +42,15 @@ module.exports = class FooterCount extends React.Component {
   }
 
   render(){
+    let counter;
+    if(this.props.autoUpdate){
+      counter = this.toTimeFormat(this.state.autoUpdateCount)
+    }else{
+      counter = "停止中"
+    }
     return(
       <div className="footer-right">
-        {this.toTimeFormat(this.state.autoUpdateCount)}
+        {counter}
       </div>
     )
   }

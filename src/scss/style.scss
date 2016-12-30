@@ -29,6 +29,15 @@ header{
   }
 }
 
+/* HeaderUpdateButton */
+#header_update_dropdown{
+  padding-left: 2px !important;
+  padding-right: 3px !important;
+}
+#header_update_dropdown:after{
+  margin-left: 0px;
+}
+
 /* FooterBox */
 footer{
   font-size: 12px;
