@@ -1,9 +1,9 @@
 # epcyp(仮称)
 
 ## ToDo
-- 各YPのチャンネル情報をまとめてsetStateしたい
 - お気に入り
 - ソートアルゴリズムの改良
+- 各YPのチャンネル情報をまとめてsetStateしたい
 - Linux, windowsのプレイヤー起動対応
 - superagentの例外処理
 - 更新ボタン連打できる問題

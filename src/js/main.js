@@ -73,7 +73,7 @@ ipcMain.on('asyn-open-bbs', (event, url) =>{
 ipcMain.on('asyn-config-window', (event) =>{
   configWindow = new BrowserWindow({
     width: 320,
-    height: 280,
+    height: 290,
     frame: false,
     alwaysOnTop: true
   })
