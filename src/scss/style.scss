@@ -57,7 +57,9 @@ header{
 #header-update-dropdown:after{
   margin-left: 0px;
 }
-
+header .toolbar-actions{
+  padding-bottom: 10px;
+}
 /* FooterBox */
 footer{
   font-size: 12px;
@@ -154,7 +156,22 @@ td.channel-item-col3{
 .btn-warning > .icon{
   color: #fff;
 }
+.table-striped{
+  padding-top: 22px;
+}
 tr:active:nth-child(even), tr:active{
   color: #333 !important;
   background: #5498e8 !important;
+}
+.tab-group{
+  position: fixed;
+  width: 100%;
+  top: 63px;
+}
+.tab-item{
+  font-size: 10px !important;
+  padding: 1px !important;
+}
+.icon-close-tab{
+  display: none !important;
 }

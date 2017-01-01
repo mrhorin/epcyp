@@ -5,6 +5,7 @@ import Config from 'electron-config'
 import css from 'scss/style'
 import YP from 'js/yp'
 import HeaderBox from 'jsx/header_box'
+import TabBox from 'jsx/tab_box'
 import ChannelBox from 'jsx/channel_box'
 import FooterBox from 'jsx/footer_box'
 const config = new Config({
@@ -55,6 +56,7 @@ class Index extends React.Component {
     return(
       <div id="index">
         <HeaderBox autoUpdate={this.state.autoUpdate} onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
+        <TabBox />
         <ChannelBox channels={this.state.channels} />
         <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} onUpdateHandler={this.fetchIndexTxt}/>
       </div>

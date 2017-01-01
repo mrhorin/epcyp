@@ -19,6 +19,7 @@ app.on('ready', ()=>{
   mainWindow = new BrowserWindow({
     width: width,
     height: height,
+    minWidth: 150,
     x: x,
     y: y,
     frame: false,
@@ -41,16 +42,19 @@ app.on('window-all-closed', ()=>{
 
 // index.txtの取得
 ipcMain.on('asyn-yp', (event, yp)=>{
-  try{
-    request.get(yp.url).end((err,res)=>{
-      yp["txt"] = res.status == 200 && !res.error ? res.text : null
-      // yp["txt"] = if res.status == 200 && !res.error then res.text else null
+  request.get(yp.url).end((err,res)=>{
+    try{
+      if(res.status == 200 && !res.error){
+        yp["txt"] = res.text
+      }else{
+        yp["txt"] = null
+        console.log(res.error)
+      }
       event.sender.send('asyn-yp-reply', yp)
-    })
-  }
-  catch(e){
-    console.log(e)
-  }
+    }catch(e){
+      console.log(e)
+    }
+  })
 })
 
 // プレイヤーの起動
