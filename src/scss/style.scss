@@ -101,6 +101,10 @@ td.channel-item-col1{
   .channel-item-name{
     color: #116cd6;
     font-weight: bold;
+    display: block;
+    white-space: normal;
+    overflow: hidden;
+    word-break: break-all;
   }
   .channel-item-genre{
   }
