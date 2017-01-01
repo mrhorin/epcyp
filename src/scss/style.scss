@@ -131,6 +131,20 @@ td.channel-item-col3{
   text-align: right;
 }
 
+/* Favorite */
+#container-favorite{
+  overflow: hidden;
+  padding-top: 15px;
+  header{
+  }
+  #favorite-main{
+    padding: 15px;
+  }
+}
+#favorite-ok{
+ margin-right: 5px;
+}
+
 /* Settings */
 #container-settings{
   overflow: hidden;

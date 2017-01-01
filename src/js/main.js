@@ -12,6 +12,7 @@ const config = new Config({
 
 var mainWindow = null
 var configWindow = null
+var favoriteWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
@@ -71,6 +72,22 @@ ipcMain.on('asyn-open-bbs', (event, url) =>{
   exec(command, (error, stdout, stderr)=>{
     console.log(stdout)
   })
+})
+
+// お気に入りウィンドウを開く
+ipcMain.on('asyn-favorite-window', (event) =>{
+  favoriteWindow = new BrowserWindow({
+    width: 480,
+    height: 360,
+    frame: false,
+    alwaysOnTop: true
+  })
+  favoriteWindow.loadURL(`file://${path.resolve(path.join('dist', 'favorite.html'))}`)
+})
+// お気に入りウィンドウを閉じる
+ipcMain.on('asyn-favorite-window-close', (event) =>{
+  favoriteWindow.close()
+  favoriteWindow = null
 })
 
 // 設定ウィンドウを開く

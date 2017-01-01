@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     "epcyp": './src/jsx/index.jsx',
     "settings": './src/jsx/settings.jsx',
+    "favorite": './src/jsx/favorite.jsx',
     "main": './src/js/main.js'
   },
   output: {
