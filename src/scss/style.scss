@@ -138,7 +138,7 @@ td.channel-item-col3{
   header{
   }
   #favorite-main{
-    padding: 15px;
+    padding: 15px 10px;
   }
 }
 #favorite-btn-group{
@@ -151,58 +151,57 @@ td.channel-item-col3{
 #favorite-cancel{
 
 }
-/* FavoriteBox */
-#favorite-box{
-  height: 240px;
-  overflow: scroll;
-  margin-bottom: 10px;
+
+/* RuleBox */
+#rule-box{
+  float: left;
+}
+#favorite-add{
+  margin-top: 5px;
+  margin-right: 4px;
+}
+#favorite-delete{
+  margin-top: 5px;
+}
+nav#rule-box-nav{
   background: #fff;
   border: 1px solid #ccc;
-  border-collapse: collapse;
-}
-table#table-favorites{
-  table-layout: fixed;
-}
-th{
-  font-size: 10px;
-}
-th.favorite-item-name{
-  padding: 2px 10px;
-  width: 100px;
-}
-th.favorite-item-pattern{
-  padding: 2px 10px;
-  width: auto;
-}
-th.favorite-item-btn-group{
-  padding: 2px;
-  text-align: center;
-  width: 80px;
-}
-/* FavoriteItem */
-td.favorite-item-name{
+  width: 130px;
+  height: 300px;
   padding: 0px;
+  margin-right: 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+/* RuleItem */
+.rule-item{
+  cursor: default;
+  padding: 3px 5px;
+  height: 21px;
+}
+.rule-item-active{
+  background: #116cd6;
+  color: #fff;
+}
+
+/* RuleDetail */
+#rule-detail{
+  label{
+    font-size: 11px;
+    display: block;
+    margin-bottom: 0px;
+  }
   input{
-    width: 100%;
+    width: 300px;
+    margin-bottom: 10px;
   }
-}
-td.favorite-item-pattern{
-  padding: 0px;
-  input{
-    width: 100%;
-  }
-}
-td.favorite-item-btn-group{
-  background: none;
-  padding: 0px;
-  text-align: center;
-  .btn{
-    border-radius: 2px;
-    margin: 0px 1px;
-  }
-  .btn:hover{
-    background: #ddd;
-    cursor: pointer;
+  #rule-detail-targets{
+    input{
+      width: auto;
+      margin-left: 10px;
+      margin-right: 3px;
+    }
   }
 }
 

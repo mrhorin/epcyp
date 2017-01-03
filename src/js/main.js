@@ -27,7 +27,6 @@ app.on('ready', ()=>{
     titleBarStyle: 'hidden-inset',
     scrollBounce: true
   })
-  // mainWindow.openDevTools()
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
   mainWindow.on('close', ()=>{
@@ -78,7 +77,7 @@ ipcMain.on('asyn-open-bbs', (event, url) =>{
 ipcMain.on('asyn-favorite-window', (event) =>{
   favoriteWindow = new BrowserWindow({
     width: 480,
-    height: 360,
+    height: 370,
     frame: false,
     alwaysOnTop: true
   })
