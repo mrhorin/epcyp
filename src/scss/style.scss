@@ -141,24 +141,68 @@ td.channel-item-col3{
     padding: 15px;
   }
 }
+#favorite-btn-group{
+  margin-top: 15px;
+  text-align: right;
+}
 #favorite-ok{
   margin-right: 5px;
 }
+#favorite-cancel{
+
+}
 /* FavoriteBox */
+#favorite-box{
+  height: 240px;
+  overflow: scroll;
+  margin-bottom: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+}
 table#table-favorites{
-  margin-top: 10px;
-  margin-bottom: 15px;
+  table-layout: fixed;
+}
+th{
+  font-size: 10px;
+}
+th.favorite-item-name{
+  padding: 2px 10px;
+  width: 100px;
+}
+th.favorite-item-pattern{
+  padding: 2px 10px;
+  width: auto;
+}
+th.favorite-item-btn-group{
+  padding: 2px;
+  text-align: center;
+  width: 80px;
 }
 /* FavoriteItem */
 td.favorite-item-name{
   padding: 0px;
-  width: 50px;
+  input{
+    width: 100%;
+  }
 }
 td.favorite-item-pattern{
   padding: 0px;
-  width: 100%;
   input{
     width: 100%;
+  }
+}
+td.favorite-item-btn-group{
+  background: none;
+  padding: 0px;
+  text-align: center;
+  .btn{
+    border-radius: 2px;
+    margin: 0px 1px;
+  }
+  .btn:hover{
+    background: #ddd;
+    cursor: pointer;
   }
 }
 
@@ -191,6 +235,9 @@ td.favorite-item-pattern{
 .btn-warning > .icon{
   color: #fff;
 }
+.btn-mini{
+  font-size: 10px;
+}
 .table-striped{
   padding-top: 22px;
 }
@@ -209,4 +256,8 @@ tr:active:nth-child(even), tr:active{
 }
 .icon-close-tab{
   display: none !important;
+}
+tr:active:nth-child(even), tr:active,
+.table-striped tr:active:nth-child(even), tr:active{
+  background: none !important;
 }

@@ -11,6 +11,8 @@ class Favorite extends React.Component {
     super(props)
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangePattern = this.onChangePattern.bind(this)
+    this.onClickDelete = this.onClickDelete.bind(this)
+    this.add = this.add.bind(this)
     this.save = this.save.bind(this)
     this.state = {
       favorites: []
@@ -34,6 +36,34 @@ class Favorite extends React.Component {
     })
   }
 
+  onClickDelete(index){
+    console.log(index)
+    this.state.favorites.splice(index, 1)
+    console.log(this.state.favorites)
+    this.setState({
+      favorites: this.state.favorites
+    })
+  }
+
+  // お気に入りを追加
+  add(){
+    this.state.favorites.push({
+      name: "",
+      pattern: "",
+      target: {
+        name: true,
+        genre: true,
+        detail: true,
+        comment: true,
+        url: false,
+        tip: false
+      }
+    })
+    this.setState({
+      favorites: this.state.favorites
+    })
+  }
+
   save(){
     storage.set('favorites', this.state.favorites)
     this.close()
@@ -45,6 +75,8 @@ class Favorite extends React.Component {
   }
 
   render(){
+    console.log("render: FavoriteBox")
+    console.log(this.state.favorites)
     return(
       <div>
         <header className="toolbar toolbar-header">
@@ -55,9 +87,12 @@ class Favorite extends React.Component {
         </header>
         <div id="favorite-main">
           <FavoriteBox favorites={this.state.favorites}
-            onChangeName={this.onChangeName} onChangePattern={this.onChangePattern} />
-          <button id="favorite-ok" className="btn btn-default" onClick={this.save}>OK</button>
-          <button id="favorite-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+            onChangeName={this.onChangeName} onChangePattern={this.onChangePattern} onClickDelete={this.onClickDelete} />
+          <button id="favorite-add" className="btn btn-mini btn-default" onClick={this.add}>新規ルール追加</button>
+          <div id="favorite-btn-group">
+            <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>OK</button>
+            <button id="favorite-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+          </div>
         </div>
       </div>
     )

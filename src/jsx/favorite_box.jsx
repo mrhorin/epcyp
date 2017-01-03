@@ -9,6 +9,7 @@ module.exports = class FavoriteBox extends React.Component {
     super(props)
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangePattern = this.onChangePattern.bind(this)
+    this.onClickDelete = this.onClickDelete.bind(this)
   }
 
   onChangeName(name, index){
@@ -19,25 +20,32 @@ module.exports = class FavoriteBox extends React.Component {
     this.props.onChangePattern(pattern, index)
   }
 
+  onClickDelete(index){
+    this.props.onClickDelete(index)
+  }
+
   render(){
     let favoriteItems = this.props.favorites.map((favorite, index)=>{
       return(
         <FavoriteItem key={index} index={index} favorite={favorite}
-          onChangeName={this.onChangeName} onChangePattern={this.onChangePattern} />
+          onChangeName={this.onChangeName} onChangePattern={this.onChangePattern} onClickDelete={this.onClickDelete} />
       )
     })
     return(
-      <table id="table-favorites">
-        <thead>
-          <tr>
-            <th>名前</th>
-            <th>検索文字(正規表現)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {favoriteItems}
-        </tbody>
-      </table>
+      <div id="favorite-box">
+        <table id="table-favorites">
+          <thead>
+            <tr>
+              <th className="favorite-item-name">名前</th>
+              <th className="favorite-item-pattern">検索文字(正規表現)</th>
+              <th className="favorite-item-btn-group">処理</th>
+            </tr>
+          </thead>
+          <tbody>
+            {favoriteItems}
+          </tbody>
+        </table>
+      </div>
     )
   }
 
