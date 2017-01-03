@@ -142,7 +142,24 @@ td.channel-item-col3{
   }
 }
 #favorite-ok{
- margin-right: 5px;
+  margin-right: 5px;
+}
+/* FavoriteBox */
+table#table-favorites{
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+/* FavoriteItem */
+td.favorite-item-name{
+  padding: 0px;
+  width: 50px;
+}
+td.favorite-item-pattern{
+  padding: 0px;
+  width: 100%;
+  input{
+    width: 100%;
+  }
 }
 
 /* Settings */

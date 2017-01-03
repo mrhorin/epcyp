@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "electron-config": "^0.2.1",
+    "electron-json-storage": "^2.1.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "superagent": "^3.3.1"
