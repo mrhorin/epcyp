@@ -83,11 +83,13 @@ ipcMain.on('asyn-favorite-window', (event) =>{
     alwaysOnTop: true
   })
   favoriteWindow.loadURL(`file://${path.resolve(path.join('dist', 'favorite.html'))}`)
+  mainWindow.setIgnoreMouseEvents(true)
 })
 // お気に入りウィンドウを閉じる
 ipcMain.on('asyn-favorite-window-close', (event) =>{
   favoriteWindow.close()
   favoriteWindow = null
+  mainWindow.setIgnoreMouseEvents(false)
 })
 
 // 設定ウィンドウを開く
@@ -99,9 +101,11 @@ ipcMain.on('asyn-config-window', (event) =>{
     alwaysOnTop: true
   })
   configWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
+  mainWindow.setIgnoreMouseEvents(true)
 })
 // 設定ウィンドウを閉じる
 ipcMain.on('asyn-config-window-close', (event) =>{
   configWindow.close()
   configWindow = null
+  mainWindow.setIgnoreMouseEvents(false)
 })
