@@ -22,7 +22,13 @@ module.exports = class RuleBox extends React.Component {
     return(
       <div id="rule-box">
         <nav id="rule-box-nav">{ruleItems}</nav>
-        <button id="favorite-add" className="btn btn-mini btn-default" onClick={this.props.onClickAdd}>新規追加</button>
+        <button id="favorite-up" className="btn btn-mini btn-default" onClick={this.props.onClickUp}>
+          <span className="icon icon-up-bold"></span>
+        </button>
+        <button id="favorite-down" className="btn btn-mini btn-default" onClick={this.props.onClickDown}>
+          <span className="icon icon-down-bold"></span>
+        </button>
+        <button id="favorite-add" className="btn btn-mini btn-default" onClick={this.props.onClickAdd}>追加</button>
         <button id="favorite-delete" className="btn btn-mini btn-default" onClick={this.props.onClickDelete}>削除</button>
       </div>
     )

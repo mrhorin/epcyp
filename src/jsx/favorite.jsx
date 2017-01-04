@@ -16,6 +16,8 @@ class Favorite extends React.Component {
     this.onChangeTarget = this.onChangeTarget.bind(this)
     this.onClickDelete = this.onClickDelete.bind(this)
     this.add = this.add.bind(this)
+    this.onClickUp = this.onClickUp.bind(this)
+    this.onClickDown = this.onClickDown.bind(this)
     this.save = this.save.bind(this)
     let favorite = this.getDefaultFavorite()
     favorite.name = ""
@@ -83,6 +85,36 @@ class Favorite extends React.Component {
     })
   }
 
+  // favoritesのcurrentを上へ移動
+  onClickUp(){
+    let index = this.state.current
+    if(index > 0){
+      let a = this.state.favorites[index]
+      let b = this.state.favorites[index-1]
+      this.state.favorites.splice(index-1, 1, a)
+      this.state.favorites.splice(index, 1, b)
+      this.setState({
+        favorites: this.state.favorites,
+        current: index-1
+      })
+    }
+  }
+
+  // favoritesのcurrentを下へ移動
+  onClickDown(){
+    let index = this.state.current
+    if(index < this.state.favorites.length-1){
+      let a = this.state.favorites[index]
+      let b = this.state.favorites[index+1]
+      this.state.favorites.splice(index+1, 1, a)
+      this.state.favorites.splice(index, 1, b)
+      this.setState({
+        favorites: this.state.favorites,
+        current: index+1
+      })
+    }
+  }
+
   // お気に入りを追加
   add(){
     let favorite = this.getDefaultFavorite()
@@ -114,7 +146,8 @@ class Favorite extends React.Component {
         </header>
         <div id="favorite-main">
           <RuleBox favorites={this.state.favorites} current={this.state.current}
-            onClickItem={this.onClickItem} onClickAdd={this.add} onClickDelete={this.onClickDelete} />
+            onClickItem={this.onClickItem} onClickAdd={this.add} onClickDelete={this.onClickDelete}
+            onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
           <RuleDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
             onChangeName={this.onChangeName} onChangePattern={this.onChangePattern}
             onChangeTarget={this.onChangeTarget} onClickDelete={this.onClickDelete} />

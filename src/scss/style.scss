@@ -155,13 +155,15 @@ td.channel-item-col3{
 /* RuleBox */
 #rule-box{
   float: left;
-}
-#favorite-add{
-  margin-top: 5px;
-  margin-right: 4px;
-}
-#favorite-delete{
-  margin-top: 5px;
+  button{
+    margin-top: 5px;
+    margin-right: 4px;
+    .icon{
+      font-size: 10px;
+      width: auto;
+      height: auto;
+    }
+  }
 }
 nav#rule-box-nav{
   background: #fff;
