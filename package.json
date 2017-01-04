@@ -21,6 +21,7 @@
     "babel-preset-react": "^6.16.0",
     "css-loader": "^0.26.1",
     "del": "^2.2.2",
+    "electron-load-devtool": "^0.4.0",
     "gulp": "^3.9.1",
     "gulp-jade": "^1.1.0",
     "gulp-plumber": "^1.1.0",

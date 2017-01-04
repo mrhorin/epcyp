@@ -24,7 +24,8 @@ module.exports = {
     'child_process',
     'superagent',
     'path',
-    'electron-config'
+    'electron-config',
+    'electron-load-devtool'
   ],
   plugins: [
     new WebpackNotifierPlugin()

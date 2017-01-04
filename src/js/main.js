@@ -2,6 +2,7 @@ import electron from 'electron'
 import request from 'superagent'
 import path from 'path'
 import Config from 'electron-config'
+import loadDevTool from 'electron-load-devtool'
 import {exec} from 'child_process'
 const ipcMain = electron.ipcMain
 const app = electron.app
@@ -27,6 +28,8 @@ app.on('ready', ()=>{
     titleBarStyle: 'hidden-inset',
     scrollBounce: true
   })
+  // loadDevTool(loadDevTool.REACT_DEVELOPER_TOOLS)
+  // mainWindow.openDevTools()
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
   mainWindow.on('close', ()=>{
