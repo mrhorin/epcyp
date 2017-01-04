@@ -125,8 +125,9 @@ class Favorite extends React.Component {
   }
 
   save(){
-    storage.set('favorites', this.state.favorites)
-    this.close()
+    storage.set('favorites', this.state.favorites, (error)=>{
+      this.close()
+    })
   }
 
   // お気に入り登録ウィンドウを閉じる
