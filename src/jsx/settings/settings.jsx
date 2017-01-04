@@ -5,6 +5,9 @@ import {remote} from 'electron'
 import css from "scss/style"
 import Config from 'electron-config'
 import SettingsTabBox from 'jsx/settings/settings_tab_box'
+import SettingsGeneral from 'jsx/settings/settings_general'
+import SettingsYP from 'jsx/settings/settings_yp'
+
 const dialog = remote.dialog
 const config = new Config({
   defaults: { port: 7144, player: "", bbs: "" }
@@ -15,15 +18,13 @@ class Settings extends React.Component {
   constructor(props){
     super(props)
     this.save = this.save.bind(this)
-    this.onChangePort = this.onChangePort.bind(this)
-    this.onChangePlayer = this.onChangePlayer.bind(this)
-    this.onChangeBbs = this.onChangeBbs.bind(this)
-    this.onClickPlayerDialog = this.onClickPlayerDialog.bind(this)
-    this.onClickBbsDialog = this.onClickBbsDialog.bind(this)
+    this.onChangeForm = this.onChangeForm.bind(this)
+    this.onClickDialog = this.onClickDialog.bind(this)
     this.state = {
       port: config.get('port'),
       player: config.get('player'),
-      bbs: config.get('bbs')
+      bbs: config.get('bbs'),
+      currentTabIndex: 0,
     }
   }
 
@@ -40,29 +41,32 @@ class Settings extends React.Component {
     ipcRenderer.send('asyn-config-window-close')
   }
 
-  onChangePort(event){
-    this.setState({ port: event.target.value })
+  onChangeForm(event, key){
+    this.setState({ [key]: event.target.value })
   }
 
-  onChangePlayer(event){
-    this.setState({ player: event.target.value })
-  }
-
-  onChangeBbs(event){
-    this.setState({ bbs: event.target.value })
-  }
-
-  onClickPlayerDialog(){
+  onClickDialog(key){
     let path = dialog.showOpenDialog()
-    this.setState({ player: path })
-  }
-
-  onClickBbsDialog(){
-    let path = dialog.showOpenDialog()
-    this.setState({ bbs: path })
+    this.setState({ [key]: path[0] })
   }
 
   render(){
+    // 各タブ用コンポーネント
+    let components = [
+      {
+        name: "全般",
+        component:
+          <SettingsGeneral port={this.state.port} player={this.state.player} bbs={this.state.bbs}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm}  />
+      },
+      {
+        name: "YP",
+        component: <SettingsYP />
+      }
+    ]
+    // カレントコンポーネント
+    let currentComponent = components[this.state.currentTabIndex].component
+
     return(
       <div id="settings">
         <header className="toolbar toolbar-header">
@@ -71,22 +75,9 @@ class Settings extends React.Component {
             設定
           </h1>
         </header>
-        <SettingsTabBox />
+        <SettingsTabBox components={components} currentTabIndex={this.state.currentTabIndex} />
         <div id="settings-main">
-          <div className="form-group">
-            <label>ポート番号</label>
-            <input type="text" ref="port" value={this.state.port} onChange={this.onChangePort} />
-          </div>
-          <div className="form-group">
-            <label>再生プレイヤー</label>
-            <input id="settings-player" type="text" ref="player" value={this.state.player} onChange={this.onChangePlayer} />
-            <button id="settings-player-dialog" className="btn btn-mini btn-default" onClick={this.onClickPlayerDialog}>参照</button>
-          </div>
-          <div className="form-group">
-            <label>BBSブラウザ</label>
-            <input id="settings-bbs" type="text" ref="bbs" value={this.state.bbs} onChange={this.onChangeBbs} />
-            <button id="settings-bbs-dialog" className="btn btn-mini btn-default" onClick={this.onClickBbsDialog}>参照</button>
-          </div>
+          {currentComponent}
           <div id="settings-btn-group">
             <button id="settings-ok" className="btn btn-primary" onClick={this.save}>OK</button>
             <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>

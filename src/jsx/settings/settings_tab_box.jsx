@@ -1,4 +1,5 @@
 import React from 'react'
+import SettingsTabItem from 'jsx/settings/settings_tab_item'
 
 module.exports = class SettingsTabBox extends React.Component {
 
@@ -7,14 +8,17 @@ module.exports = class SettingsTabBox extends React.Component {
   }
 
   render(){
+    let tabs = this.props.components.map((tab, index)=>{
+      // アクティブなタブか
+      let active = this.props.currentTabIndex==index ? true : false
+      return(
+        <SettingsTabItem key={index} name={tab.name} active={active} />
+      )
+    })
+
     return(
       <div className="tab-group">
-        <div className="tab-item active">
-          基本
-        </div>
-        <div className="tab-item">
-          YP
-        </div>
+        {tabs}
       </div>
     )
   }
