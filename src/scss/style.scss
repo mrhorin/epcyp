@@ -199,16 +199,15 @@ td.channel-item-col3{
     position: fixed;
     width: 100%;
     top: 23px;
-    // border-top: none;
-    // border-bottom: 1px solid #ccc;
     .tab-item{
-      background-image: none;
-      // border-radius: 5px 5px 0px 0px;
+      background: #bababa;
     }
-    .tab-item.active{
+    .tab-item:hover{
       background: #dcdadc;
-      background-image: none;
-      // border: none;
+    }
+    .tab-item.active,
+    .tab-item.active:hover{
+      background: #dcdadc;
     }
   }
   label{
@@ -288,6 +287,7 @@ tr:active:nth-child(even), tr:active{
   font-size: 10px !important;
   padding: 1px !important;
 }
+
 tr:active:nth-child(even), tr:active,
 .table-striped tr:active:nth-child(even), tr:active{
   background: none !important;

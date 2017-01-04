@@ -18,6 +18,7 @@ class Settings extends React.Component {
   constructor(props){
     super(props)
     this.save = this.save.bind(this)
+    this.selectTab = this.selectTab.bind(this)
     this.onChangeForm = this.onChangeForm.bind(this)
     this.onClickDialog = this.onClickDialog.bind(this)
     this.state = {
@@ -39,6 +40,11 @@ class Settings extends React.Component {
   // 設定ウィンドウを閉じる
   close(){
     ipcRenderer.send('asyn-config-window-close')
+  }
+
+  // タブの切り替え
+  selectTab(index){
+    this.setState({ currentTabIndex: index })
   }
 
   onChangeForm(event, key){
@@ -75,7 +81,8 @@ class Settings extends React.Component {
             設定
           </h1>
         </header>
-        <SettingsTabBox components={components} currentTabIndex={this.state.currentTabIndex} />
+        <SettingsTabBox components={components} currentTabIndex={this.state.currentTabIndex}
+          selectTab={this.selectTab} />
         <div id="settings-main">
           {currentComponent}
           <div id="settings-btn-group">

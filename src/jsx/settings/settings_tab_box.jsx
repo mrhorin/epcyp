@@ -5,6 +5,11 @@ module.exports = class SettingsTabBox extends React.Component {
 
   constructor(props){
     super(props)
+    this.onClickTabItem = this.onClickTabItem.bind(this)
+  }
+
+  onClickTabItem(event, index){
+    this.props.selectTab(index)
   }
 
   render(){
@@ -12,7 +17,8 @@ module.exports = class SettingsTabBox extends React.Component {
       // アクティブなタブか
       let active = this.props.currentTabIndex==index ? true : false
       return(
-        <SettingsTabItem key={index} name={tab.name} active={active} />
+        <SettingsTabItem key={index} index={index} name={tab.name} active={active}
+          onClickTabItem={this.onClickTabItem} />
       )
     })
 
