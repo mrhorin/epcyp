@@ -1,7 +1,7 @@
 import React from 'react'
 import css from 'scss/style'
 
-module.exports = class RuleDetail extends React.Component {
+module.exports = class FavoriteDetail extends React.Component {
 
   constructor(props){
     super(props)

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import {ipcRenderer} from 'electron'
 import storage from 'electron-json-storage'
 import css from 'scss/style'
-import RuleBox from 'jsx/favorite/rule_box'
-import RuleDetail from 'jsx/favorite/rule_detail'
+import RuleBox from 'jsx/rule/rule_box'
+import FavoriteDetail from 'jsx/favorite/favorite_detail'
 
 class Favorite extends React.Component {
 
@@ -135,7 +135,6 @@ class Favorite extends React.Component {
   }
 
   render(){
-    console.log(this.state)
     return(
       <div id="favorite">
         <header className="toolbar toolbar-header">
@@ -145,10 +144,10 @@ class Favorite extends React.Component {
           </h1>
         </header>
         <div id="favorite-main">
-          <RuleBox favorites={this.state.favorites} current={this.state.current}
+          <RuleBox rules={this.state.favorites} current={this.state.current}
             onClickItem={this.onClickItem} onClickAdd={this.add} onClickDelete={this.onClickDelete}
             onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
-          <RuleDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
+          <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
             onChangeName={this.onChangeName} onChangePattern={this.onChangePattern}
             onChangeTarget={this.onChangeTarget} onClickDelete={this.onClickDelete} />
           <div id="favorite-btn-group">
