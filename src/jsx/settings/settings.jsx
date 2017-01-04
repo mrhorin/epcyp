@@ -4,7 +4,7 @@ import {ipcRenderer} from "electron"
 import {remote} from 'electron'
 import css from "scss/style"
 import Config from 'electron-config'
-import SettingsTab from 'jsx/settings/settings_tab'
+import SettingsTabBox from 'jsx/settings/settings_tab_box'
 const dialog = remote.dialog
 const config = new Config({
   defaults: { port: 7144, player: "", bbs: "" }
@@ -71,7 +71,7 @@ class Settings extends React.Component {
             設定
           </h1>
         </header>
-        <SettingsTab />
+        <SettingsTabBox />
         <div id="settings-main">
           <div className="form-group">
             <label>ポート番号</label>

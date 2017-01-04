@@ -1,6 +1,6 @@
 import React from 'react'
 
-module.exports = class SettingsTab extends React.Component {
+module.exports = class SettingsTabBox extends React.Component {
 
   constructor(props){
     super(props)
