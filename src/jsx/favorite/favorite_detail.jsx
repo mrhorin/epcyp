@@ -27,13 +27,13 @@ module.exports = class FavoriteDetail extends React.Component {
 
   render(){
     return(
-      <div id="rule-detail">
+      <div id="favorite-detail">
         <label>名前</label>
         <input type="text" ref="name" value={this.props.favorite.name} onChange={this.onChangeName} />
         <label>検索文字(正規表現)</label>
         <input type="text" ref="pattern" value={this.props.favorite.pattern} onChange={this.onChangePattern} />
         <label>検索対象</label>
-        <div id="rule-detail-targets">
+        <div id="favorite-detail-targets">
           <input name="name" type="checkbox" ref="targetName" value={this.props.favorite.target.name} checked={this.props.favorite.target.name}
             onChange={this.onChangeTarget} />名前
           <input name="genre" type="checkbox" ref="targetGenre" value={this.props.favorite.target.genre} checked={this.props.favorite.target.genre}

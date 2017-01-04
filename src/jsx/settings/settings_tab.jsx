@@ -1,6 +1,6 @@
 import React from 'react'
 
-module.exports = class TabBox extends React.Component {
+module.exports = class SettingsTab extends React.Component {
 
   constructor(props){
     super(props)
@@ -10,10 +10,10 @@ module.exports = class TabBox extends React.Component {
     return(
       <div className="tab-group">
         <div className="tab-item active">
-          すべて
+          基本
         </div>
         <div className="tab-item">
-          お気に入り
+          YP
         </div>
       </div>
     )

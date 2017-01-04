@@ -4,6 +4,7 @@ import {ipcRenderer} from "electron"
 import {remote} from 'electron'
 import css from "scss/style"
 import Config from 'electron-config'
+import SettingsTab from 'jsx/settings/settings_tab'
 const dialog = remote.dialog
 const config = new Config({
   defaults: { port: 7144, player: "", bbs: "" }
@@ -63,30 +64,33 @@ class Settings extends React.Component {
 
   render(){
     return(
-      <div>
+      <div id="settings">
         <header className="toolbar toolbar-header">
           <h1 className="title">
             <span className="icon icon-cog"></span>
             設定
           </h1>
         </header>
+        <SettingsTab />
         <div id="settings-main">
           <div className="form-group">
             <label>ポート番号</label>
-            <input type="text" className="form-control" ref="port" value={this.state.port} onChange={this.onChangePort} />
+            <input type="text" ref="port" value={this.state.port} onChange={this.onChangePort} />
           </div>
           <div className="form-group">
             <label>再生プレイヤー</label>
-            <input id="settings-player" type="text" className="form-control" ref="player" value={this.state.player} onChange={this.onChangePlayer} />
-            <button id="settings-player-dialog" className="btn btn-default" onClick={this.onClickPlayerDialog}>参照</button>
+            <input id="settings-player" type="text" ref="player" value={this.state.player} onChange={this.onChangePlayer} />
+            <button id="settings-player-dialog" className="btn btn-mini btn-default" onClick={this.onClickPlayerDialog}>参照</button>
           </div>
           <div className="form-group">
             <label>BBSブラウザ</label>
-            <input id="settings-bbs" type="text" className="form-control" ref="bbs" value={this.state.bbs} onChange={this.onChangeBbs} />
-            <button id="settings-bbs-dialog" className="btn btn-default" onClick={this.onClickBbsDialog}>参照</button>
+            <input id="settings-bbs" type="text" ref="bbs" value={this.state.bbs} onChange={this.onChangeBbs} />
+            <button id="settings-bbs-dialog" className="btn btn-mini btn-default" onClick={this.onClickBbsDialog}>参照</button>
           </div>
-          <button id="settings-ok" className="btn btn-default" onClick={this.save}>OK</button>
-          <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+          <div id="settings-btn-group">
+            <button id="settings-ok" className="btn btn-primary" onClick={this.save}>OK</button>
+            <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+          </div>
         </div>
       </div>
     )
