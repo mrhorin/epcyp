@@ -82,7 +82,8 @@ ipcMain.on('asyn-favorite-window', (event) =>{
     width: 480,
     height: 370,
     frame: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    resizable: false
   })
   favoriteWindow.loadURL(`file://${path.resolve(path.join('dist', 'favorite.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)
@@ -97,10 +98,11 @@ ipcMain.on('asyn-favorite-window-close', (event) =>{
 // 設定ウィンドウを開く
 ipcMain.on('asyn-config-window', (event) =>{
   configWindow = new BrowserWindow({
-    width: 320,
-    height: 290,
+    width: 400,
+    height: 400,
     frame: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    resizable: false
   })
   configWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)

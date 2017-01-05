@@ -190,7 +190,7 @@ td.channel-item-col3{
   }
   #settings-main{
     padding: 15px;
-    margin-top: 35px;
+    margin-top: 30px;
   }
 }
 #settings{
@@ -216,7 +216,7 @@ td.channel-item-col3{
     margin-bottom: 0px;
   }
   input{
-    width: 250px;
+    width: 325px;
     margin-bottom: 10px;
     margin-right: 5px;
   }
@@ -229,6 +229,15 @@ td.channel-item-col3{
   margin-right: 5px;
 }
 #settings-cancel{
+}
+
+/* SettingsYP */
+
+/* SettingsYPDetail */
+#settings-yp-detail{
+  input{
+    width: 220px;
+  }
 }
 
 /* RuleBox */

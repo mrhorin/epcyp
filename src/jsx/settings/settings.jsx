@@ -28,6 +28,8 @@ class Settings extends React.Component {
     this.deleteYP = this.deleteYP.bind(this)
     this.upYP = this.upYP.bind(this)
     this.downYP = this.downYP.bind(this)
+    // SettingsYPDetail
+    this.onChangeYP = this.onChangeYP.bind(this)
     let yp = this.getDefaultYP()
     this.state = {
       port: config.get('port'),
@@ -124,6 +126,12 @@ class Settings extends React.Component {
     return { name: "YP", url: "http://" }
   }
 
+  // --------- SettingsYPDetail ---------
+  onChangeYP(event, key){
+    this.state.ypList[this.state.currentYpIndex][key] = event.target.value
+    this.setState({ ypList: this.state.ypList })
+  }
+
   render(){
     // 各タブ用コンポーネント
     let components = [
@@ -138,7 +146,8 @@ class Settings extends React.Component {
         component:
           <SettingsYP ypList={this.state.ypList} currentYpIndex={this.state.currentYpIndex}
             onClickItem={this.selectYP} onClickAdd={this.addYP} onClickDelete={this.deleteYP}
-            onClickUp={this.upYP} onClickDown={this.downYP} />
+            onClickUp={this.upYP} onClickDown={this.downYP}
+            onChangeYP={this.onChangeYP} />
       }
     ]
     // カレントコンポーネント
