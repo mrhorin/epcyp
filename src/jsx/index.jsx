@@ -19,28 +19,28 @@ class Index extends React.Component {
     super(props)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
+    this.reloadYpList = this.reloadYpList.bind(this)
     this.state = {
       ypList: [],
       channels: [],
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60
     }
-    // index.txtを格納
+    // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       let channels = this.state.channels.concat(newChannels)
-      this.setState({
-        channels: channels
-      })
+      this.setState({ channels: channels })
     })
-    storage.get('ypList', (error, data)=>{
-      let ypList = data.map((yp, index)=>{
-        return new YP(yp.name, yp.url)
-      })
-      this.setState({ ypList: ypList })
-      console.log(ypList)
-      this.fetchIndexTxt()
+    // お気に入りウィンドウを閉じた時
+    ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
+      console.log('asyn-favorite-window-close-reply')
     })
+    // 設定ウィンドウを閉じた時
+    ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
+      this.reloadYpList()
+    })
+    this.reloadYpList(()=>{ this.fetchIndexTxt() })
   }
 
   // 自動更新ON/OFF
@@ -55,6 +55,17 @@ class Index extends React.Component {
     for(var yp of this.state.ypList){
       ipcRenderer.send('asyn-yp', yp)
     }
+  }
+
+  // YP設定を読み込む
+  reloadYpList(call = ()=>{}){
+    storage.get('ypList', (error, data)=>{
+      let ypList = data.map((yp, index)=>{
+        return new YP(yp.name, yp.url)
+      })
+      this.setState({ ypList: ypList })
+      call()
+    })
   }
 
   render(){

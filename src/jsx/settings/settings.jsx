@@ -57,7 +57,7 @@ class Settings extends React.Component {
 
   // 設定ウィンドウを閉じる
   close(){
-    ipcRenderer.send('asyn-config-window-close')
+    ipcRenderer.send('asyn-settings-window-close')
   }
 
   // タブの切り替え

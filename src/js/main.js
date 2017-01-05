@@ -12,7 +12,7 @@ const config = new Config({
 })
 
 var mainWindow = null
-var configWindow = null
+var settingsWindow = null
 var favoriteWindow = null
 
 // 起動準備ができた時
@@ -93,23 +93,25 @@ ipcMain.on('asyn-favorite-window-close', (event) =>{
   favoriteWindow.close()
   favoriteWindow = null
   mainWindow.setIgnoreMouseEvents(false)
+  mainWindow.send('asyn-favorite-window-close-reply')
 })
 
 // 設定ウィンドウを開く
-ipcMain.on('asyn-config-window', (event) =>{
-  configWindow = new BrowserWindow({
+ipcMain.on('asyn-settings-window', (event) =>{
+  settingsWindow = new BrowserWindow({
     width: 400,
     height: 400,
     frame: false,
     alwaysOnTop: true,
     resizable: false
   })
-  configWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
+  settingsWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)
 })
 // 設定ウィンドウを閉じる
-ipcMain.on('asyn-config-window-close', (event) =>{
-  configWindow.close()
-  configWindow = null
+ipcMain.on('asyn-settings-window-close', (event) =>{
+  settingsWindow.close()
+  settingsWindow = null
   mainWindow.setIgnoreMouseEvents(false)
+  mainWindow.send('asyn-settings-window-close-reply')
 })

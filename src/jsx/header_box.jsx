@@ -16,7 +16,7 @@ module.exports = class HeaderBox extends React.Component {
 
   // 設定ボタン押下時
   onClickConfig(){
-    ipcRenderer.send('asyn-config-window')
+    ipcRenderer.send('asyn-settings-window')
   }
 
   render(){
