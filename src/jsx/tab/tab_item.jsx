@@ -1,6 +1,6 @@
 import React from 'react'
 
-module.exports = class SettingsTabItem extends React.Component {
+module.exports = class TabItem extends React.Component {
 
   constructor(props){
     super(props)

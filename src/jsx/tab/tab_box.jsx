@@ -1,7 +1,7 @@
 import React from 'react'
-import SettingsTabItem from 'jsx/settings/settings_tab_item'
+import TabItem from 'jsx/tab/tab_item'
 
-module.exports = class SettingsTabBox extends React.Component {
+module.exports = class TabBox extends React.Component {
 
   constructor(props){
     super(props)
@@ -17,7 +17,7 @@ module.exports = class SettingsTabBox extends React.Component {
       // アクティブなタブか
       let active = this.props.currentTabIndex==index ? true : false
       return(
-        <SettingsTabItem key={index} index={index} name={tab.name} active={active}
+        <TabItem key={index} index={index} name={tab.name} active={active}
           onClickTabItem={this.onClickTabItem} />
       )
     })

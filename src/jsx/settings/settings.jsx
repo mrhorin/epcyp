@@ -5,7 +5,7 @@ import {remote} from 'electron'
 import css from "scss/style"
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
-import SettingsTabBox from 'jsx/settings/settings_tab_box'
+import TabBox from 'jsx/tab/tab_box'
 import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
@@ -60,7 +60,7 @@ class Settings extends React.Component {
     ipcRenderer.send('asyn-settings-window-close')
   }
 
-  // タブの切り替え
+  // -------------- TabBox --------------
   selectTab(index){
     this.setState({ currentTabIndex: index })
   }
@@ -161,7 +161,7 @@ class Settings extends React.Component {
             設定
           </h1>
         </header>
-        <SettingsTabBox components={components} currentTabIndex={this.state.currentTabIndex}
+        <TabBox components={components} currentTabIndex={this.state.currentTabIndex}
           selectTab={this.selectTab} />
         <div id="settings-main">
           {currentComponent}
