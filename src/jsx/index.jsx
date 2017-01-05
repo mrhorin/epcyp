@@ -19,11 +19,13 @@ class Index extends React.Component {
     super(props)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
+    this.loadFavorites = this.loadFavorites.bind(this)
     this.loadYpList = this.loadYpList.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.state = {
       ypList: [],
       channels: [],
+      favorites: [],
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
       currentTabIndex: 0
@@ -42,6 +44,7 @@ class Index extends React.Component {
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
       this.loadYpList()
     })
+    this.loadFavorites()
     this.loadYpList(()=>{ this.fetchIndexTxt() })
   }
 
@@ -57,6 +60,14 @@ class Index extends React.Component {
     for(var yp of this.state.ypList){
       ipcRenderer.send('asyn-yp', yp)
     }
+  }
+
+  // お気に入り設定を読み込む
+  loadFavorites(call = ()=>{}){
+    storage.get('favorites', (error, data)=>{
+      if(data) this.setState({ favorites: data })
+      call()
+    })
   }
 
   // YP設定を読み込む
