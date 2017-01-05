@@ -6,7 +6,7 @@ import storage from 'electron-json-storage'
 import css from 'scss/style'
 import YP from 'js/yp'
 import HeaderBox from 'jsx/header_box'
-import TabBox from 'jsx/tab_box'
+import TabBox from 'jsx/tab/tab_box'
 import ChannelBox from 'jsx/channel_box'
 import FooterBox from 'jsx/footer_box'
 const config = new Config({
@@ -19,12 +19,14 @@ class Index extends React.Component {
     super(props)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
-    this.reloadYpList = this.reloadYpList.bind(this)
+    this.loadYpList = this.loadYpList.bind(this)
+    this.selectTab = this.selectTab.bind(this)
     this.state = {
       ypList: [],
       channels: [],
       autoUpdate: config.get('autoUpdate'),
-      autoUpdateCount: 60
+      autoUpdateCount: 60,
+      currentTabIndex: 0
     }
     // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
@@ -38,9 +40,9 @@ class Index extends React.Component {
     })
     // 設定ウィンドウを閉じた時
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
-      this.reloadYpList()
+      this.loadYpList()
     })
-    this.reloadYpList(()=>{ this.fetchIndexTxt() })
+    this.loadYpList(()=>{ this.fetchIndexTxt() })
   }
 
   // 自動更新ON/OFF
@@ -58,7 +60,7 @@ class Index extends React.Component {
   }
 
   // YP設定を読み込む
-  reloadYpList(call = ()=>{}){
+  loadYpList(call = ()=>{}){
     storage.get('ypList', (error, data)=>{
       let ypList = data.map((yp, index)=>{
         return new YP(yp.name, yp.url)
@@ -68,12 +70,29 @@ class Index extends React.Component {
     })
   }
 
+  // -------------- TabBox --------------
+  selectTab(index){
+    this.setState({ currentTabIndex: index })
+  }
+
   render(){
+    let components = [
+      {
+        name: "すべて",
+        component: <ChannelBox channels={this.state.channels} />
+      },
+      {
+        name: "お気に入り",
+        component: "お気に入り"
+      }
+    ]
+    let currentComponent = components[this.state.currentTabIndex].component
+
     return(
       <div id="index">
         <HeaderBox autoUpdate={this.state.autoUpdate} onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
-        <TabBox />
-        <ChannelBox channels={this.state.channels} />
+        <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
+        {currentComponent}
         <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} onUpdateHandler={this.fetchIndexTxt}/>
       </div>
     )
