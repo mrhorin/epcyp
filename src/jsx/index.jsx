@@ -87,9 +87,15 @@ class Index extends React.Component {
     let favoriteChannels = []
     for(let channel of this.state.channels){
       for(let favorite of this.state.favorites){
+        // 検索文字(正規表現)
         let ptn = new RegExp(favorite.pattern, "i")
-        // 名前にマッチ
-        if(channel.name.match(ptn)){
+        // ptnにマッチする AND 検索対象に指定されているか
+        if((channel.name.match(ptn)&&favorite.target.name)||
+          (channel.genre.match(ptn)&&favorite.target.genre)||
+          (channel.detail.match(ptn)&&favorite.target.detail)||
+          (channel.comment.match(ptn)&&favorite.target.comment)||
+          (channel.url.match(ptn)&&favorite.target.url)||
+          (channel.tip.match(ptn)&&favorite.target.tip)){
           favoriteChannels.push(channel)
         }else{
           continue
