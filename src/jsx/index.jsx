@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {ipcRenderer} from 'electron'
 import Config from 'electron-config'
+import storage from 'electron-json-storage'
 import css from 'scss/style'
 import YP from 'js/yp'
 import HeaderBox from 'jsx/header_box'
@@ -19,10 +20,7 @@ class Index extends React.Component {
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
     this.state = {
-      ypList: [
-        new YP("SP", "http://bayonet.ddo.jp/sp/index.txt"),
-        new YP("TP", "http://temp.orz.hm/yp/index.txt")
-      ],
+      ypList: [],
       channels: [],
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60
@@ -35,7 +33,14 @@ class Index extends React.Component {
         channels: channels
       })
     })
-    this.fetchIndexTxt()
+    storage.get('ypList', (error, data)=>{
+      let ypList = data.map((yp, index)=>{
+        return new YP(yp.name, yp.url)
+      })
+      this.setState({ ypList: ypList })
+      console.log(ypList)
+      this.fetchIndexTxt()
+    })
   }
 
   // 自動更新ON/OFF

@@ -2,7 +2,7 @@ module.exports = class YP{
 
   constructor(name, url){
     this.name = name
-    this.url = url
+    this.url = this.parseUrl(url)
   }
 
   parseIndexTxt(txt){
@@ -32,6 +32,14 @@ module.exports = class YP{
       }
     }
     return channels
+  }
+
+  // YPのURL末尾を/index.txtの形に変換
+  parseUrl(url){
+    // urlの末尾1文字
+    let urlEnd = url.slice(-1)
+    if(urlEnd != '/') url += '/'
+    return url+'index.txt'
   }
 
   unEscapeHTML(string){
