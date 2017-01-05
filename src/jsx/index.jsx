@@ -21,6 +21,7 @@ class Index extends React.Component {
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
     this.loadFavorites = this.loadFavorites.bind(this)
     this.loadYpList = this.loadYpList.bind(this)
+    this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.state = {
       ypList: [],
@@ -38,7 +39,7 @@ class Index extends React.Component {
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
-      console.log('asyn-favorite-window-close-reply')
+      this.loadFavorites()
     })
     // 設定ウィンドウを閉じた時
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
@@ -81,6 +82,26 @@ class Index extends React.Component {
     })
   }
 
+  // お気に入りチャンネル一覧を取得
+  getFavoriteChannels(){
+    let favoriteChannels = []
+    for(let channel of this.state.channels){
+      for(let favorite of this.state.favorites){
+        let ptn = new RegExp(favorite.pattern, "i")
+        // 名前にマッチ
+        if(channel.name.match(ptn)){
+          favoriteChannels.push(channel)
+        }else{
+          continue
+        }
+      }
+    }
+    // 重複を除去
+    return favoriteChannels.filter((channel, index, self)=>{
+      return self.indexOf(channel) === index
+    })
+  }
+
   // -------------- TabBox --------------
   selectTab(index){
     this.setState({ currentTabIndex: index })
@@ -94,7 +115,7 @@ class Index extends React.Component {
       },
       {
         name: "お気に入り",
-        component: "お気に入り"
+        component: <ChannelBox channels={this.getFavoriteChannels()} />
       }
     ]
     let currentComponent = components[this.state.currentTabIndex].component
