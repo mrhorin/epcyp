@@ -13,10 +13,12 @@ module.exports = class ChannelItem extends React.Component {
 
   constructor(props){
     super(props)
-    this.streamURL = this.streamURL.bind(this)
+    this.getStreamURL = this.getStreamURL.bind(this)
     this.play = this.play.bind(this)
     this.openURL = this.openURL.bind(this)
     this.showContextMenu = this.showContextMenu.bind(this)
+    this.getFavorite = this.getFavorite.bind(this)
+    this.registFavorite = this.registFavorite.bind(this)
     // コンテキストメニュー
     this.state = { menu: new Menu() }
     this.state.menu.append(new MenuItem({
@@ -37,17 +39,26 @@ module.exports = class ChannelItem extends React.Component {
         this.openBBS()
       }
     }))
+    this.state.menu.append(new MenuItem({
+      type: 'separator'
+    }))
+    this.state.menu.append(new MenuItem({
+      label: 'お気に入りに登録',
+      type: 'submenu',
+      submenu: this.props.favorites.map((favorite, index)=>{
+        return {
+          label: favorite.name,
+          click: ()=>{
+            this.registFavorite(index, this.props.channel.name)
+          }
+        }
+      })
+    }))
   }
 
-  streamURL(){
-    let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
-    return url
-  }
-
-  // プレイヤー起動
+  // プレイヤーで再生する
   play(){
-    ipcRenderer.send('asyn-play', this.streamURL())
+    ipcRenderer.send('asyn-play', this.getStreamURL())
   }
 
   // BBSブラウザで開く
@@ -55,22 +66,56 @@ module.exports = class ChannelItem extends React.Component {
     ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
   }
 
-  // コンタクトURLを開く
+  // コンタクトURLを既定ブラウザで開く
   openURL(){
     shell.openExternal(this.props.channel.url)
   }
 
+  // 右クリメニューを表示
   showContextMenu(e){
     e.preventDefault()
     this.state.menu.popup(remote.getCurrentWindow())
   }
 
+  // ストリームURLを取得
+  getStreamURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
+    return url
+  }
+
+  // お気に入り登録
+  registFavorite(favoriteIndex, channelName){
+    this.props.registFavorite(favoriteIndex, channelName)
+  }
+
+  // マッチするお気に入り情報があれば取得
+  getFavorite(){
+    let res = null
+    for(let favorite of this.props.favorites){
+      // 検索文字(正規表現)
+      let ptn = new RegExp(favorite.pattern, "i")
+      // ptnにマッチする AND 検索対象に指定されているか
+      if((this.props.channel.name.match(ptn)&&favorite.target.name)||
+        (this.props.channel.genre.match(ptn)&&favorite.target.genre)||
+        (this.props.channel.detail.match(ptn)&&favorite.target.detail)||
+        (this.props.channel.comment.match(ptn)&&favorite.target.comment)||
+        (this.props.channel.url.match(ptn)&&favorite.target.url)||
+        (this.props.channel.tip.match(ptn)&&favorite.target.tip)){
+        res = favorite
+        break
+      }
+    }
+    return res
+  }
+
   render(){
+    let favorite = this.getFavorite()
     let style = {}
-    if(this.props.favorite){
+    if(favorite){
       style = {
-        background: `#${this.props.favorite.bgColor}`,
-        color: `#${this.props.favorite.fontColor}`
+        background: `#${favorite.bgColor}`,
+        color: `#${favorite.fontColor}`
       }
     }
     return(

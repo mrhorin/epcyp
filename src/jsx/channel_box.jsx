@@ -5,7 +5,7 @@ module.exports = class ChannelBox extends React.Component {
 
   constructor(props){
     super(props)
-    this.getFavorite = this.getFavorite.bind(this)
+    this.registFavorite = this.registFavorite.bind(this)
   }
 
   // 昇順ソート
@@ -28,32 +28,17 @@ module.exports = class ChannelBox extends React.Component {
     return hash
   }
 
-  // channelにマッチするお気に入り情報を取得
-  getFavorite(channel){
-    let res = null
-    for(let favorite of this.props.favorites){
-      // 検索文字(正規表現)
-      let ptn = new RegExp(favorite.pattern, "i")
-      // ptnにマッチする AND 検索対象に指定されているか
-      if((channel.name.match(ptn)&&favorite.target.name)||
-        (channel.genre.match(ptn)&&favorite.target.genre)||
-        (channel.detail.match(ptn)&&favorite.target.detail)||
-        (channel.comment.match(ptn)&&favorite.target.comment)||
-        (channel.url.match(ptn)&&favorite.target.url)||
-        (channel.tip.match(ptn)&&favorite.target.tip)){
-        res = favorite
-        break
-      }
-    }
-    return res
+  // ------------ ChannelItem ------------
+  registFavorite(favoriteIndex, channelName){
+    this.props.registFavorite(favoriteIndex, channelName)
   }
 
   render(){
     let channels = this.sortDESC(this.props.channels, 'listener')
     let channelItems = channels.map((channel) => {
-      let favorite = this.getFavorite(channel)
       return (
-        <ChannelItem key={channel.key} channel={channel} favorite={favorite} />
+        <ChannelItem key={channel.key} channel={channel} favorites={this.props.favorites}
+          registFavorite={this.registFavorite} />
       )
     })
     return(

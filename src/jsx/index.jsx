@@ -23,6 +23,7 @@ class Index extends React.Component {
     this.loadYpList = this.loadYpList.bind(this)
     this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
     this.selectTab = this.selectTab.bind(this)
+    this.registFavorite = this.registFavorite.bind(this)
     this.state = {
       ypList: [],
       channels: [],
@@ -109,19 +110,26 @@ class Index extends React.Component {
   }
 
   // -------------- TabBox --------------
-  selectTab(index){
-    this.setState({ currentTabIndex: index })
+  selectTab(tabIndex){
+    this.setState({ currentTabIndex: tabIndex })
+  }
+
+  // ------------ ChannelItem ------------
+  registFavorite(favoriteIndex, channelName){
+    this.state.favorites[favoriteIndex].pattern += `|${channelName}`
+    this.setState({ favorites: this.state.favorites })
+    storage.set('favorites', this.state.favorites)
   }
 
   render(){
     let components = [
       {
         name: "すべて",
-        component: <ChannelBox channels={this.state.channels} favorites={this.state.favorites} />
+        component: <ChannelBox channels={this.state.channels} favorites={this.state.favorites} registFavorite={this.registFavorite} />
       },
       {
         name: "お気に入り",
-        component: <ChannelBox channels={this.getFavoriteChannels()} favorites={this.state.favorites} />
+        component: <ChannelBox channels={this.getFavoriteChannels()} favorites={this.state.favorites} registFavorite={this.registFavorite} />
       }
     ]
     let currentComponent = components[this.state.currentTabIndex].component
