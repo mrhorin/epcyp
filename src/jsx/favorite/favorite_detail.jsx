@@ -8,6 +8,8 @@ module.exports = class FavoriteDetail extends React.Component {
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangePattern = this.onChangePattern.bind(this)
     this.onChangeTarget = this.onChangeTarget.bind(this)
+    this.onChangeFontColor = this.onChangeFontColor.bind(this)
+    this.onChangeBgColor = this.onChangeBgColor.bind(this)
   }
 
   // 名前
@@ -25,7 +27,22 @@ module.exports = class FavoriteDetail extends React.Component {
     this.props.onChangeTarget(event.target, this.props.index)
   }
 
+  // 文字色
+  onChangeFontColor(){
+    this.props.onChangeFontColor(this.refs.fontColor.value, this.props.index)
+  }
+
+  // 背景色
+  onChangeBgColor(){
+    this.props.onChangeBgColor(this.refs.bgColor.value, this.props.index)
+  }
+
   render(){
+    // sample文字用CSS
+    let sampleStyle = {
+      color: "#"+this.props.favorite.fontColor,
+      background: "#"+this.props.favorite.bgColor
+    }
     return(
       <div id="favorite-detail">
         <label>名前</label>
@@ -46,6 +63,18 @@ module.exports = class FavoriteDetail extends React.Component {
             onChange={this.onChangeTarget} />URL
           <input name="tip" type="checkbox" ref="targetTip" value={this.props.favorite.target.tip} checked={this.props.favorite.target.tip}
             onChange={this.onChangeTarget} />IP
+        </div>
+        <div id="favorite-detail-colors">
+          <label>色設定</label>
+          <div id="sample" style={sampleStyle}>Sample文字</div>
+          <input id="font-color" ref="fontColor" type="hidden" value={this.props.favorite.fontColor} onChange={this.onChangeFontColor} />
+          <button className="btn btn-mini btn-default jscolor {valueElement:'font-color',styleElement:'font-color'}" onBlur={this.onChangeFontColor}>
+            文字色
+          </button>
+          <input id="bg-color" ref="bgColor" type="hidden" value={this.props.favorite.bgColor} onChange={this.onChangeBgColor} />
+          <button className="btn btn-mini btn-default jscolor {valueElement:'bg-color',styleElement:'bg-color'}" onBlur={this.onChangeBgColor}>
+            背景色
+          </button>
         </div>
       </div>
     )

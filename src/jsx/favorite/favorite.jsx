@@ -15,6 +15,8 @@ class Favorite extends React.Component {
     this.onChangePattern = this.onChangePattern.bind(this)
     this.onChangeTarget = this.onChangeTarget.bind(this)
     this.onClickDelete = this.onClickDelete.bind(this)
+    this.onChangeFontColor = this.onChangeFontColor.bind(this)
+    this.onChangeBgColor = this.onChangeBgColor.bind(this)
     this.add = this.add.bind(this)
     this.onClickUp = this.onClickUp.bind(this)
     this.onClickDown = this.onClickDown.bind(this)
@@ -43,7 +45,9 @@ class Favorite extends React.Component {
         comment: false,
         url: false,
         tip: false
-      }
+      },
+      fontColor: "555555",
+      bgColor: "33cc00"
     }
     return favorite
   }
@@ -72,6 +76,22 @@ class Favorite extends React.Component {
     if(target.value == "true") bool = false
     if(target.value == "false") bool = true
     this.state.favorites[index]["target"][target.name] = bool
+    this.setState({
+      favorites: this.state.favorites
+    })
+  }
+
+  onChangeFontColor(color, index){
+    console.log(color)
+    this.state.favorites[index]["fontColor"] = color
+    this.setState({
+      favorites: this.state.favorites
+    })
+  }
+
+  onChangeBgColor(color, index){
+    console.log(color)
+    this.state.favorites[index]["bgColor"] = color
     this.setState({
       favorites: this.state.favorites
     })
@@ -150,7 +170,8 @@ class Favorite extends React.Component {
             onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
           <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
             onChangeName={this.onChangeName} onChangePattern={this.onChangePattern}
-            onChangeTarget={this.onChangeTarget} onClickDelete={this.onClickDelete} />
+            onChangeTarget={this.onChangeTarget} onClickDelete={this.onClickDelete}
+            onChangeFontColor={this.onChangeFontColor} onChangeBgColor={this.onChangeBgColor} />
           <div id="favorite-btn-group">
             <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>OK</button>
             <button id="favorite-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
