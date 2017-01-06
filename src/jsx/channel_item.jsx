@@ -3,6 +3,7 @@ import Config from 'electron-config'
 import {ipcRenderer} from 'electron'
 import {remote} from 'electron'
 import {shell} from 'electron'
+const clipboard = remote.clipboard
 const Menu =  remote.Menu
 const MenuItem =  remote.MenuItem
 const config = new Config({
@@ -54,6 +55,36 @@ module.exports = class ChannelItem extends React.Component {
         }
       })
     }))
+    this.state.menu.append(new MenuItem({
+      label: 'コピー',
+      type: 'submenu',
+      submenu: [
+        { label: 'チャンネル名', click: ()=>{ clipboard.writeText(this.props.channel.name) } },
+        { label: 'コンタクトURL', click: ()=>{ clipboard.writeText(this.props.channel.url) } },
+        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.getStreamURL()) } },
+        { label: 'IPアドレス', click: ()=>{ clipboard.writeText(this.props.channel.tip.replace(/:\d+$/,"")) } },
+        { type: 'separator' },
+        {
+          label: 'チャンネル詳細一行',
+          click: ()=>{
+            let text = `${this.props.channel.name}(${this.props.channel.listener}/${this.props.channel.relay})`+
+                       `${this.props.channel.genre} ${this.props.channel.detail}`
+            if(this.props.channel.comment) text += `「${this.props.channel.comment}」`
+            clipboard.writeText(text)
+          }
+        },
+        {
+          label: 'チャンネル詳細複数行',
+          click: ()=>{
+            let text = `${this.props.channel.name}(${this.props.channel.listener}/${this.props.channel.relay})\n`+
+                       `${this.props.channel.genre} ${this.props.channel.detail}`
+            if(this.props.channel.comment) text += `\n「${this.props.channel.comment}」`
+            clipboard.writeText(text)
+          }
+        }
+      ]
+    }))
+
   }
 
   // プレイヤーで再生する
