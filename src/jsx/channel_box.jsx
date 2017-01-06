@@ -1,5 +1,6 @@
 import React from 'react'
 import ChannelItem from 'jsx/channel_item.jsx'
+import _ from 'lodash'
 
 module.exports = class ChannelBox extends React.Component {
 
@@ -10,22 +11,12 @@ module.exports = class ChannelBox extends React.Component {
 
   // 昇順ソート
   sortASC(hash, key){
-    hash.sort((a, b) =>{
-      if(a[key] < b[key]) return -1;
-      if(a[key] > b[key]) return 1;
-      return 0;
-    })
-    return hash
+    return _.sortBy(hash, key)
   }
 
   // 降順ソート
   sortDESC(hash, key){
-    hash.sort((a, b) =>{
-      if(a[key] > b[key]) return -1;
-      if(a[key] < b[key]) return 1;
-      return 0;
-    })
-    return hash
+    return _.sortBy(hash, (item)=>{ return - item[key] })
   }
 
   // ------------ ChannelItem ------------
