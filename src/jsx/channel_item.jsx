@@ -66,8 +66,15 @@ module.exports = class ChannelItem extends React.Component {
   }
 
   render(){
+    let style = {}
+    if(this.props.favorite){
+      style = {
+        background: `#${this.props.favorite.bgColor}`,
+        color: `#${this.props.favorite.fontColor}`
+      }
+    }
     return(
-      <tr onDoubleClick={this.play} onContextMenu={this.showContextMenu}>
+      <tr onDoubleClick={this.play} onContextMenu={this.showContextMenu} style={style}>
         <td className="channel-item-col1">
           <div className="channel-item-name">{this.props.channel.name}</div>
           <div className="channel-item-detail">

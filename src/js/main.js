@@ -85,13 +85,14 @@ ipcMain.on('asyn-favorite-window', (event) =>{
     alwaysOnTop: true,
     resizable: false
   })
+  // loadDevTool(loadDevTool.REACT_DEVELOPER_TOOLS)
+  // favoriteWindow.openDevTools()
   favoriteWindow.loadURL(`file://${path.resolve(path.join('dist', 'favorite.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)
 })
 // お気に入りウィンドウを閉じる
 ipcMain.on('asyn-favorite-window-close', (event) =>{
   favoriteWindow.close()
-  favoriteWindow = null
   mainWindow.setIgnoreMouseEvents(false)
   mainWindow.send('asyn-favorite-window-close-reply')
 })
@@ -111,7 +112,6 @@ ipcMain.on('asyn-settings-window', (event) =>{
 // 設定ウィンドウを閉じる
 ipcMain.on('asyn-settings-window-close', (event) =>{
   settingsWindow.close()
-  settingsWindow = null
   mainWindow.setIgnoreMouseEvents(false)
   mainWindow.send('asyn-settings-window-close-reply')
 })

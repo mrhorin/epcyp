@@ -46,8 +46,8 @@ class Favorite extends React.Component {
         url: false,
         tip: false
       },
-      fontColor: "555555",
-      bgColor: "33cc00"
+      fontColor: "444444",
+      bgColor: "ffffff"
     }
     return favorite
   }

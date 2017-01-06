@@ -117,11 +117,11 @@ class Index extends React.Component {
     let components = [
       {
         name: "すべて",
-        component: <ChannelBox channels={this.state.channels} />
+        component: <ChannelBox channels={this.state.channels} favorites={this.state.favorites} />
       },
       {
         name: "お気に入り",
-        component: <ChannelBox channels={this.getFavoriteChannels()} />
+        component: <ChannelBox channels={this.getFavoriteChannels()} favorites={this.state.favorites} />
       }
     ]
     let currentComponent = components[this.state.currentTabIndex].component
