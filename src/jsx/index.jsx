@@ -122,14 +122,16 @@ class Index extends React.Component {
   }
 
   render(){
+    // お気に入りチャンネル一覧
+    let favoriteChannels = this.getFavoriteChannels()
     let components = [
       {
-        name: "すべて",
+        name: `すべて(${this.state.channels.length})`,
         component: <ChannelBox channels={this.state.channels} favorites={this.state.favorites} registFavorite={this.registFavorite} />
       },
       {
-        name: "お気に入り",
-        component: <ChannelBox channels={this.getFavoriteChannels()} favorites={this.state.favorites} registFavorite={this.registFavorite} />
+        name: `お気に入り(${favoriteChannels.length})`,
+        component: <ChannelBox channels={favoriteChannels} favorites={this.state.favorites} registFavorite={this.registFavorite} />
       }
     ]
     let currentComponent = components[this.state.currentTabIndex].component

@@ -92,7 +92,7 @@ module.exports = class ChannelItem extends React.Component {
     ipcRenderer.send('asyn-play', this.getStreamURL())
   }
 
-  // BBSブラウザで開く
+  // コンタクトURLをBBSブラウザで開く
   openBBS(){
     ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
   }
