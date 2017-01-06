@@ -74,7 +74,7 @@ module.exports = class ChannelItem extends React.Component {
       }
     }
     return(
-      <tr onDoubleClick={this.play} onContextMenu={this.showContextMenu} style={style}>
+      <tr className="channel-item" onDoubleClick={this.play} onContextMenu={this.showContextMenu} style={style}>
         <td className="channel-item-col1">
           <div className="channel-item-name">{this.props.channel.name}</div>
           <div className="channel-item-detail">
