@@ -10,7 +10,7 @@ import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
 const config = new Config({
-  defaults: { port: 7144, player: "", bbs: "" }
+defaults: { port: 7144, player: "", bbs: "", sort: "listener", orderBy: "desc" }
 })
 
 class Settings extends React.Component {
@@ -22,6 +22,7 @@ class Settings extends React.Component {
     // SettingsGeneral
     this.onChangeForm = this.onChangeForm.bind(this)
     this.onClickDialog = this.onClickDialog.bind(this)
+    this.onChangeSort = this.onChangeSort.bind(this)
     // SettingsYP
     this.selectYP = this.selectYP.bind(this)
     this.addYP = this.addYP.bind(this)
@@ -35,6 +36,8 @@ class Settings extends React.Component {
       port: config.get('port'),
       player: config.get('player'),
       bbs: config.get('bbs'),
+      sort: config.get('sort'),
+      orderBy: config.get('orderBy'),
       ypList: [yp],
       currentTabIndex: 0,
       currentYpIndex: 0,
@@ -50,6 +53,8 @@ class Settings extends React.Component {
     config.set('port', this.state.port)
     config.set('player', this.state.player)
     config.set('bbs', this.state.bbs)
+    config.set('sort', this.state.sort)
+    config.set('orderBy', this.state.orderBy)
     storage.set('ypList', this.state.ypList, (error)=>{
       this.close()
     })
@@ -73,6 +78,10 @@ class Settings extends React.Component {
   onClickDialog(key){
     let path = dialog.showOpenDialog()
     this.setState({ [key]: path[0] })
+  }
+
+  onChangeSort(key, orderBy){
+    this.setState({ sort: key, orderBy: orderBy })
   }
 
   // ------------ SettingsYP -------------
@@ -139,7 +148,8 @@ class Settings extends React.Component {
         name: "全般",
         component:
           <SettingsGeneral port={this.state.port} player={this.state.player} bbs={this.state.bbs}
-            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm}  />
+            sort={this.state.sort} orderBy={this.state.orderBy}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
       },
       {
         name: "YP",
