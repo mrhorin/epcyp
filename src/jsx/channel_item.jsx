@@ -124,7 +124,8 @@ module.exports = class ChannelItem extends React.Component {
   getFavorite(){
     let res = null
     for(let favorite of this.props.favorites){
-      // 検索文字(正規表現)
+      // 検索文字欄が空の場合
+      if(!favorite.pattern) continue
       let ptn = new RegExp(favorite.pattern, "i")
       // ptnにマッチする AND 検索対象に指定されているか
       if((this.props.channel.name.match(ptn)&&favorite.target.name)||

@@ -99,7 +99,8 @@ class Index extends React.Component {
     let favoriteChannels = []
     for(let channel of this.state.channels){
       for(let favorite of this.state.favorites){
-        // 検索文字(正規表現)
+        // 検索文字欄が空の場合
+        if(!favorite.pattern) continue
         let ptn = new RegExp(favorite.pattern, "i")
         // ptnにマッチする AND 検索対象に指定されているか
         if((channel.name.match(ptn)&&favorite.target.name)||
@@ -134,7 +135,11 @@ class Index extends React.Component {
 
   // ------------ ChannelItem ------------
   registFavorite(favoriteIndex, channelName){
-    this.state.favorites[favoriteIndex].pattern += `|${channelName}`
+    // 検索文字欄が空白でない場合は|を付与しない
+    if(this.state.favorites[favoriteIndex].pattern){
+      this.state.favorites[favoriteIndex].pattern += '|'
+    }
+    this.state.favorites[favoriteIndex].pattern += channelName
     this.setState({ favorites: this.state.favorites })
     storage.set('favorites', this.state.favorites)
   }
