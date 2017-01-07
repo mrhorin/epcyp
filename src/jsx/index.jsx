@@ -31,6 +31,7 @@ class Index extends React.Component {
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
+      lastUpdateTime: new Date(0),
       currentTabIndex: 0
     }
     // index.txtを取得時
@@ -50,20 +51,25 @@ class Index extends React.Component {
       this.setState({ sort: sort })
     })
     this.loadFavorites()
-    this.loadYpList(()=>{ this.fetchIndexTxt() })
-  }
-
-  // 自動更新ON/OFF
-  switchAutoUpdate(){
-    config.set('autoUpdate', !this.state.autoUpdate)
-    this.setState({autoUpdate: !this.state.autoUpdate})
+    this.loadYpList(()=>{
+      this.fetchIndexTxt()
+    })
   }
 
   // index.txtを取得
   fetchIndexTxt(){
-    this.state.channels = []
-    for(var yp of this.state.ypList){
-      ipcRenderer.send('asyn-yp', yp)
+    let now = new Date()
+    // 差分秒
+    let diffSec = (now.getTime() - this.state.lastUpdateTime.getTime())/1000
+    // 最後の更新時から60秒経過しているか
+    if(diffSec >= 60){
+      this.setState({ lastUpdateTime: new Date() })
+      this.state.channels = []
+      for(var yp of this.state.ypList){
+        ipcRenderer.send('asyn-yp', yp)
+      }
+    }else{
+      console.log(`${diffSec}秒しか経っていない`)
     }
   }
 
@@ -110,6 +116,13 @@ class Index extends React.Component {
     return favoriteChannels.filter((channel, index, self)=>{
       return self.indexOf(channel) === index
     })
+  }
+
+  // -------- HeaderUpdateButton --------
+  // 自動更新ON/OFF
+  switchAutoUpdate(){
+    config.set('autoUpdate', !this.state.autoUpdate)
+    this.setState({autoUpdate: !this.state.autoUpdate})
   }
 
   // -------------- TabBox --------------
