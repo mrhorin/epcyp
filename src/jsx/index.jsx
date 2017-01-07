@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {ipcRenderer} from 'electron'
+import {shell} from 'electron'
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import css from 'scss/style'
@@ -69,7 +70,8 @@ class Index extends React.Component {
         ipcRenderer.send('asyn-yp', yp)
       }
     }else{
-      console.log(`${diffSec}秒しか経っていない`)
+      // エラー音を再生
+      shell.beep()
     }
   }
 
