@@ -7,7 +7,7 @@ module.exports = class FooterCount extends React.Component {
     super(props)
     this.startUpdateTimer = this.startUpdateTimer.bind(this)
     this.state = {
-      autoUpdateCount: this.props.autoUpdateCount
+      diffSec: this.props.autoUpdateCount
     }
     this.startUpdateTimer()
   }
@@ -17,16 +17,19 @@ module.exports = class FooterCount extends React.Component {
     this.countTimer = setInterval(()=>{
       if(this.props.autoUpdate){
         // 自動更新ON時の処理
-        if(this.state.autoUpdateCount < 1){
-          this.props.onUpdateHandler()
-          this.setState({ autoUpdateCount: this.props.autoUpdateCount })
+        if(this.state.diffSec < 1){
+          this.props.onUpdate()
+          this.setState({ diffSec: this.props.autoUpdateCount })
         }else{
-          this.setState({autoUpdateCount: this.state.autoUpdateCount -1})
+          let now = new Date()
+          // 最終更新時からの経過時間(秒)
+          let diffSec = this.props.autoUpdateCount - (Math.round((now.getTime() - this.props.lastUpdateTime.getTime())/1000))
+          this.setState({ diffSec: diffSec })
         }
       }else{
         // 自動更新OFF時の処理
-        if(this.state.autoUpdateCount != this.props.autoUpdateCount){
-          this.setState({ autoUpdateCount: this.props.autoUpdateCount })
+        if(this.state.diffSec != this.props.autoUpdateCount){
+          this.setState({ diffSec: this.props.autoUpdateCount })
         }
       }
     }, 1000)
@@ -44,7 +47,7 @@ module.exports = class FooterCount extends React.Component {
   render(){
     let counter;
     if(this.props.autoUpdate){
-      counter = this.toTimeFormat(this.state.autoUpdateCount)
+      counter = this.toTimeFormat(this.state.diffSec)
     }else{
       counter = "停止中"
     }

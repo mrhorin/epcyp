@@ -161,7 +161,8 @@ class Index extends React.Component {
         <HeaderBox autoUpdate={this.state.autoUpdate} onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
-        <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} onUpdateHandler={this.fetchIndexTxt}/>
+        <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} lastUpdateTime={this.state.lastUpdateTime}
+          onUpdate={this.fetchIndexTxt}/>
       </div>
     )
   }
