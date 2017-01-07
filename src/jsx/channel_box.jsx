@@ -25,7 +25,12 @@ module.exports = class ChannelBox extends React.Component {
   }
 
   render(){
-    let channels = this.sortDESC(this.props.channels, 'listener')
+    let channels
+    if(this.props.sort.orderBy=='asc'){
+      channels = this.sortASC(this.props.channels, this.props.sort.key)
+    }else{
+      channels = this.sortDESC(this.props.channels, this.props.sort.key)
+    }
     let channelItems = channels.map((channel) => {
       return (
         <ChannelItem key={channel.key} channel={channel} favorites={this.props.favorites}

@@ -8,7 +8,8 @@ module.exports = class SettingsGeneral extends React.Component {
   }
 
   onChangeSort(){
-    this.props.onChangeSort(this.refs.sortKey.value, this.refs.sortOrderBy.value)
+    let sort = { key: this.refs.sortKey.value, orderBy: this.refs.sortOrderBy.value }
+    this.props.onChangeSort(sort)
   }
 
   render(){
@@ -36,15 +37,15 @@ module.exports = class SettingsGeneral extends React.Component {
         </div>
         <div id="settings-sort" className="form-group">
           <label>チャンネル一覧ソート</label>
-          <select ref="sortKey" onChange={this.onChangeSort} value={this.props.sort}>
+          <select ref="sortKey" onChange={this.onChangeSort} value={this.props.sort.key}>
             <option value="listener">リスナー数</option>
             <option value="relay">リレー数</option>
             <option value="time">配信時間</option>
-            <option value="kbps">kbpsト</option>
+            <option value="kbps">kbps</option>
             <option value="format">フォーマット</option>
           </select>
           <span style={ {margin: '0px 10px'} }>で</span>
-          <select ref="sortOrderBy" onChange={this.onChangeSort} value={this.props.orderBy}>
+          <select ref="sortOrderBy" onChange={this.onChangeSort} value={this.props.sort.orderBy}>
             <option value="desc">降順</option>
             <option value="asc">昇順</option>
           </select>

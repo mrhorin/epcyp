@@ -10,7 +10,7 @@ import TabBox from 'jsx/tab/tab_box'
 import ChannelBox from 'jsx/channel_box'
 import FooterBox from 'jsx/footer_box'
 const config = new Config({
-  defaults: { autoUpdate: false }
+  defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc" }
 })
 
 class Index extends React.Component {
@@ -28,6 +28,7 @@ class Index extends React.Component {
       ypList: [],
       channels: [],
       favorites: [],
+      sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
       currentTabIndex: 0
@@ -45,6 +46,8 @@ class Index extends React.Component {
     // 設定ウィンドウを閉じた時
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
       this.loadYpList()
+      let sort = { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') }
+      this.setState({ sort: sort })
     })
     this.loadFavorites()
     this.loadYpList(()=>{ this.fetchIndexTxt() })
@@ -127,11 +130,15 @@ class Index extends React.Component {
     let components = [
       {
         name: `すべて(${this.state.channels.length})`,
-        component: <ChannelBox channels={this.state.channels} favorites={this.state.favorites} registFavorite={this.registFavorite} />
+        component:
+          <ChannelBox channels={this.state.channels} favorites={this.state.favorites} sort={this.state.sort}
+            registFavorite={this.registFavorite} />
       },
       {
         name: `お気に入り(${favoriteChannels.length})`,
-        component: <ChannelBox channels={favoriteChannels} favorites={this.state.favorites} registFavorite={this.registFavorite} />
+        component:
+          <ChannelBox channels={favoriteChannels} favorites={this.state.favorites} sort={this.state.sort}
+            registFavorite={this.registFavorite} />
       }
     ]
     let currentComponent = components[this.state.currentTabIndex].component
