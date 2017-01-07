@@ -27,7 +27,7 @@ module.exports = class YP{
           time: line[15],
           comment: this.unEscapeHTML(line[17]),
         }
-        if(line[4]) ch['genre'] = `［${line[4]}］`;
+        if(line[4]) ch['genre'] = `[${line[4]}] `;
         channels.push(ch)
       }
     }
