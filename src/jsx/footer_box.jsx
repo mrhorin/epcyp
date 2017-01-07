@@ -7,6 +7,9 @@ module.exports = class FooterBox extends React.Component {
   render(){
     return(
       <footer className="toolbar toolbar-footer">
+        <div className="footer-left">
+          {`${this.props.lastUpdateTime.getHours()}:${this.props.lastUpdateTime.getMinutes()}`}
+        </div>
         <FooterCount autoUpdate={this.props.autoUpdate} autoUpdateCount={this.props.autoUpdateCount} lastUpdateTime={this.props.lastUpdateTime}
           onUpdate={this.props.onUpdate}/>
       </footer>

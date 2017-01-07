@@ -74,7 +74,13 @@ footer{
   position: fixed;
   bottom: 0px;
   width: 100%;
+  .footer-left{
+    float: left;
+    text-align: left;
+    padding: 0px 10px;
+  }
   .footer-right{
+    float: right;
     text-align: right;
     padding: 0px 10px;
   }
