@@ -11,12 +11,18 @@ module.exports = class ChannelBox extends React.Component {
 
   // 昇順ソート
   sortASC(hash, key){
-    return _.sortBy(hash, key)
+    return _.sortBy(hash, (item)=>{
+      if(key=='time') return _.toInteger(item[key].replace(/:/, ""))
+      return item[key]
+    })
   }
 
   // 降順ソート
   sortDESC(hash, key){
-    return _.sortBy(hash, (item)=>{ return - item[key] })
+    return _.sortBy(hash, (item)=>{
+      if(key=='time') return - _.toInteger(item[key].replace(/:/, ""))
+      return - item[key]
+    })
   }
 
   // ------------ ChannelItem ------------
@@ -26,6 +32,7 @@ module.exports = class ChannelBox extends React.Component {
 
   render(){
     let channels
+    // チャンネル一覧をソート
     if(this.props.sort.orderBy=='asc'){
       channels = this.sortASC(this.props.channels, this.props.sort.key)
     }else{
