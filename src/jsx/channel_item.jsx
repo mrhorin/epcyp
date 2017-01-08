@@ -3,9 +3,6 @@ import Config from 'electron-config'
 import {ipcRenderer} from 'electron'
 import {remote} from 'electron'
 import {shell} from 'electron'
-const clipboard = remote.clipboard
-const Menu =  remote.Menu
-const MenuItem =  remote.MenuItem
 const config = new Config({
   defaults: { port: 7144 }
 })
@@ -20,42 +17,88 @@ module.exports = class ChannelItem extends React.Component {
     this.showContextMenu = this.showContextMenu.bind(this)
     this.getFavorite = this.getFavorite.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
-    // コンテキストメニュー
-    this.state = { menu: new Menu() }
-    this.state.menu.append(new MenuItem({
+  }
+
+  // プレイヤーで再生する
+  play(){
+    ipcRenderer.send('asyn-play', this.getStreamURL())
+  }
+
+  // コンタクトURLをBBSブラウザで開く
+  openBBS(){
+    ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
+  }
+
+  // コンタクトURLを既定ブラウザで開く
+  openURL(){
+    shell.openExternal(this.props.channel.url)
+  }
+
+  // お気に入り登録
+  registFavorite(favoriteIndex, channelName){
+    this.props.registFavorite(favoriteIndex, channelName)
+  }
+
+  // ストリームURLを取得
+  getStreamURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
+    return url
+  }
+
+  // マッチするお気に入り情報があれば取得
+  getFavorite(){
+    let res = null
+    for(let favorite of this.props.favorites){
+      // 検索文字欄が空の場合
+      if(!favorite.pattern) continue
+      let ptn = new RegExp(favorite.pattern, "i")
+      // ptnにマッチする AND 検索対象に指定されているか
+      if((this.props.channel.name.match(ptn)&&favorite.target.name)||
+        (this.props.channel.genre.match(ptn)&&favorite.target.genre)||
+        (this.props.channel.detail.match(ptn)&&favorite.target.detail)||
+        (this.props.channel.comment.match(ptn)&&favorite.target.comment)||
+        (this.props.channel.url.match(ptn)&&favorite.target.url)||
+        (this.props.channel.tip.match(ptn)&&favorite.target.tip)){
+        res = favorite
+        break
+      }
+    }
+    return res
+  }
+
+  // 右クリメニューを表示
+  showContextMenu(e){
+    const clipboard = remote.clipboard
+    const Menu =  remote.Menu
+    const MenuItem =  remote.MenuItem
+    let menu = new Menu()
+    menu.append(new MenuItem({
       label: '再生',
-      click: ()=>{
-        this.play()
-      }
+      click: ()=>{ this.play() }
     }))
-    this.state.menu.append(new MenuItem({
+    menu.append(new MenuItem({
       label: 'コンタクトURLを開く',
-      click: ()=>{
-        this.openURL()
-      }
+      click: ()=>{ this.openURL() }
     }))
-    this.state.menu.append(new MenuItem({
+    menu.append(new MenuItem({
       label: 'BBSブラウザで開く',
-      click: ()=>{
-        this.openBBS()
-      }
+      click: ()=>{ this.openBBS() }
     }))
-    this.state.menu.append(new MenuItem({
+    menu.append(new MenuItem({
       type: 'separator'
     }))
-    this.state.menu.append(new MenuItem({
+    menu.append(new MenuItem({
       label: 'お気に入りに登録',
       type: 'submenu',
       submenu: this.props.favorites.map((favorite, index)=>{
         return {
           label: favorite.name,
-          click: ()=>{
-            this.registFavorite(index, this.props.channel.name)
-          }
+          click: ()=>{ this.registFavorite(index, this.props.channel.name) }
         }
       })
     }))
-    this.state.menu.append(new MenuItem({
+    menu.append(new MenuItem({
       label: 'コピー',
       type: 'submenu',
       submenu: [
@@ -84,61 +127,8 @@ module.exports = class ChannelItem extends React.Component {
         }
       ]
     }))
-
-  }
-
-  // プレイヤーで再生する
-  play(){
-    ipcRenderer.send('asyn-play', this.getStreamURL())
-  }
-
-  // コンタクトURLをBBSブラウザで開く
-  openBBS(){
-    ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
-  }
-
-  // コンタクトURLを既定ブラウザで開く
-  openURL(){
-    shell.openExternal(this.props.channel.url)
-  }
-
-  // 右クリメニューを表示
-  showContextMenu(e){
     e.preventDefault()
-    this.state.menu.popup(remote.getCurrentWindow())
-  }
-
-  // ストリームURLを取得
-  getStreamURL(){
-    let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
-    return url
-  }
-
-  // お気に入り登録
-  registFavorite(favoriteIndex, channelName){
-    this.props.registFavorite(favoriteIndex, channelName)
-  }
-
-  // マッチするお気に入り情報があれば取得
-  getFavorite(){
-    let res = null
-    for(let favorite of this.props.favorites){
-      // 検索文字欄が空の場合
-      if(!favorite.pattern) continue
-      let ptn = new RegExp(favorite.pattern, "i")
-      // ptnにマッチする AND 検索対象に指定されているか
-      if((this.props.channel.name.match(ptn)&&favorite.target.name)||
-        (this.props.channel.genre.match(ptn)&&favorite.target.genre)||
-        (this.props.channel.detail.match(ptn)&&favorite.target.detail)||
-        (this.props.channel.comment.match(ptn)&&favorite.target.comment)||
-        (this.props.channel.url.match(ptn)&&favorite.target.url)||
-        (this.props.channel.tip.match(ptn)&&favorite.target.tip)){
-        res = favorite
-        break
-      }
-    }
-    return res
+    menu.popup(remote.getCurrentWindow())
   }
 
   render(){
