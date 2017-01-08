@@ -10,7 +10,7 @@ import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
 const config = new Config({
-defaults: { port: 7144, player: "", bbs: "", sortKey: "listener", sortOrderBy: "desc" }
+  defaults: { port: 7144, player: "", bbs: "", sortKey: "listener", sortOrderBy: "desc" }
 })
 
 class Settings extends React.Component {

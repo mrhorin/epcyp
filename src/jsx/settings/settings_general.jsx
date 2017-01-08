@@ -1,4 +1,6 @@
 import React from 'react'
+import FormText from 'jsx/form/form_text'
+import FormDialog from 'jsx/form/form_dialog'
 
 module.exports = class SettingsGeneral extends React.Component {
 
@@ -15,26 +17,11 @@ module.exports = class SettingsGeneral extends React.Component {
   render(){
     return(
       <div id="settings-general">
-        <div className="form-group">
-          <label>ポート番号</label>
-          <input type="text" ref="port" value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
-        </div>
-        <div className="form-group">
-          <label>再生プレイヤー</label>
-          <input id="settings-player" type="text" ref="player" value={this.props.player}
-            onChange={e => this.props.onChangeForm(e, 'player')} />
-          <button id="settings-player-dialog" className="btn btn-mini btn-default" onClick={e => this.props.onClickDialog('player')}>
-            参照
-          </button>
-        </div>
-        <div className="form-group">
-          <label>BBSブラウザ</label>
-          <input id="settings-bbs" type="text" ref="bbs" value={this.props.bbs}
-            onChange={e => this.props.onChangeForm(e, 'bbs')} />
-          <button id="settings-bbs-dialog" className="btn btn-mini btn-default" onClick={e => this.props.onClickDialog('bbs')}>
-            参照
-          </button>
-        </div>
+        <FormText label={"ポート番号"} value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
+        <FormDialog label={"再生プレイヤー"} value={this.props.player}
+          onChange={e => this.props.onChangeForm(e, 'player')} onClick={e => this.props.onClickDialog('player')} />
+        <FormDialog label={"BBSブラウザ"} value={this.props.bbs}
+          onChange={e => this.props.onChangeForm(e, 'bbs')} onClick={e => this.props.onClickDialog('bbs')} />
         <div id="settings-sort" className="form-group">
           <label>チャンネル一覧ソート</label>
           <select ref="sortKey" onChange={this.onChangeSort} value={this.props.sort.key}>
