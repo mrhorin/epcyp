@@ -12,7 +12,9 @@ module.exports = class ChannelBox extends React.Component {
   // 昇順ソート
   sortASC(hash, key){
     return _.sortBy(hash, (item)=>{
+      // 数値化処理
       if(key=='time') return _.toInteger(item[key].replace(/:/, ""))
+      if(key=='format') return this.getCharCode(item[key])
       return item[key]
     })
   }
@@ -21,8 +23,18 @@ module.exports = class ChannelBox extends React.Component {
   sortDESC(hash, key){
     return _.sortBy(hash, (item)=>{
       if(key=='time') return - _.toInteger(item[key].replace(/:/, ""))
+      if(key=='format') return - this.getCharCode(item[key])
       return - item[key]
     })
+  }
+
+  // 文字列をutf-16コードの数値列にして返す
+  getCharCode(string){
+    let res = ""
+    for(let s of string){
+      res += s.charCodeAt().toString()
+    }
+    return _.toInteger(res)
   }
 
   // ------------ ChannelItem ------------
