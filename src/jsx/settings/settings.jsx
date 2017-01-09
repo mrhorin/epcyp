@@ -7,10 +7,19 @@ import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import TabBox from 'jsx/tab/tab_box'
 import SettingsGeneral from 'jsx/settings/settings_general'
+import SettingsPeerCast from 'jsx/settings/settings_peercast'
 import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
 const config = new Config({
-  defaults: { port: 7144, peercast: "", player: "", bbs: "", sortKey: "listener", sortOrderBy: "desc" }
+  defaults: {
+    port: 7144,
+    player: "",
+    bbs: "",
+    sortKey: "listener",
+    sortOrderBy: "desc",
+    peercast: "",
+    exitPeercast: true
+  }
 })
 
 class Settings extends React.Component {
@@ -23,6 +32,8 @@ class Settings extends React.Component {
     this.onChangeForm = this.onChangeForm.bind(this)
     this.onClickDialog = this.onClickDialog.bind(this)
     this.onChangeSort = this.onChangeSort.bind(this)
+    // SettingsPeerCast
+    this.onChangeCheckbox = this.onChangeCheckbox.bind(this)
     // SettingsYP
     this.selectYP = this.selectYP.bind(this)
     this.addYP = this.addYP.bind(this)
@@ -34,10 +45,11 @@ class Settings extends React.Component {
     let yp = this.getDefaultYP()
     this.state = {
       port: config.get('port'),
-      peercast: config.get('peercast'),
       player: config.get('player'),
       bbs: config.get('bbs'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
+      peercast: config.get('peercast'),
+      exitPeercast: config.get('exitPeercast'),
       ypList: [yp],
       currentTabIndex: 0,
       currentYpIndex: 0,
@@ -51,11 +63,12 @@ class Settings extends React.Component {
   // 設定保存
   save(){
     config.set('port', this.state.port)
-    config.set('peercast', this.state.peercast)
     config.set('player', this.state.player)
     config.set('bbs', this.state.bbs)
     config.set('sortKey', this.state.sort.key)
     config.set('sortOrderBy', this.state.sort.orderBy)
+    config.set('peercast', this.state.peercast)
+    config.set('exitPeercast', this.state.exitPeercast)
     storage.set('ypList', this.state.ypList, (error)=>{
       this.close()
     })
@@ -83,6 +96,15 @@ class Settings extends React.Component {
 
   onChangeSort(sort){
     this.setState({ sort: sort })
+  }
+
+  // --------- SettingsPeerCast ----------
+  onChangeCheckbox(ref){
+    // ON/OFFを切り替えて文字列をbooleanに変換
+    let bool = false
+    if(ref.value == "true") bool = false
+    if(ref.value == "false") bool = true
+    this.setState({ [ref.name]: bool })
   }
 
   // ------------ SettingsYP -------------
@@ -148,8 +170,14 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral port={this.state.port} peercast={this.state.peercast} player={this.state.player} bbs={this.state.bbs} sort={this.state.sort}
+          <SettingsGeneral port={this.state.port} player={this.state.player} bbs={this.state.bbs} sort={this.state.sort}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
+      },
+      {
+        name: "PeerCast",
+        component:
+          <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
       },
       {
         name: "YP",

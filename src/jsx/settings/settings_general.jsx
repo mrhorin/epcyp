@@ -18,8 +18,6 @@ module.exports = class SettingsGeneral extends React.Component {
     return(
       <div id="settings-general">
         <FormText label={"ポート番号"} value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
-        <FormDialog label={"PeerCast起動コマンド"} value={this.props.peercast}
-          onChange={e => this.props.onChangeForm(e, 'peercast')} onClick={e => this.props.onClickDialog('peercast')} />
         <FormDialog label={"再生プレイヤー"} value={this.props.player}
           onChange={e => this.props.onChangeForm(e, 'player')} onClick={e => this.props.onClickDialog('player')} />
         <FormDialog label={"BBSブラウザ"} value={this.props.bbs}

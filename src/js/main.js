@@ -36,15 +36,13 @@ app.on('ready', ()=>{
     titleBarStyle: 'hidden-inset',
     scrollBounce: true
   })
-  // loadDevTool(loadDevTool.REACT_DEVELOPER_TOOLS)
-  // mainWindow.openDevTools()
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
     // PeerCastを終了
     try{
-      peercast.kill()
+      if(config.get('exitPeercast')) peercast.kill()
     }catch(e){
       console.log(e)
     }
