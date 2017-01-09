@@ -10,7 +10,7 @@ import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
 const config = new Config({
-  defaults: { port: 7144, player: "", bbs: "", sortKey: "listener", sortOrderBy: "desc" }
+  defaults: { port: 7144, peercast: "", player: "", bbs: "", sortKey: "listener", sortOrderBy: "desc" }
 })
 
 class Settings extends React.Component {
@@ -34,6 +34,7 @@ class Settings extends React.Component {
     let yp = this.getDefaultYP()
     this.state = {
       port: config.get('port'),
+      peercast: config.get('peercast'),
       player: config.get('player'),
       bbs: config.get('bbs'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
@@ -50,6 +51,7 @@ class Settings extends React.Component {
   // 設定保存
   save(){
     config.set('port', this.state.port)
+    config.set('peercast', this.state.peercast)
     config.set('player', this.state.player)
     config.set('bbs', this.state.bbs)
     config.set('sortKey', this.state.sort.key)
@@ -146,7 +148,7 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral port={this.state.port} player={this.state.player} bbs={this.state.bbs} sort={this.state.sort}
+          <SettingsGeneral port={this.state.port} peercast={this.state.peercast} player={this.state.player} bbs={this.state.bbs} sort={this.state.sort}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
       },
       {

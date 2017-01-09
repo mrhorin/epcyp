@@ -4,6 +4,7 @@ import path from 'path'
 import Config from 'electron-config'
 import loadDevTool from 'electron-load-devtool'
 import {exec} from 'child_process'
+import {spawn} from 'child_process'
 const ipcMain = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -17,6 +18,13 @@ var favoriteWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
+  var peercast
+  // PeerCast本体起動
+  try{
+    if(config.get('peercast')) peercast = exec(config.get('peercast'))
+  }catch(e){
+    console.log(e)
+  }
   const {width, height, x, y} = config.get('bounds')
   mainWindow = new BrowserWindow({
     width: width,
@@ -34,7 +42,13 @@ app.on('ready', ()=>{
 
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
-    mainWindow = null
+    // PeerCastを終了
+    try{
+      peercast.kill()
+    }catch(e){
+      console.log(e)
+    }
+    app.quit()
   })
 })
 
@@ -62,7 +76,7 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 
 // プレイヤーの起動
 ipcMain.on('asyn-play', (event, url) =>{
-  var command = `open -a ${config.get('player')} ${url}`
+  let command = spawn('open', ['-a', config.get('player'), url])
   exec(command, (error, stdout, stderr)=>{
     console.log(stdout)
   })
@@ -70,7 +84,7 @@ ipcMain.on('asyn-play', (event, url) =>{
 
 // BBSブラウザの起動
 ipcMain.on('asyn-open-bbs', (event, url) =>{
-  var command = `open -a ${config.get('bbs')} ${url}`
+  let command = spawn('open', ['-a', config.get('bbs'), url])
   exec(command, (error, stdout, stderr)=>{
     console.log(stdout)
   })
@@ -85,8 +99,6 @@ ipcMain.on('asyn-favorite-window', (event) =>{
     alwaysOnTop: true,
     resizable: false
   })
-  // loadDevTool(loadDevTool.REACT_DEVELOPER_TOOLS)
-  // favoriteWindow.openDevTools()
   favoriteWindow.loadURL(`file://${path.resolve(path.join('dist', 'favorite.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)
 })
