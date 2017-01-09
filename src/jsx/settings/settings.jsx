@@ -18,7 +18,8 @@ const config = new Config({
     sortKey: "listener",
     sortOrderBy: "desc",
     peercast: "",
-    exitPeercast: true
+    exitPeercast: true,
+    useMono: false
   }
 })
 
@@ -50,6 +51,7 @@ class Settings extends React.Component {
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       peercast: config.get('peercast'),
       exitPeercast: config.get('exitPeercast'),
+      useMono: config.get('useMono'),
       ypList: [yp],
       currentTabIndex: 0,
       currentYpIndex: 0,
@@ -69,6 +71,7 @@ class Settings extends React.Component {
     config.set('sortOrderBy', this.state.sort.orderBy)
     config.set('peercast', this.state.peercast)
     config.set('exitPeercast', this.state.exitPeercast)
+    config.set('useMono', this.state.useMono)
     storage.set('ypList', this.state.ypList, (error)=>{
       this.close()
     })
@@ -99,12 +102,12 @@ class Settings extends React.Component {
   }
 
   // --------- SettingsPeerCast ----------
-  onChangeCheckbox(ref){
+  onChangeCheckbox(event){
     // ON/OFFを切り替えて文字列をbooleanに変換
     let bool = false
-    if(ref.value == "true") bool = false
-    if(ref.value == "false") bool = true
-    this.setState({ [ref.name]: bool })
+    if(event.target.value == "true") bool = false
+    if(event.target.value == "false") bool = true
+    this.setState({ [event.target.name]: bool })
   }
 
   // ------------ SettingsYP -------------
@@ -176,7 +179,7 @@ class Settings extends React.Component {
       {
         name: "PeerCast",
         component:
-          <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
+          <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast} useMono={this.state.useMono}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
       },
       {

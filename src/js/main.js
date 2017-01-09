@@ -21,7 +21,9 @@ app.on('ready', ()=>{
   var peercast
   // PeerCast本体起動
   try{
-    if(config.get('peercast')) peercast = exec(config.get('peercast'))
+    if(config.get('peercast')){
+      peercast = config.get('useMono') ? exec(`mono ${config.get('peercast')}`) : exec(config.get('peercast'))
+    }
   }catch(e){
     console.log(e)
   }
