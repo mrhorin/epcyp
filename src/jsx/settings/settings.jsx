@@ -203,10 +203,10 @@ class Settings extends React.Component {
           selectTab={this.selectTab} />
         <div id="settings-main">
           {currentComponent}
-          <div id="settings-btn-group">
-            <button id="settings-ok" className="btn btn-primary" onClick={this.save}>OK</button>
-            <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
-          </div>
+        </div>
+        <div id="settings-btn-group">
+          <button id="settings-ok" className="btn btn-primary" onClick={this.save}>OK</button>
+          <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
         </div>
       </div>
     )

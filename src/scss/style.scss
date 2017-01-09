@@ -208,6 +208,12 @@ td.channel-item-col3{
 #container-settings{
   overflow: hidden;
   padding-top: 15px;
+}
+#settings{
+  overflow: hidden;
+  width: 100%;
+  height: 350px;
+  position: relative;
   header{
     padding-bottom: 20px;
   }
@@ -215,13 +221,11 @@ td.channel-item-col3{
     padding: 15px;
     margin-top: 30px;
   }
-}
-#settings-sort-general{
-  #settings-sort{
+  #settings-btn-group{
+    position: absolute;
+    bottom: 35px;
+    right: 25px;
   }
-}
-#settings{
-  overflow: hidden;
   .tab-group{
     position: fixed;
     width: 100%;
@@ -248,14 +252,16 @@ td.channel-item-col3{
     margin-right: 5px;
   }
 }
-#settings-btn-group{
-  margin-top: 15px;
-  text-align: right;
-}
 #settings-ok{
   margin-right: 5px;
 }
 #settings-cancel{
+}
+
+/* SettingsGeneral */
+#settings-general{
+}
+#settings-sort{
 }
 
 /* SettingsPeerCast */
@@ -267,6 +273,11 @@ td.channel-item-col3{
 }
 
 /* SettingsYP */
+#settings-yp{
+  #rule-box>#rule-box-nav{
+    height: 250px;
+  }
+}
 
 /* SettingsYPDetail */
 #settings-yp-detail{

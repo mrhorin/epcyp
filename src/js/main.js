@@ -130,7 +130,7 @@ ipcMain.on('asyn-favorite-window-close', (event) =>{
 ipcMain.on('asyn-settings-window', (event) =>{
   settingsWindow = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 350,
     frame: false,
     alwaysOnTop: true,
     resizable: false
