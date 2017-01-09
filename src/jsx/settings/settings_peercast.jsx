@@ -20,6 +20,7 @@ module.exports = class SettingsPeerCast extends React.Component {
           onChange={e => this.props.onChangeForm(e, 'peercast')} onClick={e => this.props.onClickDialog('peercast')} />
         <input className="checkbox" type="checkbox" name="exitPeercast" ref="exitPeercast" value={this.props.exitPeercast}
           checked={this.props.exitPeercast} onChange={this.onChangeCheckbox} />終了時にPeerCastを終了する
+        <div>mono使用時はmonoコマンドを併記してください</div>
       </div>
     )
   }

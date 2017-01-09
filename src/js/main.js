@@ -73,19 +73,38 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 })
 
 // プレイヤーの起動
-ipcMain.on('asyn-play', (event, url) =>{
-  let command = spawn('open', ['-a', config.get('player'), url])
-  exec(command, (error, stdout, stderr)=>{
-    console.log(stdout)
-  })
+ipcMain.on('asyn-play', (event, url, platform) =>{
+  let command
+  if(platform=='darwin'){
+    // Macの場合はopenコマンドで実行
+    command = spawn('open', ['-a', config.get('player'), url])
+  }else{
+    command = spawn(config.get('player'))
+  }
+  try{
+    exec(command, (error, stdout, stderr)=>{
+      console.log(stdout)
+    })
+  }catch(e){
+    console.log(e)
+  }
 })
 
 // BBSブラウザの起動
-ipcMain.on('asyn-open-bbs', (event, url) =>{
-  let command = spawn('open', ['-a', config.get('bbs'), url])
-  exec(command, (error, stdout, stderr)=>{
-    console.log(stdout)
-  })
+ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
+  let command
+  if(platform=='darwin'){
+    command = spawn('open', ['-a', config.get('bbs'), url])
+  }else{
+    command = spawn(config.get('bbs'))
+  }
+  try{
+    exec(command, (error, stdout, stderr)=>{
+      console.log(stdout)
+    })
+  }catch(e){
+    console.log(e)
+  }
 })
 
 // お気に入りウィンドウを開く

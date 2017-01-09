@@ -21,12 +21,12 @@ module.exports = class ChannelItem extends React.Component {
 
   // プレイヤーで再生する
   play(){
-    ipcRenderer.send('asyn-play', this.getStreamURL())
+    ipcRenderer.send('asyn-play', this.getStreamURL(), remote.process.platform)
   }
 
   // コンタクトURLをBBSブラウザで開く
   openBBS(){
-    ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
+    ipcRenderer.send('asyn-open-bbs', this.props.channel.url, remote.process.platform)
   }
 
   // コンタクトURLを既定ブラウザで開く
