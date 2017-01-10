@@ -53,7 +53,8 @@ app.on('ready', ()=>{
     y: y,
     frame: true,
     titleBarStyle: 'hidden-inset',
-    scrollBounce: true
+    scrollBounce: true,
+    autoHideMenuBar: true
   })
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
