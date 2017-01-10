@@ -76,7 +76,9 @@ class Index extends React.Component {
   // お気に入り設定を読み込む
   loadFavorites(call = ()=>{}){
     storage.get('favorites', (error, data)=>{
-      if(data) this.setState({ favorites: data })
+      if(Object.keys(data).length != 0){
+        this.setState({ favorites: data })
+      }
       call()
     })
   }

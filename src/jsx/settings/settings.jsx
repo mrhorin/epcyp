@@ -60,8 +60,10 @@ class Settings extends React.Component {
       currentYpIndex: 0,
     }
     storage.get('ypList', (error, data)=>{
-      if(!data) data = [this.getDefaultFavorite()]
-      this.setState({ ypList: data })
+      if(Object.keys(data).length != 0){
+        console.log("true")
+        this.setState({ ypList: data })
+      }
     })
   }
 
