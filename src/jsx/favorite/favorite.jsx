@@ -28,7 +28,9 @@ class Favorite extends React.Component {
       current: 0
     }
     storage.get('favorites', (error, data)=>{
-      if(!data) data = [this.getDefaultFavorite()]
+      if(Object.keys(data).length == 0){
+        data = [this.getDefaultFavorite()]
+      }
       this.setState({ favorites: data })
     })
   }

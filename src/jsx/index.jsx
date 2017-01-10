@@ -86,10 +86,12 @@ class Index extends React.Component {
   // YP設定を読み込む
   loadYpList(call = ()=>{}){
     storage.get('ypList', (error, data)=>{
-      let ypList = data.map((yp, index)=>{
-        return new YP(yp.name, yp.url)
-      })
-      this.setState({ ypList: ypList })
+      if(Object.keys(data).length != 0){
+        let ypList = data.map((yp, index)=>{
+          return new YP(yp.name, yp.url)
+        })
+        this.setState({ ypList: ypList })
+      }
       call()
     })
   }
@@ -118,6 +120,13 @@ class Index extends React.Component {
     // 重複を除去
     return favoriteChannels.filter((channel, index, self)=>{
       return self.indexOf(channel) === index
+    })
+  }
+
+  // 設定を初期化
+  initialize(){
+    storage.clear(()=>{
+      config.clear()
     })
   }
 
