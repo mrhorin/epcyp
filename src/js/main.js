@@ -18,15 +18,31 @@ var favoriteWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
-  var peercast
-  // PeerCast本体起動
-  try{
-    if(config.get('peercast')){
-      peercast = config.get('useMono') ? exec(`mono ${config.get('peercast')}`) : exec(config.get('peercast'))
-    }
-  }catch(e){
-    console.log(e)
+  // PeerCast起動コマンド
+  var peercastCmd = config.get('useMono') ? `mono ${config.get('peercast')}` : config.get('peercast')
+  // プロセス起動確認コマンド
+  let psCmd
+  let platform = global.process.platform
+  if(platform.match(/^win/gi)){
+    psCmd = `tasklist | find "${peercastCmd}"`
+  }else{
+    psCmd = `ps | grep "${peercastCmd}"`
   }
+  // 既に同名のプロセスが存在しないか
+  let pattern = new RegExp(peercastCmd, 'gi')
+  let peercast
+  exec(psCmd, (error, stdout, stderr)=>{
+    // grepを含む行を除外
+    stdout = stdout.split(/\n/).map((line, index, stdout)=>{
+      if(line.match(/grep/)) return
+      return line
+    }).join()
+    // PeerCast起動チェック
+    if(!stdout.match(pattern)&&config.get("peercast")){
+      peercast = exec(peercastCmd)
+    }
+  })
+
   // メインウィンドウ
   const {width, height, x, y} = config.get('bounds')
   mainWindow = new BrowserWindow({
@@ -45,7 +61,7 @@ app.on('ready', ()=>{
     config.set('bounds', mainWindow.getBounds())
     // PeerCastを終了
     try{
-      if(config.get('exitPeercast')) peercast.kill()
+      if(config.get('exitPeercast')&&peercast) peercast.kill()
     }catch(e){
       console.log(e)
     }
@@ -138,7 +154,6 @@ ipcMain.on('asyn-settings-window', (event) =>{
     alwaysOnTop: true,
     resizable: false
   })
-
   settingsWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)
 })
