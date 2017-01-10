@@ -40,6 +40,9 @@ header{
     margin-top: 10px;
   }
 }
+header.active{
+  background: #ddd !important;
+}
 
 /* HeaderUpdateButton */
 $header-update-ccw: #00b900;

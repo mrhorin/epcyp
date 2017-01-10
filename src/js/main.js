@@ -58,6 +58,13 @@ app.on('ready', ()=>{
   })
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
+  mainWindow.on('blur', (event, arg)=>{
+    event.sender.send('index-window-blur')
+  })
+  mainWindow.on('focus', (event, arg)=>{
+    event.sender.send('index-window-focus')
+  })
+
   // メインウィンドウが閉じられた時
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())

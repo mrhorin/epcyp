@@ -33,13 +33,22 @@ class Index extends React.Component {
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
       lastUpdateTime: new Date(0),
-      currentTabIndex: 0
+      currentTabIndex: 0,
+      active: true
     }
     // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       let channels = this.state.channels.concat(newChannels)
       this.setState({ channels: channels })
+    })
+    // メインウィンドウが非アクティブ時
+    ipcRenderer.on('index-window-blur', (event)=>{
+      this.setState({ active: false })
+    })
+    // メインウィンドウがアクティブ時
+    ipcRenderer.on('index-window-focus', (event)=>{
+      this.setState({ active: true })
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
@@ -174,7 +183,8 @@ class Index extends React.Component {
 
     return(
       <div id="index">
-        <HeaderBox autoUpdate={this.state.autoUpdate} onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
+        <HeaderBox active={this.state.active} autoUpdate={this.state.autoUpdate}
+         onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
         <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} lastUpdateTime={this.state.lastUpdateTime}
