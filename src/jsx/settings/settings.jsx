@@ -7,19 +7,21 @@ import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import TabBox from 'jsx/tab/tab_box'
 import SettingsGeneral from 'jsx/settings/settings_general'
+import SettingsPlayer from 'jsx/settings/settings_player'
 import SettingsPeerCast from 'jsx/settings/settings_peercast'
 import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
 const config = new Config({
   defaults: {
     port: 7144,
-    player: "",
     bbs: "",
     sortKey: "listener",
     sortOrderBy: "desc",
     peercast: "",
     exitPeercast: true,
-    useMono: false
+    useMono: false,
+    playerPath: '',
+    playerArgs: '"$x"'
   }
 })
 
@@ -46,9 +48,10 @@ class Settings extends React.Component {
     let yp = this.getDefaultYP()
     this.state = {
       port: config.get('port'),
-      player: config.get('player'),
       bbs: config.get('bbs'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
+      playerPath: config.get('playerPath'),
+      playerArgs: config.get('playerArgs'),
       peercast: config.get('peercast'),
       exitPeercast: config.get('exitPeercast'),
       useMono: config.get('useMono'),
@@ -65,13 +68,14 @@ class Settings extends React.Component {
   // 設定保存
   save(){
     config.set('port', this.state.port)
-    config.set('player', this.state.player)
     config.set('bbs', this.state.bbs)
     config.set('sortKey', this.state.sort.key)
     config.set('sortOrderBy', this.state.sort.orderBy)
     config.set('peercast', this.state.peercast)
     config.set('exitPeercast', this.state.exitPeercast)
     config.set('useMono', this.state.useMono)
+    config.set('playerPath', this.state.playerPath)
+    config.set('playerArgs', this.state.playerArgs)
     storage.set('ypList', this.state.ypList, (error)=>{
       this.close()
     })
@@ -173,8 +177,14 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral port={this.state.port} player={this.state.player} bbs={this.state.bbs} sort={this.state.sort}
+          <SettingsGeneral port={this.state.port} bbs={this.state.bbs} sort={this.state.sort}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
+      },
+      {
+        name: "プレイヤー",
+        component:
+          <SettingsPlayer player={this.state.player} playerPath={this.state.playerPath} playerArgs={this.state.playerArgs}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} />
       },
       {
         name: "PeerCast",
@@ -189,7 +199,7 @@ class Settings extends React.Component {
             onClickItem={this.selectYP} onClickAdd={this.addYP} onClickDelete={this.deleteYP}
             onClickUp={this.upYP} onClickDown={this.downYP}
             onChangeYP={this.onChangeYP} />
-      }
+      },
     ]
     // カレントコンポーネント
     let currentComponent = components[this.state.currentTabIndex].component

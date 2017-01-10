@@ -18,8 +18,6 @@ module.exports = class SettingsGeneral extends React.Component {
     return(
       <div id="settings-general">
         <FormText label={"ポート番号"} value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
-        <FormDialog label={"再生プレイヤー"} value={this.props.player}
-          onChange={e => this.props.onChangeForm(e, 'player')} onClick={e => this.props.onClickDialog('player')} />
         <FormDialog label={"BBSブラウザ"} value={this.props.bbs}
           onChange={e => this.props.onChangeForm(e, 'bbs')} onClick={e => this.props.onClickDialog('bbs')} />
         <div id="settings-sort" className="form-group">

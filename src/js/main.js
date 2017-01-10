@@ -75,13 +75,13 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 })
 
 // プレイヤーの起動
-ipcMain.on('asyn-play', (event, url, platform) =>{
+ipcMain.on('asyn-play', (event, args, platform) =>{
   let command
   if(platform=='darwin'){
     // Macの場合はopenコマンドで実行
-    command = spawn('open', ['-a', config.get('player'), url])
+    command = spawn('open', ['-a', config.get('playerPath'), args])
   }else{
-    command = spawn(config.get('player'))
+    command = spawn(config.get('playerPath'), [args])
   }
   try{
     exec(command, (error, stdout, stderr)=>{
@@ -137,6 +137,7 @@ ipcMain.on('asyn-settings-window', (event) =>{
     alwaysOnTop: true,
     resizable: false
   })
+
   settingsWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
   mainWindow.setIgnoreMouseEvents(true)
 })

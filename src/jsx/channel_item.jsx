@@ -4,24 +4,25 @@ import {ipcRenderer} from 'electron'
 import {remote} from 'electron'
 import {shell} from 'electron'
 const config = new Config({
-  defaults: { port: 7144 }
+  defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
 })
 
 module.exports = class ChannelItem extends React.Component {
 
   constructor(props){
     super(props)
-    this.getStreamURL = this.getStreamURL.bind(this)
     this.play = this.play.bind(this)
     this.openURL = this.openURL.bind(this)
     this.showContextMenu = this.showContextMenu.bind(this)
     this.getFavorite = this.getFavorite.bind(this)
+    this.getPlayListURL = this.getPlayListURL.bind(this)
+    this.getArgs = this.getArgs.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
   }
 
   // プレイヤーで再生する
   play(){
-    ipcRenderer.send('asyn-play', this.getStreamURL(), remote.process.platform)
+    ipcRenderer.send('asyn-play', this.getArgs(), remote.process.platform)
   }
 
   // コンタクトURLをBBSブラウザで開く
@@ -39,11 +40,33 @@ module.exports = class ChannelItem extends React.Component {
     this.props.registFavorite(favoriteIndex, channelName)
   }
 
-  // ストリームURLを取得
-  getStreamURL(){
+  // プレイリストURLを取得
+  getPlayListURL(){
     let port = config.get('port')
     var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
     return url
+  }
+
+  // 引数で設定した値を取得
+  getArgs(){
+    let res = ""
+    let item = {
+      "$x": this.getPlayListURL(),
+      "$0": this.props.channel.name,
+      "$1": this.props.channel.id,
+      "$2": this.props.channel.tip,
+      "$3": this.props.channel.url,
+      "$4": this.props.channel.genre,
+      "$5": this.props.channel.detail,
+      "$6": this.props.channel.listener,
+      "$7": this.props.channel.relay,
+      "$8": this.props.channel.kbps,
+      "$9": this.props.channel.format
+    }
+    for(let arg of config.get('playerArgs').split(/\s/)){
+      res += `${item[arg.replace(/(")/gm, "")]} `
+    }
+    return res.replace(/\s$/, "")
   }
 
   // マッチするお気に入り情報があれば取得
@@ -104,7 +127,7 @@ module.exports = class ChannelItem extends React.Component {
       submenu: [
         { label: 'チャンネル名', click: ()=>{ clipboard.writeText(this.props.channel.name) } },
         { label: 'コンタクトURL', click: ()=>{ clipboard.writeText(this.props.channel.url) } },
-        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.getStreamURL()) } },
+        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.getPlayListURL()) } },
         { label: 'IPアドレス', click: ()=>{ clipboard.writeText(this.props.channel.tip.replace(/:\d+$/,"")) } },
         { type: 'separator' },
         {
