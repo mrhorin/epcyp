@@ -27,6 +27,7 @@ app.on('ready', ()=>{
   }catch(e){
     console.log(e)
   }
+  // メインウィンドウ
   const {width, height, x, y} = config.get('bounds')
   mainWindow = new BrowserWindow({
     width: width,
@@ -39,7 +40,7 @@ app.on('ready', ()=>{
     scrollBounce: true
   })
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
-
+  // メインウィンドウが閉じられた時
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
     // PeerCastを終了
@@ -75,9 +76,9 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 })
 
 // プレイヤーの起動
-ipcMain.on('asyn-play', (event, args, platform) =>{
+ipcMain.on('asyn-play', (event, args) =>{
   let command
-  if(platform=='darwin'){
+  if(global.process.platform=='darwin'){
     // Macの場合はopenコマンドで実行
     command = spawn('open', ['-a', config.get('playerPath'), args])
   }else{

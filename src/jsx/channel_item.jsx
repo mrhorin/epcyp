@@ -22,7 +22,7 @@ module.exports = class ChannelItem extends React.Component {
 
   // プレイヤーで再生する
   play(){
-    ipcRenderer.send('asyn-play', this.getArgs(), remote.process.platform)
+    ipcRenderer.send('asyn-play', this.getArgs())
   }
 
   // コンタクトURLをBBSブラウザで開く
