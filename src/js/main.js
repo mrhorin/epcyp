@@ -51,11 +51,12 @@ app.on('ready', ()=>{
     minWidth: 150,
     x: x,
     y: y,
-    frame: false,
+    frame: true,
     titleBarStyle: 'hidden-inset',
     scrollBounce: true
   })
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
+
   // メインウィンドウが閉じられた時
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
