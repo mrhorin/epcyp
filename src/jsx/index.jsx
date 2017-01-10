@@ -52,9 +52,7 @@ class Index extends React.Component {
       this.setState({ sort: sort })
     })
     this.loadFavorites()
-    this.loadYpList(()=>{
-      this.fetchIndexTxt()
-    })
+    this.loadYpList()
   }
 
   // index.txtを取得
