@@ -1,5 +1,5 @@
 $col1-widrh: auto;
-$col2-widrh: 60px;
+$col2-widrh: 65px;
 $col3-widrh: 40px;
 
 /* Index */
@@ -15,6 +15,8 @@ body{
 }
 #index{
   .tab-group{
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
     position: fixed;
     width: 100%;
     top: 63px;
@@ -28,8 +30,11 @@ header{
   width: 100%;
   -webkit-app-region: drag; /* ドラッグ可能に */
   -webkit-user-select: none; /* ドラッグはテキスト選択と競合するので禁止 */
-  .title>.icon{
-    margin-right: 5px;
+  .title{
+    color: #111;
+    .icon{
+      margin-right: 5px;
+    }
   }
   .toolbar-actions{
     margin-top: 10px;
@@ -88,20 +93,23 @@ footer{
 
 /* ChannelBox */
 th.channel-box-col1{
-  font-size: 10px;
+  color: #000 !important;
+  font-size: 11px;
   box-sizing: border-box;
   width: $col1-widrh;
   margin-right: -110px;
 	padding-right: 110px;
 }
 th.channel-box-col2{
-  font-size: 10px;
+  color: #000 !important;
+  font-size: 11px;
   box-sizing: border-box;
   max-width: $col2-widrh;
   padding: 2px 5px;
 }
 th.channel-box-col3{
-  font-size: 10px;
+  color: #000 !important;
+  font-size: 11px;
   box-sizing: border-box;
   max-width: $col3-widrh;
   padding: 2px 5px;
@@ -112,12 +120,16 @@ tr.channel-item:nth-child(odd):active,
 tr.channel-item:nth-child(even):active{
   background: #a2b0ff !important;
 }
+tr.channel-item{
+  color: #000 !important;
+  font-size: 13px;
+}
 td.channel-item-col1{
   width: $col1-widrh;
   max-width: 100%;
-  padding-right: 0px;
+  padding: 5px 0px 5px 10px;
   .channel-item-name{
-    color: #116cd6;
+    color: #1f0fe2;
     font-weight: bold;
     display: block;
     white-space: normal;
@@ -215,6 +227,7 @@ td.channel-item-col3{
   height: 350px;
   position: relative;
   header{
+    border-bottom: none;
   }
   #settings-main{
     padding: 15px;
@@ -292,7 +305,7 @@ td.channel-item-col3{
     margin-top: 5px;
     margin-right: 4px;
     .icon{
-      font-size: 10px;
+      font-size: 11px;
       width: auto;
       height: auto;
     }
@@ -328,7 +341,9 @@ nav#rule-box-nav{
   color: #fff;
 }
 .btn-mini{
-  font-size: 10px;
+  font-size: 11px;
+  height: 20px;
+  color: #333;
 }
 .table-striped{
   padding-top: 22px;
@@ -338,6 +353,9 @@ tr:active:nth-child(even), tr:active{
   background: #5498e8 !important;
 }
 .tab-item{
-  font-size: 10px !important;
+  font-size: 11px !important;
   padding: 1px !important;
+}
+select{
+  height: 20px;
 }
