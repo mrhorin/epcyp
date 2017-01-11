@@ -1,8 +1,5 @@
-import {ipcMain} from 'electron'
-import {app} from 'electron'
-import {BrowserWindow} from 'electron'
-import {exec} from 'child_process'
-import {spawn} from 'child_process'
+import {ipcMain, app, BrowserWindow, Tray, Menu} from 'electron'
+import {exec, spawn} from 'child_process'
 import request from 'superagent'
 import path from 'path'
 import Config from 'electron-config'
@@ -17,6 +14,13 @@ var favoriteWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
+  // システムトレイ
+  var appIcon = new Tray(`${path.resolve(path.join('src/img/icon_18x18.png'))}`)
+  var contextMenu = Menu.buildFromTemplate([
+    { label: '終了', click: ()=>{ app.quit() } },
+  ])
+  appIcon.setToolTip('epcyp')
+  appIcon.setContextMenu(contextMenu)
   // PeerCast起動コマンド
   var peercastCmd = config.get('useMono') ? `mono ${config.get('peercast')}` : config.get('peercast')
   // プロセス起動確認コマンド
@@ -53,7 +57,8 @@ app.on('ready', ()=>{
     frame: true,
     titleBarStyle: 'hidden-inset',
     scrollBounce: true,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    icon: `${path.resolve(path.join('src/img/icon_1024x1024.png'))}`
   })
   mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
 
