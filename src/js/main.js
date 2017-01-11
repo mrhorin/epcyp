@@ -1,13 +1,12 @@
-import electron from 'electron'
+import {ipcMain} from 'electron'
+import {app} from 'electron'
+import {BrowserWindow} from 'electron'
+import {exec} from 'child_process'
+import {spawn} from 'child_process'
 import request from 'superagent'
 import path from 'path'
 import Config from 'electron-config'
 import loadDevTool from 'electron-load-devtool'
-import {exec} from 'child_process'
-import {spawn} from 'child_process'
-const ipcMain = electron.ipcMain
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
 const config = new Config({
   defaults: { bounds: { width: 800, height: 600 } }
 })
