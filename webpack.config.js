@@ -13,6 +13,10 @@ module.exports = {
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
+  node: {
+    __dirname: false,
+    __filename: false
+  },
   resolve: {
     extensions: ['', '.js', '.jsx', '.css', '.scss'],
     root: [ path.resolve('./src/')]
@@ -23,7 +27,6 @@ module.exports = {
     'ipc',
     'child_process',
     'superagent',
-    'path',
     'electron-config',
     'electron-load-devtool'
   ],

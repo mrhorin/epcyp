@@ -2,7 +2,7 @@
   "name": "epcyp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean && ./node_modules/gulp/bin/gulp.js && webpack",
@@ -11,7 +11,7 @@
     "start": "electron ./dist/main.js",
     "list": "npm list --depth=0"
   },
-  "author": "",
+  "author": "mrhorin",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.21.0",
@@ -22,6 +22,7 @@
     "css-loader": "^0.26.1",
     "del": "^2.2.2",
     "electron-load-devtool": "^0.4.0",
+    "electron-packager": "^8.5.0",
     "gulp": "^3.9.1",
     "gulp-jade": "^1.1.0",
     "gulp-plumber": "^1.1.0",

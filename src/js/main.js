@@ -1,11 +1,9 @@
 import {ipcMain, app, BrowserWindow, Tray, Menu} from 'electron'
 import {exec, spawn} from 'child_process'
 import request from 'superagent'
-import path from 'path'
 import Config from 'electron-config'
-import loadDevTool from 'electron-load-devtool'
 const config = new Config({
-  defaults: { bounds: { width: 800, height: 600 } }
+  defaults: { bounds: { width: 300, height: 600 } }
 })
 
 var mainWindow = null
@@ -15,7 +13,7 @@ var favoriteWindow = null
 // 起動準備ができた時
 app.on('ready', ()=>{
   // システムトレイ
-  var appIcon = new Tray(`${path.resolve(path.join('src/img/icon_18x18.png'))}`)
+  var appIcon = new Tray(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
   var contextMenu = Menu.buildFromTemplate([
     { label: '終了', click: ()=>{ app.quit() } },
   ])
@@ -58,9 +56,9 @@ app.on('ready', ()=>{
     titleBarStyle: 'hidden-inset',
     scrollBounce: true,
     autoHideMenuBar: true,
-    icon: `${path.resolve(path.join('src/img/icon_1024x1024.png'))}`
+    icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`
   })
-  mainWindow.loadURL(`file://${path.resolve(path.join('dist', 'index.html'))}`)
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
 
   mainWindow.on('blur', (event, arg)=>{
     event.sender.send('index-window-blur')
@@ -148,7 +146,7 @@ ipcMain.on('asyn-favorite-window', (event) =>{
     alwaysOnTop: true,
     resizable: false
   })
-  favoriteWindow.loadURL(`file://${path.resolve(path.join('dist', 'favorite.html'))}`)
+  favoriteWindow.loadURL(`file://${__dirname}/favorite.html`)
   mainWindow.setIgnoreMouseEvents(true)
 })
 // お気に入りウィンドウを閉じる
@@ -167,7 +165,7 @@ ipcMain.on('asyn-settings-window', (event) =>{
     alwaysOnTop: true,
     resizable: false
   })
-  settingsWindow.loadURL(`file://${path.resolve(path.join('dist', 'settings.html'))}`)
+  settingsWindow.loadURL(`file://${__dirname}/settings.html`)
   mainWindow.setIgnoreMouseEvents(true)
 })
 // 設定ウィンドウを閉じる
