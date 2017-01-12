@@ -9,7 +9,8 @@
     "watch": "webpack --watch",
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
-    "list": "npm list --depth=0"
+    "list": "npm list --depth=0",
+    "package:darwin": "npm run build && ./node_modules/gulp/bin/gulp.js package:darwin"
   },
   "author": "mrhorin",
   "license": "ISC",
