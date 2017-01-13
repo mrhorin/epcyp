@@ -40,8 +40,9 @@ header{
     margin-top: 10px;
   }
 }
-header.active{
-  background: #ddd !important;
+// ウィンドウ非アクティブ時
+header.blur{
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#e6e6e6),color-stop(100%,#dedede)) !important;
 }
 
 /* HeaderUpdateButton */

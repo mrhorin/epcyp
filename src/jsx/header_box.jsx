@@ -22,12 +22,10 @@ module.exports = class HeaderBox extends React.Component {
   render(){
     // 更新ボタンのCSSクラス
     var autoUpdateClass = this.props.autoUpdate ? "btn btn-primary" : "btn btn-default"
-    var headerClass = this.props.active ? "toolbar toolbar-header active" : "toolbar toolbar-header"
+    var headerClass = this.props.active ? "toolbar toolbar-header" : "toolbar toolbar-header blur"
     return(
-      <header className={headerClass}>
+      <header className={headerClass} style={{paddingTop: "20px"}}>
         <h1 className="title">
-          <span className="icon icon-megaphone"></span>
-          epcyp
         </h1>
         <div className="toolbar-actions">
           <HeaderUpdateButton autoUpdate={this.props.autoUpdate} onClickUpdate={this.props.onClickUpdate} onClickAutoUpdate={this.props.onClickAutoUpdate}/>
