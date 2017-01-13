@@ -10,7 +10,7 @@
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
     "list": "npm list --depth=0",
-    "package:darwin": "npm run build && ./node_modules/gulp/bin/gulp.js package:darwin"
+    "release:darwin": "npm run build && ./node_modules/gulp/bin/gulp.js package:darwin"
   },
   "author": "mrhorin",
   "license": "ISC",
@@ -38,6 +38,7 @@
   "dependencies": {
     "electron-config": "^0.2.1",
     "electron-json-storage": "^2.1.0",
+    "fix-path": "^2.1.0",
     "lodash": "^4.17.4",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",

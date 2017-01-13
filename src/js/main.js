@@ -2,8 +2,17 @@ import {ipcMain, app, BrowserWindow, Tray, Menu} from 'electron'
 import {exec, spawn} from 'child_process'
 import request from 'superagent'
 import Config from 'electron-config'
+import fixPath from 'fix-path'
 const config = new Config({
-  defaults: { bounds: { width: 300, height: 600 } }
+  defaults: {
+    bounds: { width: 300, height: 600 },
+    peercast: "",
+    exitPeercast: true,
+    useMono: false,
+    playerPath: '',
+    playerArgs: '"$x"',
+    bbs: ""
+  }
 })
 
 var mainWindow = null
@@ -12,6 +21,7 @@ var favoriteWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
+  fixPath()
   // システムトレイ
   var appIcon = new Tray(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
   var contextMenu = Menu.buildFromTemplate([
@@ -24,19 +34,21 @@ app.on('ready', ()=>{
   // プロセス起動確認コマンド
   let psCmd
   let platform = global.process.platform
-  if(platform.match(/^win/gi)){
+  if(platform == 'win32'){
     psCmd = `tasklist | find "${peercastCmd}"`
   }else{
-    psCmd = `ps | grep "${peercastCmd}"`
+    psCmd = `ps x | grep "${peercastCmd}"`
   }
   // 既に同名のプロセスが存在しないか
   let pattern = new RegExp(peercastCmd, 'gi')
-  let peercast
+  var peercast
   exec(psCmd, (error, stdout, stderr)=>{
-    // grepを含む行を除外
     stdout = stdout.split(/\n/).map((line, index, stdout)=>{
+      // grepを含む行を除外
       if(line.match(/grep/)) return
-      return line
+      // PeerCast起動コマンドを含む行は返す
+      if(line.match(peercastCmd)) return line
+      return
     }).join()
     // PeerCast起動チェック
     if(!stdout.match(pattern)&&config.get("peercast")){
