@@ -22,9 +22,10 @@ var favoriteWindow = null
 
 // 起動準備ができた時
 app.on('ready', ()=>{
+  const platform = global.process.platform
   fixPath()
   // メニュー
-  const template = [
+  var template = [
     {
       label: '編集',
       submenu: [
@@ -62,6 +63,14 @@ app.on('ready', ()=>{
       ]
     }
   ]
+  if(platform=='darwin'){
+    template.unshift({
+      label: app.getName(),
+      submenu: [
+        { label: '終了', accelerator: 'Command+Q', click: ()=>{ app.quit() } }
+      ]
+    })
+  }
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
   // システムトレイ
@@ -75,7 +84,6 @@ app.on('ready', ()=>{
   var peercastCmd = config.get('useMono') ? `mono ${config.get('peercast')}` : config.get('peercast')
   // プロセス起動確認コマンド
   let psCmd
-  let platform = global.process.platform
   if(platform == 'win32'){
     psCmd = `tasklist | find "${peercastCmd}"`
   }else{
