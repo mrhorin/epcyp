@@ -201,9 +201,13 @@ ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
 
 // お気に入りウィンドウを開く
 ipcMain.on('asyn-favorite-window', (event) =>{
+  let bounds = getChildBoundsFromMain(480, 370)
   favoriteWindow = new BrowserWindow({
-    width: 480,
-    height: 370,
+    x: bounds.x,
+    y: bounds.y,
+    width: bounds.width,
+    height: bounds.height,
+    center: false,
     frame: false,
     alwaysOnTop: true,
     resizable: false
@@ -220,9 +224,13 @@ ipcMain.on('asyn-favorite-window-close', (event) =>{
 
 // 設定ウィンドウを開く
 ipcMain.on('asyn-settings-window', (event) =>{
+  let bounds = getChildBoundsFromMain(400, 350)
   settingsWindow = new BrowserWindow({
-    width: 400,
-    height: 350,
+    x: bounds.x,
+    y: bounds.y,
+    width: bounds.width,
+    height: bounds.height,
+    center: false,
     frame: false,
     alwaysOnTop: true,
     resizable: false
@@ -236,3 +244,15 @@ ipcMain.on('asyn-settings-window-close', (event) =>{
   mainWindow.setIgnoreMouseEvents(false)
   mainWindow.send('asyn-settings-window-close-reply')
 })
+
+// mainWindowの中心の相対座標を取得
+const getChildBoundsFromMain = (childWidth, childHeight)=>{
+  let parrent = mainWindow.getBounds()
+  let x = Math.round(
+    parrent.x + (parrent.width/2) - (childWidth/2)
+  )
+  let y = Math.round(
+    parrent.y + (parrent.height/2) - (childHeight/2)
+  )
+  return { x: x, y: y, width: childWidth, height: childHeight }
+}
