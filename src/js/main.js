@@ -22,6 +22,47 @@ var favoriteWindow = null
 // 起動準備ができた時
 app.on('ready', ()=>{
   fixPath()
+  // メニュー
+  let template = [
+    {
+      label: '編集',
+      submenu: [
+        {
+          label: 'コピー',
+          accelerator: 'CmdOrCtrl+C',
+          role: 'copy'
+        },
+        {
+          label: 'カット',
+          accelerator: 'CmdOrCtrl+X',
+          role: 'cut'
+        },
+        {
+          label: 'ペースト',
+          accelerator: 'CmdOrCtrl+V',
+          role: 'paste'
+        },
+        {
+          label: '全選択',
+          accelerator: 'CmdOrCtrl+A',
+          role: 'selectall'
+        },
+        { type: 'separator' },
+        {
+          label: '戻る',
+          accelerator: 'CmdOrCtrl+Z',
+          role: 'undo'
+        },
+        {
+          label: '進む',
+          accelerator: 'Shift+CmdOrCtrl+Z',
+          role: 'redo'
+        },
+      ]
+    }
+  ]
+  var menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
   // システムトレイ
   var appIcon = new Tray(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
   var contextMenu = Menu.buildFromTemplate([
