@@ -15,6 +15,7 @@ const config = new Config({
   }
 })
 
+var tray = null
 var mainWindow = null
 var settingsWindow = null
 var favoriteWindow = null
@@ -23,7 +24,7 @@ var favoriteWindow = null
 app.on('ready', ()=>{
   fixPath()
   // メニュー
-  let template = [
+  const template = [
     {
       label: '編集',
       submenu: [
@@ -61,15 +62,15 @@ app.on('ready', ()=>{
       ]
     }
   ]
-  var menu = Menu.buildFromTemplate(template)
+  const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
   // システムトレイ
-  var appIcon = new Tray(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
-  var contextMenu = Menu.buildFromTemplate([
+  tray = new Tray(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
+  const trayContextMenu = Menu.buildFromTemplate([
     { label: '終了', click: ()=>{ app.quit() } },
   ])
-  appIcon.setToolTip('epcyp')
-  appIcon.setContextMenu(contextMenu)
+  tray.setToolTip('epcyp')
+  tray.setContextMenu(trayContextMenu)
   // PeerCast起動コマンド
   var peercastCmd = config.get('useMono') ? `mono ${config.get('peercast')}` : config.get('peercast')
   // プロセス起動確認コマンド
