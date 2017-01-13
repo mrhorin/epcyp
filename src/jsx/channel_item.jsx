@@ -47,6 +47,13 @@ module.exports = class ChannelItem extends React.Component {
     return url
   }
 
+  // ストリームURLを取得
+  getStreamURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/stream/${this.props.channel.id}.${this.props.channel.format.toLowerCase()}`
+    return url
+  }
+
   // 引数で設定した値を取得
   getArgs(){
     let res = ""
@@ -127,7 +134,8 @@ module.exports = class ChannelItem extends React.Component {
       submenu: [
         { label: 'チャンネル名', click: ()=>{ clipboard.writeText(this.props.channel.name) } },
         { label: 'コンタクトURL', click: ()=>{ clipboard.writeText(this.props.channel.url) } },
-        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.getPlayListURL()) } },
+        { label: 'プレイリストURL', click: ()=>{ clipboard.writeText(this.getPlayListURL()) } },
+        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.getStreamURL()) } },
         { label: 'IPアドレス', click: ()=>{ clipboard.writeText(this.props.channel.tip.replace(/:\d+$/,"")) } },
         { type: 'separator' },
         {
