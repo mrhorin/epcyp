@@ -61,7 +61,6 @@ class Settings extends React.Component {
     }
     storage.get('ypList', (error, data)=>{
       if(Object.keys(data).length != 0){
-        console.log("true")
         this.setState({ ypList: data })
       }
     })

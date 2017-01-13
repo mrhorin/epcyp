@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "electron-config": "^0.2.1",
-    "electron-json-storage": "^2.1.0",
+    "electron-json-storage": "^3.0.0",
     "fix-path": "^2.1.0",
     "lodash": "^4.17.4",
     "react": "^15.4.1",

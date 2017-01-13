@@ -28,6 +28,7 @@ module.exports = {
     'child_process',
     'superagent',
     'electron-config',
+    'electron-json-storage',
     'electron-load-devtool',
     'fix-path'
   ],
