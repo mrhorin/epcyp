@@ -19,10 +19,12 @@ gulp.task('jade', function(){
     .pipe(gulp.dest('dist/'));
 });
 
+// distを空に
 gulp.task('clean', function(cb) {
   del(['dist', '**/*.log'], cb);
 });
 
+// OSX用にパッケージ化
 gulp.task('package:darwin', ['default'], function (done) {
   packager({
     dir: './',
@@ -35,6 +37,7 @@ gulp.task('package:darwin', ['default'], function (done) {
     platform: 'darwin',
     overwrite: true,
     version: '1.4.13',
+    ignore: ['release']
   }, function (err, path) {
     done();
   });
