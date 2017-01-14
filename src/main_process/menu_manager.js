@@ -11,7 +11,6 @@ module.exports = class MenuManager{
   }
 
   show(){
-    console.log(this.template)
     this.menu = Menu.buildFromTemplate(this.template)
     Menu.setApplicationMenu(this.menu)
   }

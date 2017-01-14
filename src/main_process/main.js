@@ -2,10 +2,10 @@ import {ipcMain, app, BrowserWindow, Tray, Menu} from 'electron'
 import {exec, spawn} from 'child_process'
 import request from 'superagent'
 import Config from 'electron-config'
-import fixPath from 'fix-path'
 
 import TrayManager from 'main_process/tray_manager'
 import MenuManager from 'main_process/menu_manager'
+import PeercastManager from 'main_process/peercast_manager'
 
 const config = new Config({
   defaults: {
@@ -25,14 +25,12 @@ var favoriteWindow = null
 
 var tray = new TrayManager(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
 var menu = new MenuManager()
+var peercast = new PeercastManager()
 
 /*-----------------------------------------
   アプリケーション起動準備完了時
 -----------------------------------------*/
 app.on('ready', ()=>{
-  // PATHの解決
-  fixPath()
-
   // アプリケーションメニュー
   menu.setContextMenu([
     {
@@ -85,32 +83,7 @@ app.on('ready', ()=>{
   tray.setContextMenu([{ label: '終了', click: ()=>{ app.quit() } }])
   tray.show()
 
-  const platform = global.process.platform
-  // PeerCast起動コマンド
-  var peercastCmd = config.get('useMono') ? `mono ${config.get('peercast')}` : config.get('peercast')
-  // プロセス起動確認コマンド
-  let psCmd
-  if(platform == 'win32'){
-    psCmd = `tasklist | find "${peercastCmd}"`
-  }else{
-    psCmd = `ps x | grep "${peercastCmd}"`
-  }
-  // 既に同名のプロセスが存在しないか
-  let pattern = new RegExp(peercastCmd, 'gi')
-  var peercast
-  exec(psCmd, (error, stdout, stderr)=>{
-    stdout = stdout.split(/\n/).map((line, index, stdout)=>{
-      // grepを含む行を除外
-      if(line.match(/grep/)) return
-      // PeerCast起動コマンドを含む行は返す
-      if(line.match(peercastCmd)) return line
-      return
-    }).join()
-    // PeerCast起動チェック
-    if(!stdout.match(pattern)&&config.get("peercast")){
-      peercast = exec(peercastCmd)
-    }
-  })
+  peercast.start()
 
   // メインウィンドウ
   const {width, height, x, y} = config.get('bounds')
@@ -137,12 +110,7 @@ app.on('ready', ()=>{
   // メインウィンドウが閉じられた時
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
-    // PeerCastを終了
-    try{
-      if(config.get('exitPeercast')&&peercast) peercast.kill()
-    }catch(e){
-      console.log(e)
-    }
+    peercast.stop()
     app.quit()
   })
 })
