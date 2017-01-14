@@ -126,8 +126,9 @@ app.on('window-all-closed', ()=>{
 })
 
 /*-----------------------------------------
-  index.txtを取得して返す
+  イベントをバインド
 -----------------------------------------*/
+// ------- index.txtを取得して返す -------
 ipcMain.on('asyn-yp', (event, yp)=>{
   request.get(yp.url).end((err,res)=>{
     try{
@@ -144,9 +145,7 @@ ipcMain.on('asyn-yp', (event, yp)=>{
   })
 })
 
-/*-----------------------------------------
-  再生プレイヤーの起動
------------------------------------------*/
+// ---------- 再生プレイヤーの起動 ----------
 ipcMain.on('asyn-play', (event, args) =>{
   let command
   if(global.process.platform=='darwin'){
@@ -164,9 +163,7 @@ ipcMain.on('asyn-play', (event, args) =>{
   }
 })
 
-/*-----------------------------------------
-  BBSブラウザの起動
------------------------------------------*/
+// ------------- BBSブラウザの起動 -------------
 ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   let command
   if(platform=='darwin'){
@@ -183,14 +180,24 @@ ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   }
 })
 
-/*-----------------------------------------
-  お気に入りウィンドウ
------------------------------------------*/
+// ---------- お気に入りウィンドウを開く ----------
 ipcMain.on('asyn-favorite-window', (event) =>{
   openFavoriteWindow()
 })
+
+// ---------- お気に入りウィンドウを閉じる ----------
 ipcMain.on('asyn-favorite-window-close', (event) =>{
   closeFavoriteWindow()
+})
+
+// ------------- 設定ウィンドウを開く -------------
+ipcMain.on('asyn-settings-window', (event) =>{
+  openSettingsWindow()
+})
+
+// ------------ 設定ウィンドウを閉じる ------------
+ipcMain.on('asyn-settings-window-close', (event) =>{
+  closeSettingsWindow()
 })
 
 const openFavoriteWindow = ()=>{
@@ -217,16 +224,6 @@ const closeFavoriteWindow = ()=>{
   mainWindow.setIgnoreMouseEvents(false)
   mainWindow.send('asyn-favorite-window-close-reply')
 }
-
-/*-----------------------------------------
-  設定ウィンドウ
------------------------------------------*/
-ipcMain.on('asyn-settings-window', (event) =>{
-  openSettingsWindow()
-})
-ipcMain.on('asyn-settings-window-close', (event) =>{
-  closeSettingsWindow()
-})
 
 const openSettingsWindow = ()=>{
   if(settingsWindow == null){
