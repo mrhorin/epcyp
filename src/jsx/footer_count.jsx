@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import moment from 'moment'
 
 module.exports = class FooterCount extends React.Component {
 
@@ -21,9 +22,9 @@ module.exports = class FooterCount extends React.Component {
           this.props.onUpdate()
           this.setState({ diffSec: this.props.autoUpdateCount })
         }else{
-          let now = new Date()
+          let now = moment()
           // 最終更新時からの経過時間(秒)
-          let diffSec = this.props.autoUpdateCount - (Math.round((now.getTime() - this.props.lastUpdateTime.getTime())/1000))
+          let diffSec = this.props.autoUpdateCount - (Math.round((now.unix() - this.props.lastUpdateTime.unix())))
           this.setState({ diffSec: diffSec })
         }
       }else{

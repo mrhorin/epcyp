@@ -4,6 +4,7 @@ import {ipcRenderer} from 'electron'
 import {shell} from 'electron'
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
+import moment from 'moment'
 import css from 'scss/style'
 import YP from 'js/yp'
 import HeaderBox from 'jsx/header_box'
@@ -32,7 +33,7 @@ class Index extends React.Component {
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
-      lastUpdateTime: new Date(0),
+      lastUpdateTime: moment().add(-59, 's'),
       currentTabIndex: 0,
       active: true
     }
@@ -66,12 +67,12 @@ class Index extends React.Component {
 
   // index.txtを取得
   fetchIndexTxt(){
-    let now = new Date()
+    let now = moment()
     // 差分秒
-    let diffSec = (now.getTime() - this.state.lastUpdateTime.getTime())/1000
+    let diffSec = Math.round(now.unix() - this.state.lastUpdateTime.unix())
     // 最後の更新時から60秒経過しているか
     if(diffSec >= 60){
-      this.setState({ lastUpdateTime: new Date() })
+      this.setState({ lastUpdateTime: moment() })
       this.state.channels = []
       for(var yp of this.state.ypList){
         ipcRenderer.send('asyn-yp', yp)

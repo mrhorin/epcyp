@@ -30,7 +30,8 @@ module.exports = {
     'electron-config',
     'electron-json-storage',
     'electron-load-devtool',
-    'fix-path'
+    'fix-path',
+    'moment'
   ],
   plugins: [
     new WebpackNotifierPlugin()
