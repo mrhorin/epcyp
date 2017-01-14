@@ -10,9 +10,6 @@ import PeercastManager from 'main_process/peercast_manager'
 const config = new Config({
   defaults: {
     bounds: { width: 300, height: 600 },
-    peercast: "",
-    exitPeercast: true,
-    useMono: false,
     playerPath: '',
     playerArgs: '"$x"',
     bbs: ""
@@ -73,7 +70,9 @@ app.on('ready', ()=>{
   menu.setMacContextMenu({
       label: app.getName(),
       submenu: [
-        { label: '環境設定', accelerator: 'Command+,', click: ()=>{ app.quit() } },
+        { label: '環境設定', accelerator: 'Command+,', click: ()=>{ openSettingsWindow() } },
+        { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
+        { type: 'separator' },
         { label: '終了', accelerator: 'Command+Q', click: ()=>{ app.quit() } }
       ]
   })
@@ -83,6 +82,7 @@ app.on('ready', ()=>{
   tray.setContextMenu([{ label: '終了', click: ()=>{ app.quit() } }])
   tray.show()
 
+  // PeerCast起動
   peercast.start()
 
   // メインウィンドウ
@@ -100,14 +100,17 @@ app.on('ready', ()=>{
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
 
+  // 非アクティブ時
   mainWindow.on('blur', (event, arg)=>{
     event.sender.send('index-window-blur')
   })
+
+  // アクティブ時
   mainWindow.on('focus', (event, arg)=>{
     event.sender.send('index-window-focus')
   })
 
-  // メインウィンドウが閉じられた時
+  // 閉じた時
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
     peercast.stop()
@@ -115,12 +118,16 @@ app.on('ready', ()=>{
   })
 })
 
-// すべてのウィンドウが閉じた時
+/*-----------------------------------------
+  すべてのウィンドウが閉じられた時
+-----------------------------------------*/
 app.on('window-all-closed', ()=>{
   if(process.platform != 'darwin') app.quit()
 })
 
-// index.txtの取得
+/*-----------------------------------------
+  index.txtを取得して返す
+-----------------------------------------*/
 ipcMain.on('asyn-yp', (event, yp)=>{
   request.get(yp.url).end((err,res)=>{
     try{
@@ -137,7 +144,9 @@ ipcMain.on('asyn-yp', (event, yp)=>{
   })
 })
 
-// プレイヤーの起動
+/*-----------------------------------------
+  再生プレイヤーの起動
+-----------------------------------------*/
 ipcMain.on('asyn-play', (event, args) =>{
   let command
   if(global.process.platform=='darwin'){
@@ -155,7 +164,9 @@ ipcMain.on('asyn-play', (event, args) =>{
   }
 })
 
-// BBSブラウザの起動
+/*-----------------------------------------
+  BBSブラウザの起動
+-----------------------------------------*/
 ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   let command
   if(platform=='darwin'){
@@ -172,29 +183,32 @@ ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   }
 })
 
-// -------------- お気に入り --------------
+/*-----------------------------------------
+  お気に入りウィンドウ
+-----------------------------------------*/
 ipcMain.on('asyn-favorite-window', (event) =>{
   openFavoriteWindow()
 })
-// 閉じる
 ipcMain.on('asyn-favorite-window-close', (event) =>{
   closeFavoriteWindow()
 })
 
 const openFavoriteWindow = ()=>{
-  let bounds = getChildBoundsFromMain(480, 370)
-  favoriteWindow = new BrowserWindow({
-    x: bounds.x,
-    y: bounds.y,
-    width: bounds.width,
-    height: bounds.height,
-    center: false,
-    frame: false,
-    alwaysOnTop: true,
-    resizable: false
-  })
-  favoriteWindow.loadURL(`file://${__dirname}/favorite.html`)
-  mainWindow.setIgnoreMouseEvents(true)
+  if(favoriteWindow == null){
+    let bounds = getChildBoundsFromMain(480, 370)
+    favoriteWindow = new BrowserWindow({
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      center: false,
+      frame: false,
+      alwaysOnTop: true,
+      resizable: false
+    })
+    favoriteWindow.loadURL(`file://${__dirname}/favorite.html`)
+    mainWindow.setIgnoreMouseEvents(true)
+  }
 }
 
 const closeFavoriteWindow = ()=>{
@@ -204,28 +218,40 @@ const closeFavoriteWindow = ()=>{
   mainWindow.send('asyn-favorite-window-close-reply')
 }
 
-// ------------------ 設定 ------------------
+/*-----------------------------------------
+  設定ウィンドウ
+-----------------------------------------*/
 ipcMain.on('asyn-settings-window', (event) =>{
-  let bounds = getChildBoundsFromMain(400, 350)
-  settingsWindow = new BrowserWindow({
-    x: bounds.x,
-    y: bounds.y,
-    width: bounds.width,
-    height: bounds.height,
-    center: false,
-    frame: false,
-    alwaysOnTop: true,
-    resizable: false
-  })
-  settingsWindow.loadURL(`file://${__dirname}/settings.html`)
-  mainWindow.setIgnoreMouseEvents(true)
+  openSettingsWindow()
 })
-// 閉じる
 ipcMain.on('asyn-settings-window-close', (event) =>{
+  closeSettingsWindow()
+})
+
+const openSettingsWindow = ()=>{
+  if(settingsWindow == null){
+    let bounds = getChildBoundsFromMain(400, 350)
+    settingsWindow = new BrowserWindow({
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      center: false,
+      frame: false,
+      alwaysOnTop: true,
+      resizable: false
+    })
+    settingsWindow.loadURL(`file://${__dirname}/settings.html`)
+    mainWindow.setIgnoreMouseEvents(true)
+  }
+}
+
+const closeSettingsWindow = ()=>{
   settingsWindow.close()
+  settingsWindow = null
   mainWindow.setIgnoreMouseEvents(false)
   mainWindow.send('asyn-settings-window-close-reply')
-})
+}
 
 // mainWindowの中心の相対座標を取得
 const getChildBoundsFromMain = (childWidth, childHeight)=>{
