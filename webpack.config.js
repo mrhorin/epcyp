@@ -6,7 +6,7 @@ module.exports = {
     "epcyp": './src/jsx/index.jsx',
     "settings": './src/jsx/settings/settings.jsx',
     "favorite": './src/jsx/favorite/favorite.jsx',
-    "main": './src/js/main.js'
+    "main": './src/main_process/main.js'
   },
   output: {
     path: 'dist',

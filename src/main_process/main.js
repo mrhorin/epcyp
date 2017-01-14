@@ -3,6 +3,10 @@ import {exec, spawn} from 'child_process'
 import request from 'superagent'
 import Config from 'electron-config'
 import fixPath from 'fix-path'
+
+import TrayManager from 'main_process/tray_manager'
+import MenuManager from 'main_process/menu_manager'
+
 const config = new Config({
   defaults: {
     bounds: { width: 300, height: 600 },
@@ -15,17 +19,22 @@ const config = new Config({
   }
 })
 
-var tray = null
 var mainWindow = null
 var settingsWindow = null
 var favoriteWindow = null
 
-// 起動準備ができた時
+var tray = new TrayManager(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
+var menu = new MenuManager()
+
+/*-----------------------------------------
+  アプリケーション起動準備完了時
+-----------------------------------------*/
 app.on('ready', ()=>{
-  const platform = global.process.platform
+  // PATHの解決
   fixPath()
-  // メニュー
-  var template = [
+
+  // アプリケーションメニュー
+  menu.setContextMenu([
     {
       label: '編集',
       submenu: [
@@ -59,27 +68,24 @@ app.on('ready', ()=>{
           label: '進む',
           accelerator: 'Shift+CmdOrCtrl+Z',
           role: 'redo'
-        },
+        }
       ]
     }
-  ]
-  if(platform=='darwin'){
-    template.unshift({
+  ])
+  menu.setMacContextMenu({
       label: app.getName(),
       submenu: [
+        { label: '環境設定', accelerator: 'Command+,', click: ()=>{ app.quit() } },
         { label: '終了', accelerator: 'Command+Q', click: ()=>{ app.quit() } }
       ]
-    })
-  }
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
+  })
+  menu.show()
+
   // システムトレイ
-  tray = new Tray(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
-  const trayContextMenu = Menu.buildFromTemplate([
-    { label: '終了', click: ()=>{ app.quit() } },
-  ])
-  tray.setToolTip('epcyp')
-  tray.setContextMenu(trayContextMenu)
+  tray.setContextMenu([{ label: '終了', click: ()=>{ app.quit() } }])
+  tray.show()
+
+  const platform = global.process.platform
   // PeerCast起動コマンド
   var peercastCmd = config.get('useMono') ? `mono ${config.get('peercast')}` : config.get('peercast')
   // プロセス起動確認コマンド
@@ -117,7 +123,6 @@ app.on('ready', ()=>{
     frame: true,
     titleBarStyle: 'hidden-inset',
     scrollBounce: true,
-    autoHideMenuBar: true,
     icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
@@ -199,8 +204,16 @@ ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   }
 })
 
-// お気に入りウィンドウを開く
+// -------------- お気に入り --------------
 ipcMain.on('asyn-favorite-window', (event) =>{
+  openFavoriteWindow()
+})
+// 閉じる
+ipcMain.on('asyn-favorite-window-close', (event) =>{
+  closeFavoriteWindow()
+})
+
+const openFavoriteWindow = ()=>{
   let bounds = getChildBoundsFromMain(480, 370)
   favoriteWindow = new BrowserWindow({
     x: bounds.x,
@@ -214,15 +227,16 @@ ipcMain.on('asyn-favorite-window', (event) =>{
   })
   favoriteWindow.loadURL(`file://${__dirname}/favorite.html`)
   mainWindow.setIgnoreMouseEvents(true)
-})
-// お気に入りウィンドウを閉じる
-ipcMain.on('asyn-favorite-window-close', (event) =>{
+}
+
+const closeFavoriteWindow = ()=>{
   favoriteWindow.close()
+  favoriteWindow = null
   mainWindow.setIgnoreMouseEvents(false)
   mainWindow.send('asyn-favorite-window-close-reply')
-})
+}
 
-// 設定ウィンドウを開く
+// ------------------ 設定 ------------------
 ipcMain.on('asyn-settings-window', (event) =>{
   let bounds = getChildBoundsFromMain(400, 350)
   settingsWindow = new BrowserWindow({
@@ -238,7 +252,7 @@ ipcMain.on('asyn-settings-window', (event) =>{
   settingsWindow.loadURL(`file://${__dirname}/settings.html`)
   mainWindow.setIgnoreMouseEvents(true)
 })
-// 設定ウィンドウを閉じる
+// 閉じる
 ipcMain.on('asyn-settings-window-close', (event) =>{
   settingsWindow.close()
   mainWindow.setIgnoreMouseEvents(false)
