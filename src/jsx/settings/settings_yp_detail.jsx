@@ -6,10 +6,6 @@ module.exports = class SettingsYPDetail extends React.Component {
     super(props)
   }
 
-  onChangeName(){
-
-  }
-
   render(){
     return(
       <div id="settings-yp-detail">

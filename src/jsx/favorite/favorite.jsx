@@ -11,12 +11,10 @@ class Favorite extends React.Component {
   constructor(props){
     super(props)
     this.onClickItem = this.onClickItem.bind(this)
-    this.onChangeName = this.onChangeName.bind(this)
-    this.onChangePattern = this.onChangePattern.bind(this)
+    this.onChangeForm = this.onChangeForm.bind(this)
     this.onChangeTarget = this.onChangeTarget.bind(this)
     this.onClickDelete = this.onClickDelete.bind(this)
-    this.onChangeFontColor = this.onChangeFontColor.bind(this)
-    this.onChangeBgColor = this.onChangeBgColor.bind(this)
+    this.onChangeColor = this.onChangeColor.bind(this)
     this.add = this.add.bind(this)
     this.onClickUp = this.onClickUp.bind(this)
     this.onClickDown = this.onClickDown.bind(this)
@@ -58,18 +56,9 @@ class Favorite extends React.Component {
     this.setState({ current: index })
   }
 
-  onChangeName(name, index){
-    this.state.favorites[index]["name"] = name
-    this.setState({
-      favorites: this.state.favorites
-    })
-  }
-
-  onChangePattern(pattern, index){
-    this.state.favorites[index]["pattern"] = pattern
-    this.setState({
-      favorites: this.state.favorites
-    })
+  onChangeForm(event, index){
+    this.state.favorites[index][event.target.name] = event.target.value
+    this.setState({ favorites: this.state.favorites })
   }
 
   onChangeTarget(target, index){
@@ -83,17 +72,8 @@ class Favorite extends React.Component {
     })
   }
 
-  onChangeFontColor(color, index){
-    console.log(color)
-    this.state.favorites[index]["fontColor"] = color
-    this.setState({
-      favorites: this.state.favorites
-    })
-  }
-
-  onChangeBgColor(color, index){
-    console.log(color)
-    this.state.favorites[index]["bgColor"] = color
+  onChangeColor(target, index){
+    this.state.favorites[index][target.name] = target.value
     this.setState({
       favorites: this.state.favorites
     })
@@ -171,9 +151,8 @@ class Favorite extends React.Component {
             onClickItem={this.onClickItem} onClickAdd={this.add} onClickDelete={this.onClickDelete}
             onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
           <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
-            onChangeName={this.onChangeName} onChangePattern={this.onChangePattern}
-            onChangeTarget={this.onChangeTarget} onClickDelete={this.onClickDelete}
-            onChangeFontColor={this.onChangeFontColor} onChangeBgColor={this.onChangeBgColor} />
+            onChangeForm={this.onChangeForm} onChangeTarget={this.onChangeTarget}
+            onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />
           <div id="favorite-btn-group">
             <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>OK</button>
             <button id="favorite-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
