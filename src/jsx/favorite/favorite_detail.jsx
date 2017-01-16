@@ -62,6 +62,11 @@ module.exports = class FavoriteDetail extends React.Component {
             背景色
           </button>
         </div>
+        <div id="favorite-detail-notify">
+          <label>通知機能</label>
+          <input name="notify" type="checkbox" value={this.props.favorite.notify} checked={this.props.favorite.notify}
+            onChange={event=>{this.props.onChangeNotify(event.target, this.props.index)}} />新着時に通知する
+        </div>
       </div>
     )
   }
