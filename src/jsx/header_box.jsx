@@ -20,11 +20,12 @@ module.exports = class HeaderBox extends React.Component {
   }
 
   render(){
-    // 更新ボタンのCSSクラス
-    var autoUpdateClass = this.props.autoUpdate ? "btn btn-primary" : "btn btn-default"
+    // headerのアクティブ状態
     var headerClass = this.props.active ? "toolbar toolbar-header" : "toolbar toolbar-header blur"
+    // darwin環境時
+    if(global.process.platform == 'darwin') headerClass += " darwin"
     return(
-      <header className={headerClass} style={{paddingTop: "20px"}}>
+      <header className={headerClass}>
         <h1 className="title">
         </h1>
         <div className="toolbar-actions">
