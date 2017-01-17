@@ -19,11 +19,13 @@ class Index extends React.Component {
 
   constructor(props){
     super(props)
-    this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
+    this.bindEvents = this.bindEvents.bind(this)
+    this.loadFavoritesSettings = this.loadFavoritesSettings.bind(this)
+    this.loadYpListSettings = this.loadYpListSettings.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
-    this.loadFavorites = this.loadFavorites.bind(this)
-    this.loadYpList = this.loadYpList.bind(this)
+    this.checkElapsed = this.checkElapsed.bind(this)
     this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
+    this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
     this.state = {
@@ -37,6 +39,12 @@ class Index extends React.Component {
       currentTabIndex: 0,
       active: true
     }
+    this.bindEvents()
+    this.loadFavoritesSettings()
+    this.loadYpListSettings()
+  }
+
+  bindEvents(){
     // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
@@ -53,25 +61,42 @@ class Index extends React.Component {
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
-      this.loadFavorites()
+      this.loadFavoritesSettings()
     })
     // 設定ウィンドウを閉じた時
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
-      this.loadYpList()
+      this.loadYpListSettings()
       let sort = { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') }
       this.setState({ sort: sort })
     })
-    this.loadFavorites()
-    this.loadYpList()
+  }
+
+  // お気に入り設定を読み込む
+  loadFavoritesSettings(call = ()=>{}){
+    storage.get('favorites', (error, data)=>{
+      if(Object.keys(data).length != 0){
+        this.setState({ favorites: data })
+      }
+      call()
+    })
+  }
+
+  // YP設定を読み込む
+  loadYpListSettings(call = ()=>{}){
+    storage.get('ypList', (error, data)=>{
+      if(Object.keys(data).length != 0){
+        let ypList = data.map((yp, index)=>{
+          return new YP(yp.name, yp.url)
+        })
+        this.setState({ ypList: ypList })
+      }
+      call()
+    })
   }
 
   // index.txtを取得
   fetchIndexTxt(){
-    let now = moment()
-    // 差分秒
-    let diffSec = Math.round(now.unix() - this.state.lastUpdateTime.unix())
-    // 最後の更新時から60秒経過しているか
-    if(diffSec >= 60){
+    if(this.checkElapsed()){
       this.setState({ lastUpdateTime: moment() })
       this.state.channels = []
       for(var yp of this.state.ypList){
@@ -83,27 +108,16 @@ class Index extends React.Component {
     }
   }
 
-  // お気に入り設定を読み込む
-  loadFavorites(call = ()=>{}){
-    storage.get('favorites', (error, data)=>{
-      if(Object.keys(data).length != 0){
-        this.setState({ favorites: data })
-      }
-      call()
-    })
-  }
-
-  // YP設定を読み込む
-  loadYpList(call = ()=>{}){
-    storage.get('ypList', (error, data)=>{
-      if(Object.keys(data).length != 0){
-        let ypList = data.map((yp, index)=>{
-          return new YP(yp.name, yp.url)
-        })
-        this.setState({ ypList: ypList })
-      }
-      call()
-    })
+  // 最後の更新からautoUpdateCount秒経過したか？
+  checkElapsed(){
+    let now = moment()
+    // 差分秒
+    let diffSec = Math.round(now.unix() - this.state.lastUpdateTime.unix())
+    if(diffSec >= this.state.autoUpdateCount){
+      return true
+    }else{
+      return false
+    }
   }
 
   // お気に入りチャンネル一覧を取得

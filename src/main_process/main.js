@@ -1,5 +1,5 @@
 import {ipcMain, app, BrowserWindow, Tray, Menu} from 'electron'
-import {exec, spawn} from 'child_process'
+import {exec, execSync} from 'child_process'
 import request from 'superagent'
 import Config from 'electron-config'
 
@@ -150,9 +150,9 @@ ipcMain.on('asyn-play', (event, args) =>{
   let command
   if(global.process.platform=='darwin'){
     // Macの場合はopenコマンドで実行
-    command = spawn('open', ['-a', config.get('playerPath'), args])
+    command = "open -a ${config.get('playerPath')} ${args}"
   }else{
-    command = spawn(config.get('playerPath'), [args])
+    command = "${config.get('playerPath')} ${args}"
   }
   try{
     exec(command, (error, stdout, stderr)=>{
@@ -167,9 +167,9 @@ ipcMain.on('asyn-play', (event, args) =>{
 ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   let command
   if(platform=='darwin'){
-    command = spawn('open', ['-a', config.get('bbs'), url])
+    command = "open -a ${config.get('bbs')} ${url}"
   }else{
-    command = spawn(config.get('bbs'))
+    command = "${config.get('bbs')} ${url}"
   }
   try{
     exec(command, (error, stdout, stderr)=>{
