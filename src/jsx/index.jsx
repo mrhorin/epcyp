@@ -17,6 +17,8 @@ import FooterBox from 'jsx/footer_box'
 const config = new Config({
   defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc" }
 })
+// 起動時間
+const startedAt = moment()
 
 class Index extends React.Component {
 
@@ -55,10 +57,13 @@ class Index extends React.Component {
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       this.add(newChannels, (newChannel)=>{
-        // お気に入りにマッチ&&通知設定されてたら通知
-        let favoriteIndex = this.findIndexOfFavorites(newChannel)
-        if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
-          this.notify(newChannel.name, newChannel.genre+newChannel.detail)
+        let now = moment()
+        if(now.unix()-startedAt.unix()>30){
+          // お気に入りにマッチ&&通知設定されてたら通知
+          let favoriteIndex = this.findIndexOfFavorites(newChannel)
+          if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
+            this.notify(newChannel.name, newChannel.genre+newChannel.detail)
+          }          
         }
       })
     })
