@@ -5,12 +5,15 @@ import {shell} from 'electron'
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import moment from 'moment'
-import css from 'scss/style'
+
 import YP from 'js/yp'
+import css from 'scss/style'
+
 import HeaderBox from 'jsx/header_box'
 import TabBox from 'jsx/tab/tab_box'
 import ChannelBox from 'jsx/channel_box'
 import FooterBox from 'jsx/footer_box'
+
 const config = new Config({
   defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc" }
 })
@@ -20,18 +23,21 @@ class Index extends React.Component {
   constructor(props){
     super(props)
     this.bindEvents = this.bindEvents.bind(this)
-    this.loadFavoritesSettings = this.loadFavoritesSettings.bind(this)
+    this.add = this.add.bind(this)
+    this.loadFavorites = this.loadFavorites.bind(this)
     this.loadYpListSettings = this.loadYpListSettings.bind(this)
-    this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
+    this.findIndexOfChannels = this.findIndexOfChannels.bind(this)
+    this.findIndexOfFavorites = this.findIndexOfFavorites.bind(this)
     this.checkElapsed = this.checkElapsed.bind(this)
     this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
+    this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
     this.state = {
       ypList: [],
-      channels: [],
       favorites: [],
+      channels: [],
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
@@ -40,7 +46,7 @@ class Index extends React.Component {
       active: true
     }
     this.bindEvents()
-    this.loadFavoritesSettings()
+    this.loadFavorites()
     this.loadYpListSettings()
   }
 
@@ -48,8 +54,13 @@ class Index extends React.Component {
     // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
-      let channels = this.state.channels.concat(newChannels)
-      this.setState({ channels: channels })
+      this.add(newChannels, (newChannel)=>{
+        // お気に入りにマッチ&&通知設定されてたら通知
+        let favoriteIndex = this.findIndexOfFavorites(newChannel)
+        if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
+          this.notify(newChannel.name, newChannel.genre+newChannel.detail)
+        }
+      })
     })
     // メインウィンドウが非アクティブ時
     ipcRenderer.on('index-window-blur', (event)=>{
@@ -61,7 +72,7 @@ class Index extends React.Component {
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
-      this.loadFavoritesSettings()
+      this.loadFavorites()
     })
     // 設定ウィンドウを閉じた時
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
@@ -71,8 +82,22 @@ class Index extends React.Component {
     })
   }
 
+    // チャンネルを追加
+  add(newChannels, call=()=>{}){
+    var channels = this.state.channels
+    for(let newChannel of newChannels){
+      let channelIndex = this.findIndexOfChannels(newChannel)
+      // 新着チャンネルのみ追加
+      if(channelIndex<0){
+        channels.push(newChannel)
+        call(newChannel)
+      }
+    }
+    this.setState({ channels: channels })
+  }
+
   // お気に入り設定を読み込む
-  loadFavoritesSettings(call = ()=>{}){
+  loadFavorites(call = ()=>{}){
     storage.get('favorites', (error, data)=>{
       if(Object.keys(data).length != 0){
         this.setState({ favorites: data })
@@ -94,30 +119,51 @@ class Index extends React.Component {
     })
   }
 
-  // index.txtを取得
-  fetchIndexTxt(){
-    if(this.checkElapsed()){
-      this.setState({ lastUpdateTime: moment() })
-      this.state.channels = []
-      for(var yp of this.state.ypList){
-        ipcRenderer.send('asyn-yp', yp)
-      }
-    }else{
-      // エラー音を再生
-      shell.beep()
-    }
-  }
-
-  // 最後の更新からautoUpdateCount秒経過したか？
+  // 最後の更新から30秒経過したか？
   checkElapsed(){
     let now = moment()
     // 差分秒
     let diffSec = Math.round(now.unix() - this.state.lastUpdateTime.unix())
-    if(diffSec >= this.state.autoUpdateCount){
+    if(diffSec > 30){
       return true
     }else{
       return false
     }
+  }
+
+  // state.channels内のindex位置を返す
+  findIndexOfChannels(channel){
+    let index = -1
+    for(let i=0; i < this.state.channels.length; i++){
+      if(channel.key == this.state.channels[i].key){
+        index = i
+        break
+      }
+    }
+    return index
+  }
+
+  // マッチするstate.favorites内のindex位置を返す
+  findIndexOfFavorites(channel){
+    let index = -1
+    for(let i=0; i<this.state.favorites.length; i++){
+      let favorite = this.state.favorites[i]
+      // 検索文字欄が空の場合
+      if(!favorite.pattern) continue
+      let ptn = new RegExp(favorite.pattern, "i")
+      // ptnにマッチする AND 検索対象に指定されているか
+      if((channel.name.match(ptn)&&favorite.target.name)||
+        (channel.genre.match(ptn)&&favorite.target.genre)||
+        (channel.detail.match(ptn)&&favorite.target.detail)||
+        (channel.comment.match(ptn)&&favorite.target.comment)||
+        (channel.url.match(ptn)&&favorite.target.url)||
+        (channel.tip.match(ptn)&&favorite.target.tip)){
+        index = i
+      }else{
+        continue
+      }
+    }
+    return index
   }
 
   // お気に入りチャンネル一覧を取得
@@ -145,6 +191,24 @@ class Index extends React.Component {
     return favoriteChannels.filter((channel, index, self)=>{
       return self.indexOf(channel) === index
     })
+  }
+
+  // index.txtを取得
+  fetchIndexTxt(){
+    if(this.checkElapsed()){
+      this.setState({ lastUpdateTime: moment() })
+      for(var yp of this.state.ypList){
+        ipcRenderer.send('asyn-yp', yp)
+      }
+    }else{
+      // エラー音を再生
+      shell.beep()
+    }
+  }
+
+  // 通知
+  notify(title="", body=""){
+    new Notification(title, {body: body})
   }
 
   // 設定を初期化
