@@ -132,11 +132,10 @@ app.on('window-all-closed', ()=>{
 ipcMain.on('asyn-yp', (event, yp)=>{
   request.get(yp.url).end((err,res)=>{
     try{
-      if(res.status == 200 && !res.error){
+      if(res && res.status == 200 && !res.error){
         yp["txt"] = res.text
       }else{
         yp["txt"] = null
-        console.log(res.error)
       }
       event.sender.send('asyn-yp-reply', yp)
     }catch(e){
