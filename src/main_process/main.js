@@ -150,9 +150,9 @@ ipcMain.on('asyn-play', (event, args) =>{
   let command
   if(global.process.platform=='darwin'){
     // Macの場合はopenコマンドで実行
-    command = "open -a ${config.get('playerPath')} ${args}"
+    command = `open -a ${config.get('playerPath')} ${args}`
   }else{
-    command = "${config.get('playerPath')} ${args}"
+    command = `${config.get('playerPath')} ${args}`
   }
   try{
     exec(command, (error, stdout, stderr)=>{
@@ -167,9 +167,9 @@ ipcMain.on('asyn-play', (event, args) =>{
 ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
   let command
   if(platform=='darwin'){
-    command = "open -a ${config.get('bbs')} ${url}"
+    command = `open -a ${config.get('bbs')} ${url}`
   }else{
-    command = "${config.get('bbs')} ${url}"
+    command = `${config.get('bbs')} ${url}`
   }
   try{
     exec(command, (error, stdout, stderr)=>{
@@ -200,6 +200,9 @@ ipcMain.on('asyn-settings-window-close', (event) =>{
   closeSettingsWindow()
 })
 
+/*-----------------------------------------
+  functions
+-----------------------------------------*/
 const openFavoriteWindow = ()=>{
   if(favoriteWindow == null){
     let bounds = getChildBoundsFromMain(480, 370)
