@@ -1,3 +1,5 @@
+import Channel from 'js/channel'
+
 module.exports = class YP{
 
   constructor(name, url){
@@ -12,23 +14,23 @@ module.exports = class YP{
         line = line.split(/<>/)
         // チャンネル名とIDが空値
         if(!line[0]&&!line[1]) continue;
-        var ch = {
+        var hash = {
           key: line[0]+line[1],
-          name: this.unEscapeHTML(line[0]),
+          name: line[0],
           id: line[1],
           tip: line[2],
           url: line[3],
-          genre: this.unEscapeHTML(line[4]),
-          detail: this.unEscapeHTML(line[5]).replace(/(<Free>)|(<Open>)/, '').replace(/(- )$/, ''),
-          listener: Number(line[6]),
-          relay: Number(line[7]),
-          kbps: Number(line[8]),
+          genre: line[4],
+          detail: line[5],
+          listener: line[6],
+          relay: line[7],
+          kbps: line[8],
           format: line[9],
           time: line[15],
-          comment: this.unEscapeHTML(line[17]),
+          comment: line[17],
         }
-        if(line[4]) ch['genre'] = `[${line[4]}] `;
-        channels.push(ch)
+        var channel = new Channel(hash)
+        channels.push(channel)
       }
     }
     return channels
@@ -40,10 +42,6 @@ module.exports = class YP{
     let urlEnd = url.slice(-1)
     if(urlEnd != '/') url += '/'
     return url+'index.txt'
-  }
-
-  unEscapeHTML(string){
-    return string.replace(/(&lt;)/g, '<').replace(/(&gt;)/g, '>').replace(/(&quot;)/g, '"').replace(/(&#39;)/g, "'").replace(/(&amp;)/g, '&')
   }
 
 }
