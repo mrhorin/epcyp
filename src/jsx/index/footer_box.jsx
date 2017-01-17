@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import FooterCount from 'jsx/footer_count'
+import FooterCount from 'jsx/index/footer_count'
 
 module.exports = class FooterBox extends React.Component {
 

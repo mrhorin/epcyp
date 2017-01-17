@@ -9,10 +9,10 @@ import moment from 'moment'
 import YP from 'js/yp'
 import css from 'scss/style'
 
-import HeaderBox from 'jsx/header_box'
+import HeaderBox from 'jsx/index/header_box'
+import FooterBox from 'jsx/index/footer_box'
 import TabBox from 'jsx/tab/tab_box'
-import ChannelBox from 'jsx/channel_box'
-import FooterBox from 'jsx/footer_box'
+import ChannelBox from 'jsx/channel/channel_box'
 
 const config = new Config({
   defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc" }
@@ -63,7 +63,7 @@ class Index extends React.Component {
           let favoriteIndex = this.findIndexOfFavorites(newChannel)
           if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
             this.notify(newChannel.name, newChannel.genre+newChannel.detail)
-          }          
+          }
         }
       })
     })

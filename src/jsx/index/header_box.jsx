@@ -1,7 +1,7 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
-import HeaderButton from 'jsx/header_button.jsx'
-import HeaderUpdateButton from 'jsx/header_update_button.jsx'
+import HeaderButton from 'jsx/index/header_button.jsx'
+import HeaderUpdateButton from 'jsx/index/header_update_button.jsx'
 
 module.exports = class HeaderBox extends React.Component {
 
