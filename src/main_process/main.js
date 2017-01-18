@@ -113,8 +113,7 @@ app.on('ready', ()=>{
   // 閉じた時
   mainWindow.on('close', ()=>{
     config.set('bounds', mainWindow.getBounds())
-    peercast.stop()
-    app.quit()
+    peercast.stop(()=>{ app.quit() })
   })
 })
 

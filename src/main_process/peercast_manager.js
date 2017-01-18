@@ -1,4 +1,4 @@
-import {exec, execSync, spawn} from 'child_process'
+import {exec, execSync} from 'child_process'
 import Config from 'electron-config'
 import fixPath from 'fix-path'
 
@@ -21,23 +21,25 @@ module.exports = class PeercastManager{
     this.startCmd = this.getStartCmd()
   }
 
-  start(){
+  start(call=()=>{}){
     if(!this.checkStarted()){
       try{
         this.peercast = exec(this.startCmd)
       }catch(e){
         console.log(e)
       }
+      call()
     }
   }
 
-  stop(){
+  stop(call=()=>{}){
     if(this.config.get('exitPeercast')&&this.peercast){
       try{
         this.peercast.kill()
       }catch(e){
         console.log(e)
       }
+      call()
     }
   }
 
