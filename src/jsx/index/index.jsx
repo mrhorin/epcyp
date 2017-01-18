@@ -220,8 +220,9 @@ class Index extends React.Component {
         ipcRenderer.send('asyn-yp', yp)
       }
     }else{
-      // エラー音を再生
-      shell.beep()
+      let sec = 30 - Math.round(moment().unix() - this.state.lastUpdateTime.unix())
+      // エラー通知
+      this.notify("更新できませんでした", `30秒以上の間隔をあけて更新してくだい。\n次の更新まで、あと${sec}秒`)
     }
   }
 
