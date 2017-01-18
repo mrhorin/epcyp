@@ -47,6 +47,8 @@ class Index extends React.Component {
       currentTabIndex: 0,
       active: true
     }
+    // 前回更新時のチャンネル一覧
+    this.prevChannels = []
     this.bindEvents()
     this.loadFavorites()
     this.loadYpListSettings()
@@ -91,12 +93,10 @@ class Index extends React.Component {
   add(newChannels, call=()=>{}){
     var channels = this.state.channels
     for(let newChannel of newChannels){
-      let channelIndex = this.findIndexOfChannels(newChannel)
-      // 新着チャンネルのみ追加
-      if(channelIndex<0){
-        channels.push(newChannel)
-        call(newChannel)
-      }
+      let channelIndex = this.findIndexOfPrevChannels(newChannel)
+      // 新着チャンネル
+      if(channelIndex<0) call(newChannel)
+      channels.push(newChannel)
     }
     this.setState({ channels: channels })
   }
@@ -141,6 +141,18 @@ class Index extends React.Component {
     let index = -1
     for(let i=0; i < this.state.channels.length; i++){
       if(channel.key == this.state.channels[i].key){
+        index = i
+        break
+      }
+    }
+    return index
+  }
+
+  // prevChannels内のindex位置を返す
+  findIndexOfPrevChannels(channel){
+    let index = -1
+    for(let i=0; i < this.prevChannels.length; i++){
+      if(channel.key == this.prevChannels[i].key){
         index = i
         break
       }
@@ -201,6 +213,8 @@ class Index extends React.Component {
   // index.txtを取得
   fetchIndexTxt(){
     if(this.checkElapsed()){
+      this.prevChannels = this.state.channels
+      this.state.channels = []
       this.setState({ lastUpdateTime: moment() })
       for(var yp of this.state.ypList){
         ipcRenderer.send('asyn-yp', yp)
