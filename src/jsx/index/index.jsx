@@ -13,9 +13,10 @@ import HeaderBox from 'jsx/index/header_box'
 import FooterBox from 'jsx/index/footer_box'
 import TabBox from 'jsx/tab/tab_box'
 import ChannelBox from 'jsx/channel/channel_box'
+import GuiBox from 'jsx/gui/gui_box'
 
 const config = new Config({
-  defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc" }
+  defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false }
 })
 // 起動時間
 const startedAt = moment()
@@ -26,8 +27,8 @@ class Index extends React.Component {
     super(props)
     this.bindEvents = this.bindEvents.bind(this)
     this.add = this.add.bind(this)
+    this.loadSettings = this.loadSettings.bind(this)
     this.loadFavorites = this.loadFavorites.bind(this)
-    this.loadYpListSettings = this.loadYpListSettings.bind(this)
     this.findIndexOfChannels = this.findIndexOfChannels.bind(this)
     this.findIndexOfFavorites = this.findIndexOfFavorites.bind(this)
     this.checkElapsed = this.checkElapsed.bind(this)
@@ -40,6 +41,7 @@ class Index extends React.Component {
       ypList: [],
       favorites: [],
       channels: [],
+      showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
@@ -51,7 +53,7 @@ class Index extends React.Component {
     this.prevChannels = []
     this.bindEvents()
     this.loadFavorites()
-    this.loadYpListSettings()
+    this.loadSettings()
   }
 
   bindEvents(){
@@ -83,9 +85,7 @@ class Index extends React.Component {
     })
     // 設定ウィンドウを閉じた時
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
-      this.loadYpListSettings()
-      let sort = { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') }
-      this.setState({ sort: sort })
+      this.loadSettings()
     })
   }
 
@@ -101,24 +101,27 @@ class Index extends React.Component {
     this.setState({ channels: channels })
   }
 
+  // 設定を読み込む
+  loadSettings(call = ()=>{}){
+    // YP
+    storage.get('ypList', (error, data)=>{
+      // ソート
+      let sort = { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') }
+      let ypList = []
+      if(Object.keys(data).length != 0){
+        ypList = data.map((yp, index)=>{
+          return new YP(yp.name, yp.url)
+        })
+      }
+      this.setState({ sort: sort, ypList: ypList, showGuiTab: config.get('showGuiTab') })
+    })
+  }
+
   // お気に入り設定を読み込む
   loadFavorites(call = ()=>{}){
     storage.get('favorites', (error, data)=>{
       if(Object.keys(data).length != 0){
         this.setState({ favorites: data })
-      }
-      call()
-    })
-  }
-
-  // YP設定を読み込む
-  loadYpListSettings(call = ()=>{}){
-    storage.get('ypList', (error, data)=>{
-      if(Object.keys(data).length != 0){
-        let ypList = data.map((yp, index)=>{
-          return new YP(yp.name, yp.url)
-        })
-        this.setState({ ypList: ypList })
       }
       call()
     })
@@ -278,6 +281,9 @@ class Index extends React.Component {
             registFavorite={this.registFavorite} />
       }
     ]
+    if(this.state.showGuiTab){
+      components.push({name: `リレー`, component: <GuiBox />})
+    }
     let currentComponent = components[this.state.currentTabIndex].component
 
     return(
