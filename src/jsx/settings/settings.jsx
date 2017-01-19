@@ -20,6 +20,7 @@ const config = new Config({
     peercast: "",
     exitPeercast: true,
     useMono: false,
+    showGuiTab: false,
     playerPath: '',
     playerArgs: '"$x"'
   }
@@ -55,6 +56,7 @@ class Settings extends React.Component {
       peercast: config.get('peercast'),
       exitPeercast: config.get('exitPeercast'),
       useMono: config.get('useMono'),
+      showGuiTab: config.get('showGuiTab'),
       ypList: [yp],
       currentTabIndex: 0,
       currentYpIndex: 0,
@@ -75,6 +77,7 @@ class Settings extends React.Component {
     config.set('peercast', this.state.peercast)
     config.set('exitPeercast', this.state.exitPeercast)
     config.set('useMono', this.state.useMono)
+    config.set('showGuiTab', this.state.showGuiTab)
     config.set('playerPath', this.state.playerPath)
     config.set('playerArgs', this.state.playerArgs)
     storage.set('ypList', this.state.ypList, (error)=>{
@@ -190,7 +193,8 @@ class Settings extends React.Component {
       {
         name: "PeerCast",
         component:
-          <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast} useMono={this.state.useMono}
+          <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
+            useMono={this.state.useMono} showGuiTab={this.state.showGuiTab}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
       },
       {

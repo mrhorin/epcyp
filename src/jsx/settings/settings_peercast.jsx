@@ -26,6 +26,10 @@ module.exports = class SettingsPeerCast extends React.Component {
           <input className="checkbox" type="checkbox" name="exitPeercast" ref="exitPeercast" value={this.props.exitPeercast}
             checked={this.props.exitPeercast} onChange={this.onChangeCheckbox} />終了時にPeerCastを終了する
         </div>
+        <div className="form-group">
+          <input className="checkbox" type="checkbox" name="showGuiTab" ref="showGuiTab" value={this.props.showGuiTab}
+            checked={this.props.showGuiTab} onChange={this.onChangeCheckbox} />GUIタブを表示する（PeerCastStion使用時のみ）
+        </div>
       </div>
     )
   }
