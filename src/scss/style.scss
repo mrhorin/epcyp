@@ -5,7 +5,7 @@ $col3-widrh: 40px;
 /* Index */
 body{
   font-size: 11px;
-  background: #efefef;
+  background: #fff;
   overflow: auto;
 }
 #container{
@@ -176,6 +176,169 @@ td.channel-item-col3{
   max-width: $col3-widrh;
   padding: 2px 5px;
   text-align: right;
+}
+
+/* GuiBox */
+th.gui-box-col1{
+  color: #000 !important;
+  font-size: 11px;
+  box-sizing: border-box;
+  width: $col1-widrh;
+  margin-right: -110px;
+	padding-right: 110px;
+}
+th.gui-box-col2{
+  color: #000 !important;
+  font-size: 11px;
+  box-sizing: border-box;
+  max-width: $col2-widrh;
+  padding: 2px 5px;
+}
+th.gui-box-col3{
+  color: #000 !important;
+  font-size: 11px;
+  box-sizing: border-box;
+  max-width: $col3-widrh;
+  padding: 2px 5px;
+}
+
+/* GuiItem */
+tr.gui-item:nth-child(odd):active,
+tr.gui-item:nth-child(even):active{
+  background: #a2b0ff !important;
+}
+tr.gui-item{
+  color: #000 !important;
+  font-size: 13px;
+}
+td.gui-item-col1{
+  width: $col1-widrh;
+  max-width: 100%;
+  padding: 5px 0px 5px 10px;
+  .gui-item-name{
+    color: #1f0fe2;
+    font-weight: bold;
+    display: block;
+    white-space: normal;
+    overflow: hidden;
+    word-break: break-all;
+    i{
+      margin-right: 5px;
+      vertical-align: sub;
+    }
+  }
+  .gui-item-genre{
+  }
+  .gui-item-detail{
+    font-size: 11px;
+    display: block;
+    white-space: normal;
+    overflow: hidden;
+    word-break: break-all;
+  }
+  .gui-item-comment{
+  }
+}
+td.gui-item-col2{
+  box-sizing: border-box;
+  max-width: $col2-widrh;
+  padding: 2px 5px;
+  text-align: right;
+}
+td.gui-item-col3{
+  box-sizing: border-box;
+  max-width: $col3-widrh;
+  padding: 2px 5px;
+  text-align: right;
+}
+/*-----------------------------------------------------
+  画像引用:https://github.com/kumaryu/peercaststation
+-----------------------------------------------------*/
+.relayable {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_0.png");
+}
+.relayFull {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_1.png");
+}
+.notRelayable {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_2.png");
+}
+.firewalled {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_3.png");
+}
+.firewalledRelaying {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_4.png");
+}
+.unknown {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_6.png");
+}
+.notReceiving {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_6.png");
+}
+.connectionToRoot {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_7.png");
+}
+.connectionToTracker {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-image: url("../img/relay/relay_icon_8.png");
+}
+
+/* GuiControl */
+.gui-control{
+  button.btn-mini{
+    height: 18px;
+    padding: 0px 3px;
+    .icon{
+      color: #454545;
+    }
+  }
+  button.btn-mini:hover{
+    background: #cbd7ff;
+  }
 }
 
 /* Favorite */

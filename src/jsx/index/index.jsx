@@ -6,6 +6,7 @@ import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import moment from 'moment'
 
+import Peercast from 'js/peercaststation'
 import YP from 'js/yp'
 import css from 'scss/style'
 
@@ -34,6 +35,7 @@ class Index extends React.Component {
     this.checkElapsed = this.checkElapsed.bind(this)
     this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
+    this.startUpdateRelays = this.startUpdateRelays.bind(this)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
@@ -41,6 +43,7 @@ class Index extends React.Component {
       ypList: [],
       favorites: [],
       channels: [],
+      relays: [],
       showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
@@ -54,6 +57,7 @@ class Index extends React.Component {
     this.bindEvents()
     this.loadFavorites()
     this.loadSettings()
+    this.startUpdateRelays()
   }
 
   bindEvents(){
@@ -229,6 +233,21 @@ class Index extends React.Component {
     }
   }
 
+  // リレー情報の更新を開始
+  startUpdateRelays(){
+    Peercast.getChannels((err, res)=>{
+      let relays = []
+      if(res && res.status == 200 && !res.error && res.text){
+        let json = JSON.parse(res.text)
+        relays = json.result
+      }
+      this.setState({ relays: relays })
+      setTimeout(()=>{
+        this.startUpdateRelays()
+      }, 1000)
+    })
+  }
+
   // 通知
   notify(title="", body=""){
     new Notification(title, {body: body})
@@ -282,7 +301,10 @@ class Index extends React.Component {
       }
     ]
     if(this.state.showGuiTab){
-      components.push({name: `リレー`, component: <GuiBox />})
+      components.push({
+        name: `リレー(${this.state.relays.length})`,
+        component: <GuiBox relays={this.state.relays} />
+      })
     }
     let currentComponent = components[this.state.currentTabIndex].component
 
