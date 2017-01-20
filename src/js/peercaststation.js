@@ -23,6 +23,13 @@ module.exports = class Peercaststion{
     })
   }
 
+  // 再接続
+  static bumpChannel(channelId, call=()=>{}){
+    this.postRequest('bumpChannel', { channelId: channelId }, (err, res)=>{
+      call(err, res)
+    })
+  }
+
   static get API_URL(){
     return 'http://127.0.0.1:'+config.get('port')+'/api/1'
   }

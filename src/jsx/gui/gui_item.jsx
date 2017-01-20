@@ -17,6 +17,11 @@ module.exports = class GuiItem extends React.Component{
     Peercast.stopChannel(this.props.relay.channelId)
   }
 
+  // 再接続
+  bumpChannel(){
+    Peercast.bumpChannel(this.props.relay.channelId)
+  }
+
   // コンタクトURLをBBSブラウザで開く
   openBBS(){
     ipcRenderer.send('asyn-open-bbs', this.props.relay.info.url)
@@ -38,7 +43,7 @@ module.exports = class GuiItem extends React.Component{
     }))
     menu.append(new MenuItem({
       label: '再接続',
-      click: ()=>{ this.openURL() }
+      click: ()=>{ this.bumpChannel() }
     }))
     menu.append(new MenuItem({
       type: 'separator'
