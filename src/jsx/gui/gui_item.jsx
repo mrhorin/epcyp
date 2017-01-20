@@ -2,6 +2,8 @@ import React from 'react'
 import {ipcRenderer, remote, shell} from 'electron'
 
 import Peercast from 'js/peercaststation'
+import Player from 'js/player'
+import Channel from 'js/channel'
 
 module.exports = class GuiItem extends React.Component{
 
@@ -20,6 +22,21 @@ module.exports = class GuiItem extends React.Component{
   // 再接続
   bumpChannel(){
     Peercast.bumpChannel(this.props.relay.channelId)
+  }
+
+  play(){
+    let channel = new Channel({
+      key: this.props.relay.info.name+this.props.relay.channelId,
+      id: this.props.relay.channelId,
+      name: this.props.relay.info.name,
+      tip: this.props.relay.status.source.replace(/^(pcp:\/\/)/,"").match(/^\d.+:\d+/)[0],
+      format: this.props.relay.info.contentType,
+      genre: this.props.relay.info.genre,
+      detail: this.props.relay.info.desc,
+      url: this.props.relay.info.url
+    })
+    let player = new Player(channel)
+    player.play()
   }
 
   // コンタクトURLをBBSブラウザで開く
@@ -47,6 +64,10 @@ module.exports = class GuiItem extends React.Component{
     }))
     menu.append(new MenuItem({
       type: 'separator'
+    }))
+    menu.append(new MenuItem({
+      label: '再生',
+      click: ()=>{ this.play() }
     }))
     menu.append(new MenuItem({
       label: 'コンタクトURLを開く',
