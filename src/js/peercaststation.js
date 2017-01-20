@@ -9,12 +9,16 @@ const config = new Config({ defaults: { port: 7144 } })
 ------------------------------------------------------------------*/
 module.exports = class Peercaststion{
 
-  constructor(){
-  }
-
   // チャンネル情報一覧を取得
   static getChannels(call=()=>{}){
     this.postRequest('getChannels', null, (err, res)=>{
+      call(err, res)
+    })
+  }
+
+  // 切断
+  static stopChannel(channelId, call=()=>{}){
+    this.postRequest('stopChannel', { channelId: channelId }, (err, res)=>{
       call(err, res)
     })
   }

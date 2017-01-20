@@ -6,7 +6,10 @@ $col3-widrh: 40px;
 body{
   font-size: 11px;
   background: #fff;
-  overflow: auto;
+  overflow-y: scroll;
+}
+body::-webkit-scrollbar{
+  display: none;
 }
 #container{
   position: relative;
@@ -113,9 +116,7 @@ th.channel-box-col1{
   color: #000 !important;
   font-size: 11px;
   box-sizing: border-box;
-  width: $col1-widrh;
-  margin-right: -110px;
-	padding-right: 110px;
+  width: 100%;
 }
 th.channel-box-col2{
   color: #000 !important;
@@ -142,7 +143,6 @@ tr.channel-item{
   font-size: 13px;
 }
 td.channel-item-col1{
-  width: $col1-widrh;
   max-width: 100%;
   padding: 5px 0px 5px 10px;
   .channel-item-name{
@@ -183,9 +183,7 @@ th.gui-box-col1{
   color: #000 !important;
   font-size: 11px;
   box-sizing: border-box;
-  width: $col1-widrh;
-  margin-right: -110px;
-	padding-right: 110px;
+  width: 100%;
 }
 th.gui-box-col2{
   color: #000 !important;
@@ -212,7 +210,6 @@ tr.gui-item{
   font-size: 13px;
 }
 td.gui-item-col1{
-  width: $col1-widrh;
   max-width: 100%;
   padding: 5px 0px 5px 10px;
   .gui-item-name{
@@ -226,6 +223,18 @@ td.gui-item-col1{
       margin-right: 5px;
       vertical-align: sub;
     }
+  }
+  .gui-item-status{
+    display: inline-block;
+    padding: 0px 3px;
+    font-weight: bold;
+    font-size: 11px;
+  }
+  .gui-item-status-Receiving{
+    @extend .gui-item-status;
+    background: #468847;
+    border: 1px solid darken(#468847, 10%);
+    color: #fff;
   }
   .gui-item-genre{
   }
@@ -244,6 +253,7 @@ td.gui-item-col2{
   max-width: $col2-widrh;
   padding: 2px 5px;
   text-align: right;
+  display: table-cell;
 }
 td.gui-item-col3{
   box-sizing: border-box;
