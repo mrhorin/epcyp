@@ -162,9 +162,9 @@ ipcMain.on('asyn-play', (event, args) =>{
 })
 
 // ------------- BBSブラウザの起動 -------------
-ipcMain.on('asyn-open-bbs', (event, url, platform) =>{
+ipcMain.on('asyn-open-bbs', (event, url) =>{
   let command
-  if(platform=='darwin'){
+  if(global.process.platform=='darwin'){
     command = `open -a ${config.get('bbs')} ${url}`
   }else{
     command = `${config.get('bbs')} ${url}`

@@ -27,7 +27,7 @@ module.exports = class ChannelItem extends React.Component {
 
   // コンタクトURLをBBSブラウザで開く
   openBBS(){
-    ipcRenderer.send('asyn-open-bbs', this.props.channel.url, remote.process.platform)
+    ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
   }
 
   // コンタクトURLを既定ブラウザで開く
