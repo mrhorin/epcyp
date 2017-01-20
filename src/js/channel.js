@@ -8,9 +8,9 @@ module.exports = class Channel{
     this.url = hash.url
     this.genre = this.unEscapeHTML(hash.genre)
     this.detail = this.unEscapeHTML(hash.detail).replace(/(<Free>)|(<Open>)/, '').replace(/(- )$/, '')
-    this.listener = Number(hash.listener)
-    this.relay = Number(hash.relay)
-    this.kbps = Number(hash.kbps)
+    this.listener = this.toNumber(hash.listener)
+    this.relay = this.toNumber(hash.relay)
+    this.kbps = this.toNumber(hash.kbps)
     this.format = hash.format
     this.time = hash.time
     this.comment = this.unEscapeHTML(hash.comment)
@@ -18,7 +18,17 @@ module.exports = class Channel{
   }
 
   unEscapeHTML(string){
+    if(!string)  return ""
     return string.replace(/(&lt;)/g, '<').replace(/(&gt;)/g, '>').replace(/(&quot;)/g, '"').replace(/(&#39;)/g, "'").replace(/(&amp;)/g, '&')
+  }
+
+  toNumber(string){
+    let num = Number(string)
+    if(num){
+      return num
+    }else{
+      return 0
+    }
   }
 
 }
