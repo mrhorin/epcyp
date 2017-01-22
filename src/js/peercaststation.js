@@ -7,14 +7,7 @@ const config = new Config({ defaults: { port: 7144 } })
   PeerCastStionを操作するクラス
   参考: PeerCastStation.UI.HTTP/html/js/peercaststation.1.0.0.js
 ------------------------------------------------------------------*/
-module.exports = class Peercaststion{
-
-  // チャンネル情報一覧を取得
-  static getChannels(call=()=>{}){
-    this.postRequest('getChannels', null, (err, res)=>{
-      call(err, res)
-    })
-  }
+module.exports = class Peercaststation{
 
   // 切断
   static stopChannel(channelId, call=()=>{}){
@@ -26,6 +19,27 @@ module.exports = class Peercaststion{
   // 再接続
   static bumpChannel(channelId, call=()=>{}){
     this.postRequest('bumpChannel', { channelId: channelId }, (err, res)=>{
+      call(err, res)
+    })
+  }
+
+  // 接続一覧を取得
+  static getChannelConnections(channelId, call=()=>{}){
+    this.postRequest('getChannelConnections', { channelId: channelId }, (err, res)=>{
+      call(err, res)
+    })
+  }
+
+  // リレツリーを取得
+  static getChannelRelayTree(channelId, call=()=>{}){
+    this.postRequest('getChannelRelayTree', { channelId: channelId }, (err, res)=>{
+      call(err, res)
+    })
+  }
+
+  // チャンネル情報一覧を取得
+  static getChannels(call=()=>{}){
+    this.postRequest('getChannels', null, (err, res)=>{
       call(err, res)
     })
   }
