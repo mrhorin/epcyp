@@ -238,11 +238,6 @@ td.gui-item-col1{
     white-space: normal;
     overflow: hidden;
     word-break: break-all;
-    ul.gui-item-connections{
-      padding: 20px 5px 15px 5px;
-      margin: 0px;
-      list-style: none;
-    }
   }
   .gui-item-comment{
   }
@@ -262,6 +257,24 @@ td.gui-item-col3{
   text-align: right;
   vertical-align: top;
 }
+
+/* GuiItemConnections */
+ul.gui-item-connections{
+  padding: 20px 5px 15px 5px;
+  margin: 0px;
+  list-style: none;
+  li{
+    padding-bottom: 2px;
+    i{
+      vertical-align: middle;
+      margin-right: 3px;
+    }
+  }
+  li:last-child{
+    padding-bottom: 0px;
+  }
+}
+
 /*-----------------------------------------------------
   画像引用:https://github.com/kumaryu/peercaststation
 -----------------------------------------------------*/
@@ -311,7 +324,7 @@ td.gui-item-col3{
   width: 16px;
   height: 16px;
   background-repeat: no-repeat;
-  background-image: url("../img/relay/relay_icon_6.png");
+  background-image: url("../img/relay/relay_icon_5.png");
 }
 .notReceiving {
   display: inline-block;
@@ -336,20 +349,6 @@ td.gui-item-col3{
   height: 16px;
   background-repeat: no-repeat;
   background-image: url("../img/relay/relay_icon_8.png");
-}
-
-/* GuiControl */
-.gui-control{
-  button.btn-mini{
-    height: 18px;
-    padding: 0px 3px;
-    .icon{
-      color: #454545;
-    }
-  }
-  button.btn-mini:hover{
-    background: #cbd7ff;
-  }
 }
 
 /* Favorite */

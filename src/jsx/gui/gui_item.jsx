@@ -5,6 +5,8 @@ import Peercast from 'js/peercaststation'
 import Player from 'js/player'
 import Channel from 'js/channel'
 
+import GuiItemConnections from 'jsx/gui/gui_item_connections'
+
 module.exports = class GuiItem extends React.Component{
 
   constructor(props){
@@ -12,11 +14,43 @@ module.exports = class GuiItem extends React.Component{
     this.openBBS = this.openBBS.bind(this)
     this.openURL = this.openURL.bind(this)
     this.showContextMenu = this.showContextMenu.bind(this)
+    this.switchConnections = this.switchConnections.bind(this)
+    this.startUpdateConnections = this.startUpdateConnections.bind(this)
+    this.stopUpdateConnections = this.stopUpdateConnections.bind(this)
+    this.state = {
+      showConnections: false,
+      connections: []
+    }
+  }
+
+  // 接続一覧の更新を開始
+  startUpdateConnections(call=()=>{}){
+    Peercast.getChannelConnections(this.props.relay.channelId, (err, res)=>{
+      let connections = []
+      if(res && res.status == 200 && !res.error && res.text){
+        let json = JSON.parse(res.text)
+        connections = json.result
+      }
+      this.setState({ connections: connections })
+      call()
+      this.updateConnectionsTimer = setTimeout(()=>{ this.startUpdateConnections() }, 1000)
+    })
+  }
+
+  // 接続一覧の更新を停止
+  stopUpdateConnections(call=()=>{}){
+    clearTimeout(this.updateConnectionsTimer)
+    call()
   }
 
   // 切断
   stopChannel(){
-    Peercast.stopChannel(this.props.relay.channelId)
+    this.stopUpdateConnections(()=>{
+      Peercast.stopChannel(this.props.relay.channelId)
+      /*--------------------------------------------
+      もし切断できなかったらstartUpdateConnectionsする処理
+      ---------------------------------------------*/
+    })
   }
 
   // 再接続
@@ -24,6 +58,7 @@ module.exports = class GuiItem extends React.Component{
     Peercast.bumpChannel(this.props.relay.channelId)
   }
 
+  // 再生
   play(){
     let channel = new Channel({
       key: this.props.relay.info.name+this.props.relay.channelId,
@@ -49,6 +84,19 @@ module.exports = class GuiItem extends React.Component{
     shell.openExternal(this.props.relay.info.url)
   }
 
+  // 接続一覧の表示/非表示の切り替え
+  switchConnections(){
+    // 接続一覧の自動更新の開始/停止
+    if(this.state.showConnections){
+      this.stopUpdateConnections()
+    }else{
+      this.startUpdateConnections()
+    }
+    this.setState({
+      showConnections: !this.state.showConnections
+    })
+  }
+
   // 右クリメニューを表示
   showContextMenu(e){
     const Menu =  remote.Menu
@@ -61,6 +109,13 @@ module.exports = class GuiItem extends React.Component{
     menu.append(new MenuItem({
       label: '再接続',
       click: ()=>{ this.bumpChannel() }
+    }))
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+    menu.append(new MenuItem({
+      label: '接続一覧',
+      click: ()=>{ this.switchConnections() }
     }))
     menu.append(new MenuItem({
       type: 'separator'
@@ -113,7 +168,15 @@ module.exports = class GuiItem extends React.Component{
     return result
   }
 
+  componentWillUnmount(){
+    this.stopUpdateConnections()
+  }
+
   render(){
+    let connections
+    if(this.state.showConnections){
+      connections = <GuiItemConnections connections={this.state.connections} />
+    }
     let className = "gui-item"
     if(this.props.current==this.props.index) className += " gui-item-active"
     return(
@@ -124,6 +187,9 @@ module.exports = class GuiItem extends React.Component{
           <div className="gui-item-name">
             <i className={this.connectionStatus} />
             {this.props.relay.info.name}
+          </div>
+          <div className="gui-item-detail">
+            {connections}
           </div>
         </td>
         <td className="gui-item-col2">

@@ -244,7 +244,7 @@ class Index extends React.Component {
         relays = json.result
       }
       this.setState({ relays: relays })
-      // 再起呼び出し
+      // 再帰呼び出し
       setTimeout(()=>{ this.startUpdateRelays() }, 1000)
     })
   }
