@@ -39,12 +39,14 @@ class Index extends React.Component {
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
+    this.selectGuiItem = this.selectGuiItem.bind(this)
     this.state = {
       ypList: [],
       favorites: [],
       channels: [],
       relays: [],
       showGuiTab: config.get('showGuiTab'),
+      currentGuiItemIndex: -1,
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
@@ -242,9 +244,8 @@ class Index extends React.Component {
         relays = json.result
       }
       this.setState({ relays: relays })
-      setTimeout(()=>{
-        this.startUpdateRelays()
-      }, 1000)
+      // 再起呼び出し
+      setTimeout(()=>{ this.startUpdateRelays() }, 1000)
     })
   }
 
@@ -273,6 +274,7 @@ class Index extends React.Component {
   }
 
   // ------------ ChannelItem ------------
+  // お気に入り登録
   registFavorite(favoriteIndex, channelName){
     // 検索文字欄が空白でない場合は|を付与しない
     if(this.state.favorites[favoriteIndex].pattern){
@@ -283,6 +285,15 @@ class Index extends React.Component {
     storage.set('favorites', this.state.favorites)
   }
 
+  // ------------ GuiItem ------------
+  selectGuiItem(event, index){
+    if(this.state.showGuiTab && this.state.relays.length > index){
+      this.setState({ currentGuiItemIndex: index })
+    }else{
+      this.setState({ currentGuiItemIndex: -1 })
+    }
+  }
+
   render(){
     // お気に入りチャンネル一覧
     let favoriteChannels = this.getFavoriteChannels()
@@ -290,20 +301,25 @@ class Index extends React.Component {
       {
         name: `すべて(${this.state.channels.length})`,
         component:
-          <ChannelBox channels={this.state.channels} favorites={this.state.favorites} sort={this.state.sort}
+          <ChannelBox channels={this.state.channels}
+            favorites={this.state.favorites} sort={this.state.sort}
             registFavorite={this.registFavorite} />
       },
       {
         name: `お気に入り(${favoriteChannels.length})`,
         component:
-          <ChannelBox channels={favoriteChannels} favorites={this.state.favorites} sort={this.state.sort}
+          <ChannelBox channels={favoriteChannels}
+            favorites={this.state.favorites} sort={this.state.sort}
             registFavorite={this.registFavorite} />
       }
     ]
     if(this.state.showGuiTab){
       components.push({
         name: `リレー(${this.state.relays.length})`,
-        component: <GuiBox relays={this.state.relays} />
+        component:
+          <GuiBox relays={this.state.relays}
+            current={this.state.currentGuiItemIndex}
+            onClickItem={(event,index)=>{this.selectGuiItem(event,index)}} />
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component

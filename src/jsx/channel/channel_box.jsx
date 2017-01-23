@@ -46,7 +46,7 @@ module.exports = class ChannelBox extends React.Component {
   render(){
     let channels
     // darwin環境時
-    var tableClass = global.process.platform == 'darwin' ? "table-striped darwin" : "table-striped"
+    var tableClass = global.process.platform == 'darwin' ? "darwin" : ""
     // チャンネル一覧をソート
     if(this.props.sort.orderBy=='asc'){
       channels = this.sortASC(this.props.channels, this.props.sort.key)

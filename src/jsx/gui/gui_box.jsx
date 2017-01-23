@@ -10,10 +10,12 @@ module.exports = class GuiBox extends React.Component{
 
   render(){
     // darwin環境時
-    let tableClass = global.process.platform == 'darwin' ? "table-striped darwin" : "table-striped"
-    let guiItems = this.props.relays.map((relay)=>{
+    let tableClass = global.process.platform == 'darwin' ? "darwin" : ""
+    let guiItems = this.props.relays.map((relay, index)=>{
       return(
-        <GuiItem key={relay.channelId} relay={relay} />
+        <GuiItem
+          key={relay.channelId} index={index} current={this.props.current} relay={relay}
+          onClickItem={(event,index)=>{this.props.onClickItem(event,index)}} />
       )
     })
     return(

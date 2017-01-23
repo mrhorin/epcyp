@@ -24,7 +24,7 @@ body::-webkit-scrollbar{
     width: 100%;
     top: 45px;
   }
-  table.table-striped{
+  table{
     padding-top: 5px;
   }
   // darwin環境時
@@ -136,7 +136,7 @@ th.channel-box-col3{
 /* ChannelItem */
 tr.channel-item:nth-child(odd):active,
 tr.channel-item:nth-child(even):active{
-  background: #a2b0ff !important;
+  background: none;
 }
 tr.channel-item{
   color: #000 !important;
@@ -203,6 +203,9 @@ th.gui-box-col3{
 /* GuiItem */
 tr.gui-item:nth-child(odd):active,
 tr.gui-item:nth-child(even):active{
+  background: none;
+}
+tr.gui-item.gui-item-active,{
   background: #a2b0ff !important;
 }
 tr.gui-item{
@@ -212,7 +215,10 @@ tr.gui-item{
 td.gui-item-col1{
   max-width: 100%;
   padding: 5px 0px 5px 10px;
+  position: relative;
   .gui-item-name{
+    position: absolute;
+    top: 13px;
     color: #1f0fe2;
     font-weight: bold;
     display: block;
@@ -224,26 +230,19 @@ td.gui-item-col1{
       vertical-align: sub;
     }
   }
-  .gui-item-status{
-    display: inline-block;
-    padding: 0px 3px;
-    font-weight: bold;
-    font-size: 11px;
-  }
-  .gui-item-status-Receiving{
-    @extend .gui-item-status;
-    background: #468847;
-    border: 1px solid darken(#468847, 10%);
-    color: #fff;
-  }
-  .gui-item-genre{
-  }
   .gui-item-detail{
+    position: relative;
+    top: 13px;
     font-size: 11px;
     display: block;
     white-space: normal;
     overflow: hidden;
     word-break: break-all;
+    ul.gui-item-connections{
+      padding: 20px 5px 15px 5px;
+      margin: 0px;
+      list-style: none;
+    }
   }
   .gui-item-comment{
   }
@@ -254,12 +253,14 @@ td.gui-item-col2{
   padding: 2px 5px;
   text-align: right;
   display: table-cell;
+  vertical-align: top;
 }
 td.gui-item-col3{
   box-sizing: border-box;
   max-width: $col3-widrh;
   padding: 2px 5px;
   text-align: right;
+  vertical-align: top;
 }
 /*-----------------------------------------------------
   画像引用:https://github.com/kumaryu/peercaststation
@@ -542,13 +543,7 @@ nav#rule-box-nav{
   height: 20px;
   color: #333;
 }
-.table-striped{
-  padding-top: 22px;
-}
-tr:active:nth-child(even), tr:active{
-  color: #333 !important;
-  background: #5498e8 !important;
-}
+
 .tab-item{
   font-size: 11px !important;
   padding: 1px !important;

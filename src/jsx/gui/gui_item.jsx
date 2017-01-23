@@ -91,7 +91,7 @@ module.exports = class GuiItem extends React.Component{
     return `${hour}:${min}`
   }
 
-  // 接続状態
+  // 接続状態を取得
   get connectionStatus(){
     var result = ""
     if(this.props.relay.status.isReceiving){
@@ -114,8 +114,12 @@ module.exports = class GuiItem extends React.Component{
   }
 
   render(){
+    let className = "gui-item"
+    if(this.props.current==this.props.index) className += " gui-item-active"
     return(
-      <tr className="gui-item" onContextMenu={this.showContextMenu}>
+      <tr className={className}
+        onClick={event =>{this.props.onClickItem(event, this.props.index)}}
+        onContextMenu={this.showContextMenu}>
         <td className="gui-item-col1">
           <div className="gui-item-name">
             <i className={this.connectionStatus} />
