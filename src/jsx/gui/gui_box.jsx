@@ -15,7 +15,7 @@ module.exports = class GuiBox extends React.Component{
       return(
         <GuiItem
           key={relay.channelId} index={index} current={this.props.current} relay={relay}
-          onClickItem={(event,index)=>{this.props.onClickItem(event,index)}} />
+          onClickItem={index=>{this.props.onClickItem(index)}} />
       )
     })
     return(

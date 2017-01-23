@@ -52,7 +52,7 @@ class Index extends React.Component {
       autoUpdateCount: 60,
       lastUpdateTime: moment().add(-59, 's'),
       currentTabIndex: 0,
-      active: true
+      mainWindowActive: true
     }
     // 前回更新時のチャンネル一覧
     this.prevChannels = []
@@ -79,11 +79,11 @@ class Index extends React.Component {
     })
     // メインウィンドウが非アクティブ時
     ipcRenderer.on('index-window-blur', (event)=>{
-      this.setState({ active: false })
+      this.setState({ mainWindowActive: false })
     })
     // メインウィンドウがアクティブ時
     ipcRenderer.on('index-window-focus', (event)=>{
-      this.setState({ active: true })
+      this.setState({ mainWindowActive: true })
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
@@ -286,7 +286,7 @@ class Index extends React.Component {
   }
 
   // ------------ GuiItem ------------
-  selectGuiItem(event, index){
+  selectGuiItem(index){
     if(this.state.showGuiTab && this.state.relays.length > index){
       this.setState({ currentGuiItemIndex: index })
     }else{
@@ -319,14 +319,14 @@ class Index extends React.Component {
         component:
           <GuiBox relays={this.state.relays}
             current={this.state.currentGuiItemIndex}
-            onClickItem={(event,index)=>{this.selectGuiItem(event,index)}} />
+            onClickItem={index =>{this.selectGuiItem(index)}} />
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component
 
     return(
       <div id="index">
-        <HeaderBox active={this.state.active} autoUpdate={this.state.autoUpdate}
+        <HeaderBox mainWindowActive={this.state.mainWindowActive} autoUpdate={this.state.autoUpdate}
          onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}

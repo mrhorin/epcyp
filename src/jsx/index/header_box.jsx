@@ -21,7 +21,7 @@ module.exports = class HeaderBox extends React.Component {
 
   render(){
     // headerのアクティブ状態
-    var headerClass = this.props.active ? "toolbar toolbar-header" : "toolbar toolbar-header blur"
+    var headerClass = this.props.mainWindowActive ? "toolbar toolbar-header" : "toolbar toolbar-header blur"
     // darwin環境時
     if(global.process.platform == 'darwin') headerClass += " darwin"
     return(

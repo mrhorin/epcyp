@@ -118,7 +118,7 @@ module.exports = class GuiItem extends React.Component{
     if(this.props.current==this.props.index) className += " gui-item-active"
     return(
       <tr className={className}
-        onClick={event =>{this.props.onClickItem(event, this.props.index)}}
+        onClick={()=>{this.props.onClickItem(this.props.index)}}
         onContextMenu={this.showContextMenu}>
         <td className="gui-item-col1">
           <div className="gui-item-name">
