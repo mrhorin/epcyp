@@ -44,15 +44,6 @@ module.exports = class Peercaststation{
     })
   }
 
-  static get API_URL(){
-    return 'http://127.0.0.1:'+config.get('port')+'/api/1'
-  }
-
-  // 4桁のランダムな数値IDを取得
-  static get getRandomId(){
-    return Math.floor(Math.random()*10000)
-  }
-
   // APIへリクエスト
   static postRequest(method, params=null, call=()=>{}){
     let json = {
@@ -64,9 +55,19 @@ module.exports = class Peercaststation{
     request.post(this.API_URL).send(JSON.stringify(json))
       .set('X-Requested-With', 'X-Requested-With')
       .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+      .timeout(3000)
       .end((err, res)=>{
         call(err, res)
       })
+  }
+
+  static get API_URL(){
+    return 'http://127.0.0.1:'+config.get('port')+'/api/1'
+  }
+
+  // 4桁のランダムな数値IDを取得
+  static get getRandomId(){
+    return Math.floor(Math.random()*10000)
   }
 
 }
