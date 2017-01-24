@@ -6,31 +6,32 @@ module.exports = class GuiBox extends React.Component{
 
   constructor(props){
     super(props)
+    this.state = { current: -1 }
+  }
+
+  // ------------ GuiItem ------------
+  activeGuiItem(index){
+    if(this.props.relays.length > index){
+      this.setState({ current: index })
+    }else{
+      this.setState({ current: -1 })
+    }
   }
 
   render(){
-    // darwin環境時
-    let tableClass = global.process.platform == 'darwin' ? "darwin" : ""
     let guiItems = this.props.relays.map((relay, index)=>{
       return(
         <GuiItem
-          key={relay.channelId} index={index} current={this.props.current} relay={relay}
-          onClickItem={index=>{this.props.onClickItem(index)}} />
+          key={relay.channelId} index={index} current={this.state.current} relay={relay}
+          onClickItem={index=>{this.activeGuiItem(index)}} />
       )
     })
     return(
-      <table className={tableClass}>
-        <thead>
-          <tr>
-            <th className="gui-box-col1">チャンネル</th>
-            <th className="gui-box-col2">リレー</th>
-            <th className="gui-box-col3">kbps</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="gui-box">
+        <div className="gui-box-body">
           {guiItems}
-        </tbody>
-      </table>
+        </div>
+      </div>
     )
   }
 

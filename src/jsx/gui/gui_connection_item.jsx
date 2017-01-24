@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-module.exports = class GuiItemConnections extends React.Component{
+module.exports = class GuiConnectionItem extends React.Component{
 
   constructor(props){
     super(props)
@@ -17,7 +17,8 @@ module.exports = class GuiItemConnections extends React.Component{
   }
 
   // 接続状態を取得
-  getConnectionStatus(conn){
+  get connectionStatus(){
+    let conn = this.props.connection
     let result = "unknown"
     switch(conn.type){
       case "relay":
@@ -58,19 +59,14 @@ module.exports = class GuiItemConnections extends React.Component{
   }
 
   render(){
-    let connections = this.props.connections.map((conn, index)=>{
-      let status = this.getConnectionStatus(conn)
-      return(
-        <li key={conn.connectionId}>
-          <i className={status} />
-          {`${conn.protocolName} ${conn.status}`}
-        </li>
-      )
-    })
+    let status = this.connectionStatus
+    let className = "gui-connection-item"
+    if(this.props.current==this.props.index) className += " gui-connection-item-active"
     return(
-      <ul className="gui-item-connections">
-        {connections}
-      </ul>
+      <li className={className} onClick={()=>{ this.props.onClickItem(this.props.index) }}>
+        <i className={status} />
+        {`${this.props.connection.protocolName} ${this.props.connection.status}`}
+      </li>
     )
   }
 

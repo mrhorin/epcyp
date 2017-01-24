@@ -91,6 +91,7 @@ header{
 }
 header .toolbar-actions{
   padding-bottom: 10px;
+  white-space: nowrap;
 }
 
 /* FooterBox */
@@ -179,50 +180,37 @@ td.channel-item-col3{
 }
 
 /* GuiBox */
-th.gui-box-col1{
-  color: #000 !important;
-  font-size: 11px;
-  box-sizing: border-box;
+.gui-box{
   width: 100%;
-}
-th.gui-box-col2{
-  color: #000 !important;
-  font-size: 11px;
-  box-sizing: border-box;
-  max-width: $col2-widrh;
-  padding: 2px 5px;
-}
-th.gui-box-col3{
-  color: #000 !important;
-  font-size: 11px;
-  box-sizing: border-box;
-  max-width: $col3-widrh;
-  padding: 2px 5px;
+  margin-top: 5px;
 }
 
 /* GuiItem */
-tr.gui-item:nth-child(odd):active,
-tr.gui-item:nth-child(even):active{
-  background: none;
-}
-tr.gui-item.gui-item-active,{
-  background: #cbe4f4 !important;
-}
-tr.gui-item{
+.gui-item{
   color: #000 !important;
   font-size: 13px;
 }
-td.gui-item-col1{
-  max-width: 100%;
-  padding: 5px 0px 5px 10px;
-  position: relative;
+.gui-item.gui-item-active,{
+  .gui-item-row1{
+    background: #cbe4f4 !important;
+  }
+}
+.gui-item-row1{
+}
+.gui-item-row2{
+  padding: 3px 0px;
+}
+.gui-item-col1{
+  display: table-cell;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 10px;
   .gui-item-name{
-    position: absolute;
-    top: 13px;
     color: #1f0fe2;
     font-weight: bold;
     display: block;
-    white-space: normal;
+    white-space: nowrap;
     overflow: hidden;
     word-break: break-all;
     i{
@@ -230,48 +218,60 @@ td.gui-item-col1{
       vertical-align: sub;
     }
   }
-  .gui-item-detail{
-    position: relative;
-    top: 13px;
-    font-size: 11px;
-    display: block;
-    white-space: normal;
-    overflow: hidden;
-    word-break: break-all;
-  }
-  .gui-item-comment{
-  }
 }
-td.gui-item-col2{
-  box-sizing: border-box;
-  max-width: $col2-widrh;
-  padding: 2px 5px;
-  text-align: right;
+.gui-item-col2{
   display: table-cell;
-  vertical-align: top;
-}
-td.gui-item-col3{
+  width: 100px;
+  height: 40px;
+  padding: 0px 5px;
+  white-space: nowrap;
   box-sizing: border-box;
-  max-width: $col3-widrh;
-  padding: 2px 5px;
   text-align: right;
   vertical-align: top;
+  .gui-item-relay,
+  .gui-item-time{
+    line-height: 20px;
+  }
+}
+.gui-item-col3{
+  display: table-cell;
+  width: 50px;
+  height: 40px;
+  padding: 0px 5px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  text-align: right;
+  vertical-align: top;
+  .gui-item-kbps,
+  .gui-item-format{
+    line-height: 20px;
+  }
 }
 
-/* GuiItemConnections */
-ul.gui-item-connections{
-  padding: 20px 5px 15px 5px;
+/* GuiConnectionBox */
+ul.gui-connection-box{
+  width: 100%;
+  padding: 0px;
   margin: 0px;
+  -webkit-padding-start: 10px;
   list-style: none;
   li{
     padding-bottom: 2px;
+    padding: 0px 5px 2px 10px;
+    white-space: nowrap;
     i{
       vertical-align: middle;
       margin-right: 3px;
     }
   }
-  li:last-child{
-    padding-bottom: 0px;
+}
+
+/* GuiConnectionItem */
+ul.gui-connection-box{
+  li.gui-connection-item{
+  }
+  li.gui-connection-item.gui-connection-item-active{
+    background: #cbe4f4;
   }
 }
 
@@ -546,6 +546,7 @@ nav#rule-box-nav{
 .tab-item{
   font-size: 11px !important;
   padding: 1px !important;
+  white-space: nowrap !important;
 }
 select{
   height: 20px;

@@ -5,7 +5,7 @@ import Peercast from 'js/peercaststation'
 import Player from 'js/player'
 import Channel from 'js/channel'
 
-import GuiItemConnections from 'jsx/gui/gui_item_connections'
+import GuiConnectionBox from 'jsx/gui/gui_connection_box'
 
 module.exports = class GuiItem extends React.Component{
 
@@ -19,7 +19,8 @@ module.exports = class GuiItem extends React.Component{
     this.stopUpdateConnections = this.stopUpdateConnections.bind(this)
     this.state = {
       showConnections: false,
-      connections: []
+      connections: [],
+      currentConnection: -1
     }
   }
 
@@ -99,6 +100,7 @@ module.exports = class GuiItem extends React.Component{
 
   // 右クリメニューを表示
   showContextMenu(e){
+    this.props.onClickItem(this.props.index)
     const Menu =  remote.Menu
     const MenuItem =  remote.MenuItem
     let menu = new Menu()
@@ -172,40 +174,61 @@ module.exports = class GuiItem extends React.Component{
     this.stopUpdateConnections()
   }
 
-  render(){
-    let connections
-    if(this.state.showConnections){
-      connections = <GuiItemConnections connections={this.state.connections} />
+  // ------------ GuiConnectionItem ------------
+  activeGuiConnectionItem(index){
+    if(this.state.connections.length > index){
+      // 接続一覧がクリックされたら、その親のGuiItemを選択状態に
+      this.props.onClickItem(this.props.index)
+      this.setState({ currentConnection: index })
+    }else{
+      this.setState({ currentConnection: -1 })
     }
+  }
+
+  render(){
+    // 接続一覧
+    let connectionBox
+    if(this.state.showConnections){
+      // GuiItemが非アクティブ時は接続一覧も非アクティブにする
+      let currentConnection = this.state.currentConnection
+      if(this.props.current!=this.props.index) currentConnection = -1
+      connectionBox =
+        <GuiConnectionBox
+          connections={this.state.connections} current={currentConnection}
+          onClickItem={index =>{this.activeGuiConnectionItem(index)}} />
+    }
+    // アクティブ状態
     let className = "gui-item"
     if(this.props.current==this.props.index) className += " gui-item-active"
     return(
-      <tr className={className}
-        onClick={()=>{this.props.onClickItem(this.props.index)}}
-        onContextMenu={this.showContextMenu}>
-        <td className="gui-item-col1">
-          <div className="gui-item-name">
-            <i className={this.connectionStatus} />
-            {this.props.relay.info.name}
+      <div className={className}>
+        <div className="gui-item-row1"
+          onClick={()=>{this.props.onClickItem(this.props.index)}}
+          onContextMenu={this.showContextMenu}>
+          <div className="gui-item-col1">
+            <div className="gui-item-name">
+              <i className={this.connectionStatus} />
+              {this.props.relay.info.name}
+            </div>
           </div>
-          <div className="gui-item-detail">
-            {connections}
+          <div className="gui-item-col2">
+            <div className="gui-item-relay">
+              {`${this.props.relay.status.totalDirects}/${this.props.relay.status.totalRelays}`}
+              {` [${this.props.relay.status.localDirects}/${this.props.relay.status.localRelays}]`}
+            </div>
+            <div className="gui-item-time">
+              {this.parseSec(this.props.relay.status.uptime)}
+            </div>
           </div>
-        </td>
-        <td className="gui-item-col2">
-          <div className="gui-item-relay">
-            {`${this.props.relay.status.totalDirects}/${this.props.relay.status.totalRelays}`}
-            {` - [${this.props.relay.status.localDirects}/${this.props.relay.status.localRelays}]`}
+          <div className="gui-item-col3">
+            <div className="gui-item-kbps">{this.props.relay.info.bitrate}</div>
+            <div className="gui-item-format">{this.props.relay.info.contentType}</div>
           </div>
-          <div className="gui-item-time">
-            {this.parseSec(this.props.relay.status.uptime)}
-          </div>
-        </td>
-        <td className="gui-item-col3">
-          <div className="gui-item-kbps">{this.props.relay.info.bitrate}</div>
-          <div className="gui-item-format">{this.props.relay.info.contentType}</div>
-        </td>
-      </tr>
+        </div>
+        <div className="gui-item-row2">
+          {connectionBox}
+        </div>
+      </div>
     )
   }
 

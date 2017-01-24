@@ -39,14 +39,12 @@ class Index extends React.Component {
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
-    this.selectGuiItem = this.selectGuiItem.bind(this)
     this.state = {
       ypList: [],
       favorites: [],
       channels: [],
       relays: [],
       showGuiTab: config.get('showGuiTab'),
-      currentGuiItemIndex: -1,
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
@@ -285,15 +283,6 @@ class Index extends React.Component {
     storage.set('favorites', this.state.favorites)
   }
 
-  // ------------ GuiItem ------------
-  selectGuiItem(index){
-    if(this.state.showGuiTab && this.state.relays.length > index){
-      this.setState({ currentGuiItemIndex: index })
-    }else{
-      this.setState({ currentGuiItemIndex: -1 })
-    }
-  }
-
   render(){
     // お気に入りチャンネル一覧
     let favoriteChannels = this.getFavoriteChannels()
@@ -317,9 +306,7 @@ class Index extends React.Component {
       components.push({
         name: `リレー(${this.state.relays.length})`,
         component:
-          <GuiBox relays={this.state.relays}
-            current={this.state.currentGuiItemIndex}
-            onClickItem={index =>{this.selectGuiItem(index)}} />
+          <GuiBox relays={this.state.relays} />
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component
