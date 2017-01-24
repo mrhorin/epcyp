@@ -19,8 +19,7 @@ module.exports = class GuiItem extends React.Component{
     this.stopUpdateConnections = this.stopUpdateConnections.bind(this)
     this.state = {
       showConnections: false,
-      connections: [],
-      currentConnection: -1
+      connections: []
     }
   }
 
@@ -100,7 +99,6 @@ module.exports = class GuiItem extends React.Component{
 
   // 右クリメニューを表示
   showContextMenu(e){
-    this.props.onClickItem(this.props.index)
     const Menu =  remote.Menu
     const MenuItem =  remote.MenuItem
     let menu = new Menu()
@@ -174,17 +172,6 @@ module.exports = class GuiItem extends React.Component{
     this.stopUpdateConnections()
   }
 
-  // ------------ GuiConnectionItem ------------
-  activeGuiConnectionItem(index){
-    if(this.state.connections.length > index){
-      // 接続一覧がクリックされたら、その親のGuiItemを選択状態に
-      this.props.onClickItem(this.props.index)
-      this.setState({ currentConnection: index })
-    }else{
-      this.setState({ currentConnection: -1 })
-    }
-  }
-
   render(){
     // 接続一覧
     let connectionBox
@@ -193,9 +180,8 @@ module.exports = class GuiItem extends React.Component{
       let currentConnection = this.state.currentConnection
       if(this.props.current!=this.props.index) currentConnection = -1
       connectionBox =
-        <GuiConnectionBox
-          connections={this.state.connections} current={currentConnection}
-          onClickItem={index =>{this.activeGuiConnectionItem(index)}} />
+        <GuiConnectionBox connections={this.state.connections}
+          relay={this.props.relay} current={currentConnection} />
     }
     // アクティブ状態
     let className = "gui-item"
@@ -203,7 +189,7 @@ module.exports = class GuiItem extends React.Component{
     return(
       <div className={className}>
         <div className="gui-item-row1"
-          onClick={()=>{this.props.onClickItem(this.props.index)}}
+          onClick={this.switchConnections}
           onContextMenu={this.showContextMenu}>
           <div className="gui-item-col1">
             <div className="gui-item-name">

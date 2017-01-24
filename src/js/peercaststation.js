@@ -30,6 +30,15 @@ module.exports = class Peercaststation{
     })
   }
 
+  // 特定のチャンネルへの特定の接続を停止
+  static stopChannelConnection(channelId, connectionId, call=()=>{}){
+    this.postRequest(
+      'stopChannelConnection',
+      { channelId: channelId, connectionId: connectionId },
+      (err, res)=>{ call(err, res) }
+    )
+  }
+
   // リレツリーを取得
   static getChannelRelayTree(channelId, call=()=>{}){
     this.postRequest('getChannelRelayTree', { channelId: channelId }, (err, res)=>{

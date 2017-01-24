@@ -1,10 +1,39 @@
 import React from 'react'
+import {remote} from 'electron'
 import _ from 'lodash'
+
+import Peercast from 'js/peercaststation'
 
 module.exports = class GuiConnectionItem extends React.Component{
 
   constructor(props){
     super(props)
+    this.showContextMenu = this.showContextMenu.bind(this)
+  }
+
+  // 接続を切断
+  stopChannelConnection(){
+    Peercast.stopChannelConnection(
+      this.props.relay.channelId,
+      this.props.connection.connectionId
+    )
+  }
+
+  // 右クリメニューを表示
+  showContextMenu(e){
+    const Menu =  remote.Menu
+    const MenuItem =  remote.MenuItem
+    let menu = new Menu()
+    menu.append(new MenuItem({
+      label: '切断',
+      click: ()=>{ this.stopChannelConnection() }
+    }))
+    menu.append(new MenuItem({
+      label: '再接続',
+      click: ()=>{ this.bumpConnection() }
+    }))
+    e.preventDefault()
+    menu.popup(remote.getCurrentWindow())
   }
 
   // arrayにvalueが含まれているか
@@ -63,7 +92,7 @@ module.exports = class GuiConnectionItem extends React.Component{
     let className = "gui-connection-item"
     if(this.props.current==this.props.index) className += " gui-connection-item-active"
     return(
-      <li className={className} onClick={()=>{ this.props.onClickItem(this.props.index) }}>
+      <li className={className} onContextMenu={this.showContextMenu}>
         <i className={status} />
         {`${this.props.connection.protocolName} ${this.props.connection.status}`}
       </li>

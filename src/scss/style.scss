@@ -116,7 +116,7 @@ footer{
 th.channel-box-col1{
   color: #000 !important;
   font-size: 11px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   width: 100%;
 }
 th.channel-box-col2{
@@ -189,16 +189,18 @@ td.channel-item-col3{
 .gui-item{
   color: #000 !important;
   font-size: 13px;
-}
-.gui-item.gui-item-active,{
+  padding: 2px;
   .gui-item-row1{
-    background: #cbe4f4 !important;
+    border: 1px solid #fff;
+    box-sizing: border-box;
   }
 }
-.gui-item-row1{
+.gui-item.gui-item>.gui-item-row1:hover,
+.gui-item.gui-item-active>.gui-item-row1,{
+  background: #cbe4f4 !important;
+  border: 1px solid #4dbaff;
 }
 .gui-item-row2{
-  padding: 3px 0px;
 }
 .gui-item-col1{
   display: table-cell;
@@ -253,14 +255,14 @@ ul.gui-connection-box{
   width: 100%;
   padding: 0px;
   margin: 0px;
-  -webkit-padding-start: 10px;
+  -webkit-padding-start: 0px;
   list-style: none;
   li{
-    padding-bottom: 2px;
-    padding: 0px 5px 2px 10px;
+    padding: 0px 5px 0px 15px;
+    margin: 2px 0px;
+    line-height: 20px;
     white-space: nowrap;
     i{
-      vertical-align: middle;
       margin-right: 3px;
     }
   }
@@ -269,9 +271,13 @@ ul.gui-connection-box{
 /* GuiConnectionItem */
 ul.gui-connection-box{
   li.gui-connection-item{
+    border: 1px solid #fff;
+    box-sizing: border-box;
   }
+  li.gui-connection-item:hover,
   li.gui-connection-item.gui-connection-item-active{
-    background: #cbe4f4;
+    background: #cbe4f4 !important;
+    border: 1px solid #4dbaff;
   }
 }
 

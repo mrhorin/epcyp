@@ -12,8 +12,7 @@ module.exports = class GuiConnectionBox extends React.Component{
     let connectionItems = this.props.connections.map((conn, index)=>{
       return(
         <GuiConnectionItem key={conn.connectionId} connection={conn}
-          current={this.props.current} index={index}
-          onClickItem={index=>{this.props.onClickItem(index)}}  />
+          relay={this.props.relay} current={this.props.current} index={index} />
       )
     })
     return(
