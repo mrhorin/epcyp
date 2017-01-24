@@ -31,9 +31,11 @@ module.exports = class GuiItem extends React.Component{
         let json = JSON.parse(res.text)
         connections = json.result
       }
-      this.setState({ connections: connections })
-      call()
-      this.updateConnectionsTimer = setTimeout(()=>{ this.startUpdateConnections() }, 1000)
+      if(this._isMounted){
+        this.setState({ connections: connections })
+        call()
+        this.updateConnectionsTimer = setTimeout(()=>{ this.startUpdateConnections() }, 1000)
+      }
     })
   }
 
@@ -168,8 +170,13 @@ module.exports = class GuiItem extends React.Component{
     return result
   }
 
+  componentDidMount(){
+    this._isMounted = true
+  }
+
   componentWillUnmount(){
     this.stopUpdateConnections()
+    this._isMounted = false
   }
 
   render(){
