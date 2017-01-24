@@ -258,12 +258,14 @@ ul.gui-connection-box{
   -webkit-padding-start: 0px;
   list-style: none;
   li{
+    font-size: 12px;
     padding: 0px 5px 0px 15px;
     margin: 2px 0px;
     line-height: 20px;
     white-space: nowrap;
     i{
       margin-right: 3px;
+      vertical-align: sub;
     }
   }
 }

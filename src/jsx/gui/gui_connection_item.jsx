@@ -28,10 +28,6 @@ module.exports = class GuiConnectionItem extends React.Component{
       label: '切断',
       click: ()=>{ this.stopChannelConnection() }
     }))
-    menu.append(new MenuItem({
-      label: '再接続',
-      click: ()=>{ this.bumpConnection() }
-    }))
     e.preventDefault()
     menu.popup(remote.getCurrentWindow())
   }
@@ -87,6 +83,16 @@ module.exports = class GuiConnectionItem extends React.Component{
     return result
   }
 
+  // agentNameの略語を取得
+  get agentShortName(){
+    let name = this.props.connection.agentName
+    // PeerCastStion:ST
+    if(name.match(/^PeerCastStation/i)){
+      return "ST"+name.match(/(?:\/)\d.+/)[0].replace(/\.|\//g,"")
+    }
+    return name
+  }
+
   render(){
     let status = this.connectionStatus
     let className = "gui-connection-item"
@@ -94,7 +100,10 @@ module.exports = class GuiConnectionItem extends React.Component{
     return(
       <li className={className} onContextMenu={this.showContextMenu}>
         <i className={status} />
-        {`${this.props.connection.protocolName} ${this.props.connection.status}`}
+        {`${this.props.connection.protocolName} `}
+        {`${this.props.connection.status} `}
+        {`${this.props.connection.remoteEndPoint} `}
+        {`${this.agentShortName}`}
       </li>
     )
   }
