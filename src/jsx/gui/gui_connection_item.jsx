@@ -85,11 +85,12 @@ module.exports = class GuiConnectionItem extends React.Component{
 
   // agentNameの略語を取得
   get agentShortName(){
-    let name = this.props.connection.agentName
+    let name = String(this.props.connection.agentName)
     // PeerCastStion:ST
     if(name.match(/^PeerCastStation/i)){
       return "ST"+name.match(/(?:\/)\d.+/)[0].replace(/\.|\//g,"")
     }
+    if(name == "null") return ""
     return name
   }
 
