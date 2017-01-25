@@ -57,7 +57,6 @@ class Index extends React.Component {
     this.bindEvents()
     this.loadFavorites()
     this.loadSettings()
-    this.startUpdateRelays()
   }
 
   bindEvents(){
@@ -66,7 +65,7 @@ class Index extends React.Component {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       this.add(newChannels, (newChannel)=>{
         let now = moment()
-        if(now.unix()-startedAt.unix()>30){
+        if(now.unix()-startedAt.unix()>10){
           // お気に入りにマッチ&&通知設定されてたら通知
           let favoriteIndex = this.findIndexOfFavorites(newChannel)
           if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
@@ -246,10 +245,17 @@ class Index extends React.Component {
         let json = JSON.parse(res.text)
         relays = json.result
       }
-      this.setState({ relays: relays })
-      // 再帰呼び出し
-      setTimeout(()=>{ this.startUpdateRelays() }, 1000)
+      if(this._isMounted){
+        this.setState({ relays: relays })
+        // 再帰呼び出し
+        this.updateRelaysTimer = setTimeout(()=>{ this.startUpdateRelays() }, 1000)
+      }
     })
+  }
+
+  // リレー情報の更新を停止
+  stopUpdateRelays(){
+    clearTimeout(this.updateRelaysTimer)
   }
 
   // 通知
@@ -286,6 +292,16 @@ class Index extends React.Component {
     this.state.favorites[favoriteIndex].pattern += channelName
     this.setState({ favorites: this.state.favorites })
     storage.set('favorites', this.state.favorites)
+  }
+
+  componentDidMount(){
+    this._isMounted = true
+    this.startUpdateRelays()
+  }
+
+  componentWillUnmount(){
+    this.stopUpdateRelays()
+    this._isMounted = false
   }
 
   render(){
