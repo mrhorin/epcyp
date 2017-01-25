@@ -2,6 +2,11 @@ $col1-widrh: auto;
 $col2-widrh: 65px;
 $col3-widrh: 40px;
 
+.hover-item{
+  background: #cbe4f4;
+  border: 1px solid #4dbaff;
+}
+
 /* Index */
 body{
   font-size: 11px;
@@ -143,6 +148,9 @@ tr.channel-item{
   color: #000 !important;
   font-size: 13px;
 }
+tr.channel-item:hover{
+  @extend .hover-item;
+}
 td.channel-item-col1{
   max-width: 100%;
   padding: 5px 0px 5px 10px;
@@ -197,8 +205,7 @@ td.channel-item-col3{
 }
 .gui-item.gui-item>.gui-item-row1:hover,
 .gui-item.gui-item-active>.gui-item-row1,{
-  background: #cbe4f4 !important;
-  border: 1px solid #4dbaff;
+  @extend .hover-item;
 }
 .gui-item-row2{
 }
@@ -278,8 +285,7 @@ ul.gui-connection-box{
   }
   li.gui-connection-item:hover,
   li.gui-connection-item.gui-connection-item-active{
-    background: #cbe4f4 !important;
-    border: 1px solid #4dbaff;
+    @extend .hover-item;
   }
 }
 
