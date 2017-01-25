@@ -15,7 +15,7 @@ module.exports = class YP{
         // チャンネル名とIDが空値
         if(!line[0]&&!line[1]) continue;
         var hash = {
-          key: line[0]+line[1],
+          key: line[1]+Math.floor(Math.random()*0xFFFFFF).toString(16).toUpperCase(),
           name: line[0],
           id: line[1],
           tip: line[2],
