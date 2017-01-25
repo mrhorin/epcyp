@@ -117,7 +117,12 @@ class Index extends React.Component {
           return new YP(yp.name, yp.url)
         })
       }
-      this.setState({ sort: sort, ypList: ypList, showGuiTab: config.get('showGuiTab') })
+      this.setState({
+        sort: sort,
+        ypList: ypList,
+        showGuiTab: config.get('showGuiTab'),
+        currentTabIndex: 0
+      })
     })
   }
 
