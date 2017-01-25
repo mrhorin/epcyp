@@ -207,8 +207,8 @@ module.exports = class GuiItem extends React.Component{
           </div>
           <div className="gui-item-col2">
             <div className="gui-item-relay">
-              {`${this.props.relay.status.totalDirects}/${this.props.relay.status.totalRelays}`}
-              {` [${this.props.relay.status.localDirects}/${this.props.relay.status.localRelays}]`}
+              {`${this.props.relay.status.localDirects}/${this.props.relay.status.localRelays}`}
+              {` [${this.props.relay.status.totalDirects}/${this.props.relay.status.totalRelays}]`}
             </div>
             <div className="gui-item-time">
               {this.parseSec(this.props.relay.status.uptime)}

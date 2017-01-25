@@ -9,6 +9,7 @@ module.exports = class GuiConnectionItem extends React.Component{
   constructor(props){
     super(props)
     this.showContextMenu = this.showContextMenu.bind(this)
+    this.stopChannelConnection = this.stopChannelConnection.bind(this)
   }
 
   // 接続を切断
@@ -39,6 +40,11 @@ module.exports = class GuiConnectionItem extends React.Component{
     }else{
       return false
     }
+  }
+
+  toString(value){
+    if(value==undefined||value==null) return ""
+    return String(value)
   }
 
   // 接続状態を取得
@@ -94,17 +100,26 @@ module.exports = class GuiConnectionItem extends React.Component{
     return name
   }
 
+  // 表示用
+  get displayFormat(){
+    let relay = ""
+    if(this.props.connection.type == "relay"){
+      relay = `[${this.props.connection.localDirects}/${this.props.connection.localRelays}] `
+    }
+    return String(`${this.toString(this.props.connection.protocolName)} `+
+                  `${this.toString(this.props.connection.status)} `+
+                  `(${this.toString(this.props.connection.remoteEndPoint)}) `+
+                  `${relay}`+
+                  `${this.toString(this.agentShortName)}`)
+  }
+
   render(){
-    let status = this.connectionStatus
     let className = "gui-connection-item"
     if(this.props.current==this.props.index) className += " gui-connection-item-active"
     return(
       <li className={className} onContextMenu={this.showContextMenu}>
-        <i className={status} />
-        {`${this.props.connection.protocolName} `}
-        {`${this.props.connection.status} `}
-        {`${this.props.connection.remoteEndPoint} `}
-        {`${this.agentShortName}`}
+        <i className={this.connectionStatus} />
+        {this.displayFormat}
       </li>
     )
   }
