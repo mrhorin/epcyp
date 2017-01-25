@@ -29,7 +29,7 @@ module.exports = class GuiItem extends React.Component{
       let connections = []
       if(res && res.status == 200 && !res.error && res.text){
         let json = JSON.parse(res.text)
-        connections = json.result
+        if(json.result) connections = json.result
       }
       if(this._isMounted){
         this.setState({ connections: connections })
@@ -144,6 +144,7 @@ module.exports = class GuiItem extends React.Component{
     let hour = Math.floor(sec/60/60)
     if(hour < 10) hour = "0"+hour
     let min = Math.floor(sec/60)
+    if(min > 59) min = min%60
     if(min < 10) min = "0"+min
     return `${hour}:${min}`
   }
