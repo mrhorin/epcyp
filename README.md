@@ -1,8 +1,9 @@
 # epcyp(仮称)
 
 ## ToDo
-- ChannelItemもhoverできるように
-- 更新時に画面ちらつく問題
+- 不具合
+  - 更新時に画面ちらつく問題
+
 - GUI機能
   - GuItemのshow状態を保持
   - リレーツリーの表示

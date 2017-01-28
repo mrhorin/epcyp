@@ -19,8 +19,6 @@ import GuiBox from 'jsx/gui/gui_box'
 const config = new Config({
   defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false }
 })
-// 起動時間
-const startedAt = moment()
 
 class Index extends React.Component {
 
@@ -65,7 +63,7 @@ class Index extends React.Component {
       let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
       this.add(newChannels, (newChannel)=>{
         let now = moment()
-        if(now.unix()-startedAt.unix()>10){
+        if(this.prevChannels&&this.prevChannels.length>0){
           // お気に入りにマッチ&&通知設定されてたら通知
           let favoriteIndex = this.findIndexOfFavorites(newChannel)
           if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
@@ -92,7 +90,7 @@ class Index extends React.Component {
     })
   }
 
-    // チャンネルを追加
+  // チャンネルを追加
   add(newChannels, call=()=>{}){
     var channels = this.state.channels
     for(let newChannel of newChannels){
@@ -163,7 +161,8 @@ class Index extends React.Component {
   findIndexOfPrevChannels(channel){
     let index = -1
     for(let i=0; i < this.prevChannels.length; i++){
-      if(channel.key == this.prevChannels[i].key){
+      if(channel.id == this.prevChannels[i].id&&
+         channel.name == this.prevChannels[i].name){
         index = i
         break
       }
@@ -260,7 +259,7 @@ class Index extends React.Component {
 
   // 通知
   notify(title="", body=""){
-    new Notification(title, {body: body})
+    new Notification(`★${title}`, {body: body})
   }
 
   // 設定を初期化
