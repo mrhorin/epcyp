@@ -43,4 +43,23 @@ gulp.task('package:darwin', ['default'], function (done) {
   });
 });
 
+// Linux用にパッケージ化
+gulp.task('package:linux', ['default'], function (done) {
+  packager({
+    dir: './',
+    out: 'release/linux',
+    name: package["name"],
+    icon: "./src/img/icon/darwin/icon_1024x1024.icns",
+    "app-version": package["version"],
+    "app-copyright": "Copyright (C) 2016 "+package["author"]+".",
+    arch: 'x64',
+    platform: 'linux',
+    overwrite: true,
+    version: '1.4.13',
+    ignore: ['release']
+  }, function (err, path) {
+    done();
+  });
+});
+
 gulp.task('default', ['jade']);
