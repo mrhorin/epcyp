@@ -52,6 +52,10 @@ class Index extends React.Component {
     }
     // 前回更新時のチャンネル一覧
     this.prevChannels = []
+    // 現在のチャンネル一覧
+    this.currentChannel = []
+    // this.add()を実行した回数
+    this.addCount = 0
     this.bindEvents()
     this.loadFavorites()
     this.loadSettings()
@@ -91,15 +95,20 @@ class Index extends React.Component {
   }
 
   // チャンネルを追加
-  add(newChannels, call=()=>{}){
-    var channels = this.state.channels
-    for(let newChannel of newChannels){
-      let channelIndex = this.findIndexOfPrevChannels(newChannel)
+  add(channels, call=()=>{}){
+    for(let channel of channels){
+      let channelIndex = this.findIndexOfPrevChannels(channel)
       // 新着チャンネル
-      if(channelIndex<0) call(newChannel)
-      channels.push(newChannel)
+      if(channelIndex<0) call(channel)
+      this.currentChannels.push(channel)
     }
-    this.setState({ channels: channels })
+    this.addCount += 1
+    if(this.addCount==this.state.ypList.length){
+      this.setState({
+        channels: this.currentChannels,
+        lastUpdateTime: moment()
+      })
+    }
   }
 
   // 設定を読み込む
@@ -224,8 +233,8 @@ class Index extends React.Component {
   fetchIndexTxt(){
     if(this.checkElapsed()){
       this.prevChannels = this.state.channels
-      this.state.channels = []
-      this.setState({ lastUpdateTime: moment() })
+      this.currentChannels = []
+      this.addCount = 0
       for(var yp of this.state.ypList){
         ipcRenderer.send('asyn-yp', yp)
       }
