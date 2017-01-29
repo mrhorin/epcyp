@@ -25,7 +25,7 @@ module.exports = class FooterCount extends React.Component {
           let now = moment()
           // 最終更新時からの経過時間(秒)
           let diffSec = this.props.autoUpdateCount - (Math.round((now.unix() - this.props.lastUpdateTime.unix())))
-          this.setState({ diffSec: diffSec })
+          if(diffSec>=0) this.setState({ diffSec: diffSec })
         }
       }else{
         // 自動更新OFF時の処理
@@ -46,7 +46,7 @@ module.exports = class FooterCount extends React.Component {
   }
 
   render(){
-    let counter;
+    let counter
     if(this.props.autoUpdate){
       counter = this.toTimeFormat(this.state.diffSec)
     }else{
