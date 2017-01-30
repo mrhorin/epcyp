@@ -11,6 +11,7 @@ module.exports = class GuiItem extends React.Component{
 
   constructor(props){
     super(props)
+    this.play = this.play.bind(this)
     this.openBBS = this.openBBS.bind(this)
     this.openURL = this.openURL.bind(this)
     this.showContextMenu = this.showContextMenu.bind(this)
@@ -198,6 +199,7 @@ module.exports = class GuiItem extends React.Component{
       <div className={className}>
         <div className="gui-item-row1"
           onClick={this.switchConnections}
+          onDoubleClick={this.play}
           onContextMenu={this.showContextMenu}>
           <div className="gui-item-col1">
             <div className="gui-item-name">
