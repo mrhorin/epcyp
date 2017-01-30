@@ -18,6 +18,7 @@ module.exports = class ChannelItem extends React.Component {
     this.getPlayListURL = this.getPlayListURL.bind(this)
     this.getArgs = this.getArgs.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
+    this.onMiddleClick = this.onMiddleClick.bind(this)
   }
 
   // プレイヤーで再生する
@@ -162,6 +163,13 @@ module.exports = class ChannelItem extends React.Component {
     menu.popup(remote.getCurrentWindow())
   }
 
+  // 中クリック押下時
+  onMiddleClick(event){
+    if(event.button==1){
+      this.openURL()
+    }
+  }
+
   render(){
     let favorite = this.getFavorite()
     let style = {}
@@ -172,7 +180,7 @@ module.exports = class ChannelItem extends React.Component {
       }
     }
     return(
-      <tr className="channel-item" onDoubleClick={this.play} onContextMenu={this.showContextMenu} style={style}>
+      <tr className="channel-item" onClick={this.onMiddleClick} onDoubleClick={this.play} onContextMenu={this.showContextMenu} style={style}>
         <td className="channel-item-col1">
           <div className="channel-item-name">{this.props.channel.name}</div>
           <div className="channel-item-detail">

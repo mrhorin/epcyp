@@ -18,6 +18,7 @@ module.exports = class GuiItem extends React.Component{
     this.switchConnections = this.switchConnections.bind(this)
     this.startUpdateConnections = this.startUpdateConnections.bind(this)
     this.stopUpdateConnections = this.stopUpdateConnections.bind(this)
+    this.onClick = this.onClick.bind(this)
     this.state = {
       showConnections: false,
       connections: []
@@ -172,6 +173,15 @@ module.exports = class GuiItem extends React.Component{
     return result
   }
 
+  onClick(event){
+    if(event.button==1){
+      // 中クリック時
+      this.openURL()
+    }else{
+      this.switchConnections()
+    }
+  }
+
   componentDidMount(){
     this._isMounted = true
   }
@@ -198,7 +208,7 @@ module.exports = class GuiItem extends React.Component{
     return(
       <div className={className}>
         <div className="gui-item-row1"
-          onClick={this.switchConnections}
+          onClick={this.onClick}
           onDoubleClick={this.play}
           onContextMenu={this.showContextMenu}>
           <div className="gui-item-col1">
