@@ -1,4 +1,4 @@
-import {exec, execSync} from 'child_process'
+import {spawn, execSync} from 'child_process'
 import Config from 'electron-config'
 import fixPath from 'fix-path'
 
@@ -18,13 +18,17 @@ module.exports = class PeercastManager{
       }
     })
     this.peercast = null
-    this.startCmd = this.getStartCmd()
+    this.peercastPath = this.config.get('peercast')
   }
 
   start(call=()=>{}){
     if(!this.checkStarted()){
       try{
-        this.peercast = exec(this.startCmd)
+        if(this.config.get('useMono')){
+          this.peercast = spawn('mono', [this.peercastPath])
+        }else{
+          this.peercast = spawn(this.peercastPath, [])
+        }
       }catch(e){
         console.log(e)
       }
@@ -48,9 +52,9 @@ module.exports = class PeercastManager{
     // 起動確認コマンド
     let psCmd
     if(global.process.platform == 'win32'){
-      psCmd = `tasklist | find "${this.startCmd}"`
+      psCmd = `tasklist | find "${this.peercastPath}"`
     }else{
-      psCmd = `ps x | grep "${this.startCmd}"`
+      psCmd = `ps x | grep "${this.peercastPath}"`
     }
 
     // psコマンド実行結果からPeerCast起動コマンドを含む行を抽出
@@ -59,23 +63,16 @@ module.exports = class PeercastManager{
       // grepを含む行を除外
       if(line.match(/grep/)) return
       // PeerCast起動コマンドを含む行は返す
-      if(line.match(this.startCmd)) return line
+      if(line.match(this.peercastPath)) return line
       return
     }).join()
 
-    let pattern = new RegExp(this.startCmd, 'gi')
+    let pattern = new RegExp(this.peercastPath, 'gi')
     if(!stdout.match(pattern)&&this.config.get("peercast")){
       return false
     }else{
       return true
     }
-  }
-
-  // PeerCast起動コマンドを取得
-  getStartCmd(){
-    let cmd = this.config.get('peercast')
-    if(this.config.get('useMono')) cmd = "mono " + cmd
-    return cmd
   }
 
 }
