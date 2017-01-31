@@ -16,9 +16,7 @@ const config = new Config({
   }
 })
 
-var mainWindow = null
-var settingsWindow = null
-var favoriteWindow = null
+var window = { main: null, settings: null, favorite: null }
 
 var tray = new TrayManager(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
 var menu = new MenuManager()
@@ -87,7 +85,7 @@ app.on('ready', ()=>{
 
   // メインウィンドウ
   const {width, height, x, y} = config.get('bounds')
-  mainWindow = new BrowserWindow({
+  window.main = new BrowserWindow({
     width: width,
     height: height,
     minWidth: 150,
@@ -98,22 +96,22 @@ app.on('ready', ()=>{
     scrollBounce: true,
     icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`
   })
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  window.main.loadURL(`file://${__dirname}/index.html`)
 
   // 非アクティブ時
-  mainWindow.on('blur', (event, arg)=>{
+  window.main.on('blur', (event, arg)=>{
     event.sender.send('index-window-blur')
   })
 
   // アクティブ時
-  mainWindow.on('focus', (event, arg)=>{
+  window.main.on('focus', (event, arg)=>{
     event.sender.send('index-window-focus')
   })
 
   // 閉じた時
-  mainWindow.on('close', ()=>{
-    config.set('bounds', mainWindow.getBounds())
-    peercast.stop(()=>{ app.quit() })
+  window.main.on('close', ()=>{
+    config.set('bounds', window.main.getBounds())
+    window.main = null
   })
 })
 
@@ -121,6 +119,7 @@ app.on('ready', ()=>{
   すべてのウィンドウが閉じられた時
 -----------------------------------------*/
 app.on('window-all-closed', ()=>{
+  if(config.get('exitPeercast')) peercast.stop()
   if(process.platform != 'darwin') app.quit()
 })
 
@@ -202,9 +201,9 @@ ipcMain.on('asyn-settings-window-close', (event) =>{
   functions
 -----------------------------------------*/
 const openFavoriteWindow = ()=>{
-  if(favoriteWindow == null){
+  if(window.favorite == null){
     let bounds = getChildBoundsFromMain(480, 370)
-    favoriteWindow = new BrowserWindow({
+    window.favorite = new BrowserWindow({
       x: bounds.x,
       y: bounds.y,
       width: bounds.width,
@@ -214,22 +213,22 @@ const openFavoriteWindow = ()=>{
       alwaysOnTop: true,
       resizable: false
     })
-    favoriteWindow.loadURL(`file://${__dirname}/favorite.html`)
-    mainWindow.setIgnoreMouseEvents(true)
+    window.favorite.loadURL(`file://${__dirname}/favorite.html`)
+    window.main.setIgnoreMouseEvents(true)
   }
 }
 
 const closeFavoriteWindow = ()=>{
-  favoriteWindow.close()
-  favoriteWindow = null
-  mainWindow.setIgnoreMouseEvents(false)
-  mainWindow.send('asyn-favorite-window-close-reply')
+  window.favorite.close()
+  window.favorite = null
+  window.main.setIgnoreMouseEvents(false)
+  window.main.send('asyn-favorite-window-close-reply')
 }
 
 const openSettingsWindow = ()=>{
-  if(settingsWindow == null){
+  if(window.settings == null){
     let bounds = getChildBoundsFromMain(400, 350)
-    settingsWindow = new BrowserWindow({
+    window.settings = new BrowserWindow({
       x: bounds.x,
       y: bounds.y,
       width: bounds.width,
@@ -239,21 +238,21 @@ const openSettingsWindow = ()=>{
       alwaysOnTop: true,
       resizable: false
     })
-    settingsWindow.loadURL(`file://${__dirname}/settings.html`)
-    mainWindow.setIgnoreMouseEvents(true)
+    window.settings.loadURL(`file://${__dirname}/settings.html`)
+    window.main.setIgnoreMouseEvents(true)
   }
 }
 
 const closeSettingsWindow = ()=>{
-  settingsWindow.close()
-  settingsWindow = null
-  mainWindow.setIgnoreMouseEvents(false)
-  mainWindow.send('asyn-settings-window-close-reply')
+  window.settings.close()
+  window.settings = null
+  window.main.setIgnoreMouseEvents(false)
+  window.main.send('asyn-settings-window-close-reply')
 }
 
-// mainWindowの中心の相対座標を取得
+// window.mainの中心の相対座標を取得
 const getChildBoundsFromMain = (childWidth, childHeight)=>{
-  let parrent = mainWindow.getBounds()
+  let parrent = window.main.getBounds()
   let x = Math.round(
     parrent.x + (parrent.width/2) - (childWidth/2)
   )
