@@ -1,6 +1,7 @@
-# PecaLounge
-
+# PCLounge
 ## ToDo
+- 不具合
+ - 更新中に更新をすると秒数がおかしいnotifyのね
 - 検証
   - 共通
    - PeerCast本体を終了できるか
