@@ -509,6 +509,23 @@ ul.gui-connection-box{
   }
 }
 
+/* SettingsPlayer */
+#settings-player{
+  #rule-box>#rule-box-nav{
+    height: 250px;
+  }
+}
+
+/* SettingsPlayerDetail */
+#settings-player-detail{
+  .form-dialog>input{
+    width: 160px;
+  }
+  input{
+    width: 200px;
+  }
+}
+
 /* RuleBox */
 #rule-box{
   float: left;

@@ -1,6 +1,7 @@
 import React from 'react'
-import FormText from 'jsx/form/form_text'
-import FormDialog from 'jsx/form/form_dialog'
+
+import RuleBox from 'jsx/rule/rule_box'
+import SettingsPlayerDetail from 'jsx/settings/settings_player_detail'
 
 module.exports = class SettingsPlayer extends React.Component {
 
@@ -11,10 +12,14 @@ module.exports = class SettingsPlayer extends React.Component {
   render(){
     return(
       <div id="settings-player">
-        <FormDialog label={"再生プレイヤー"} value={this.props.playerPath}
-          onChange={e => this.props.onChangeForm(e, 'playerPath')} onClick={e => this.props.onClickDialog('playerPath')} />
-        <FormText label={"引数"} value={this.props.playerArgs}
-          onChange={e => this.props.onChangeForm(e, 'playerArgs')} onClick={e => this.props.onClickDialog('playerArgs')} />
+        <RuleBox rules={this.props.formatList} current={this.props.currentFormatIndex}
+          onClickItem={index => this.props.onClickItem(index)}
+          onClickAdd={this.props.onClickAdd} onClickDelete={this.props.onClickDelete}
+          onClickUp={this.props.onClickUp} onClickDown={this.props.onClickDown} />
+        <SettingsPlayerDetail format={this.props.formatList[this.props.currentFormatIndex]}
+          index={this.props.currentFormatIndex}
+          onChangeFormat={(event, key) => this.props.onChangeFormat(event, key)}
+          onClickDialog={(event, index)=> this.props.onClickDialog(event, index)} />
       </div>
     )
   }

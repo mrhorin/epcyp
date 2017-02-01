@@ -46,24 +46,39 @@ class Settings extends React.Component {
     this.downYP = this.downYP.bind(this)
     // SettingsYPDetail
     this.onChangeYP = this.onChangeYP.bind(this)
-    let yp = this.getDefaultYP()
+    let yp = this.defaultYp
+    // SettingsPlayer
+    this.selectFormat = this.selectFormat.bind(this)
+    this.addFormat = this.addFormat.bind(this)
+    this.deleteFormat = this.deleteFormat.bind(this)
+    this.upFormat = this.upFormat.bind(this)
+    this.downFormat = this.downFormat.bind(this)
+    // SettingsPlayerDetail
+    this.onChangeFormat = this.onChangeFormat.bind(this)
+    this.onClickDialogFormat = this.onClickDialogFormat.bind(this)
+    let format = this.defaultFormat
     this.state = {
       port: config.get('port'),
       bbs: config.get('bbs'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
-      playerPath: config.get('playerPath'),
-      playerArgs: config.get('playerArgs'),
       peercast: config.get('peercast'),
       exitPeercast: config.get('exitPeercast'),
       useMono: config.get('useMono'),
       showGuiTab: config.get('showGuiTab'),
       ypList: [yp],
+      formatList: [format],
       currentTabIndex: 0,
       currentYpIndex: 0,
+      currentFormatIndex: 0
     }
     storage.get('ypList', (error, data)=>{
       if(Object.keys(data).length != 0){
         this.setState({ ypList: data })
+      }
+    })
+    storage.get('formatList', (error, data)=>{
+      if(Object.keys(data).length != 0){
+        this.setState({ formatList: data })
       }
     })
   }
@@ -78,10 +93,10 @@ class Settings extends React.Component {
     config.set('exitPeercast', this.state.exitPeercast)
     config.set('useMono', this.state.useMono)
     config.set('showGuiTab', this.state.showGuiTab)
-    config.set('playerPath', this.state.playerPath)
-    config.set('playerArgs', this.state.playerArgs)
     storage.set('ypList', this.state.ypList, (error)=>{
-      this.close()
+      storage.set('formatList', this.state.formatList, (error)=>{
+        this.close()
+      })
     })
   }
 
@@ -124,7 +139,7 @@ class Settings extends React.Component {
   }
 
   addYP(){
-    let yp = this.getDefaultYP()
+    let yp = this.defaultYp
     this.state.ypList.push(yp)
     this.setState({ ypList: this.state.ypList })
   }
@@ -165,7 +180,7 @@ class Settings extends React.Component {
     }
   }
 
-  getDefaultYP(){
+  get defaultYp(){
     return { name: "YP", url: "http://" }
   }
 
@@ -173,6 +188,69 @@ class Settings extends React.Component {
   onChangeYP(event, key){
     this.state.ypList[this.state.currentYpIndex][key] = event.target.value
     this.setState({ ypList: this.state.ypList })
+  }
+
+  // ------------ SettingsPlayer -------------
+  selectFormat(index){
+    this.setState({ currentFormatIndex: index })
+  }
+
+  addFormat(){
+    let format = this.defaultFormat
+    this.state.formatList.push(format)
+    this.setState({ formatList: this.state.formatList })
+  }
+
+  deleteFormat(){
+    this.state.formatList.splice(this.state.currentFormatIndex, 1)
+    this.setState({
+      formatList: this.state.formatList,
+      currentFormatIndex: this.state.currentFormatIndex - 1
+    })
+  }
+
+  upFormat(){
+    let index = this.state.currentFormatIndex
+    if(index > 0){
+      let a = this.state.formatList[index]
+      let b = this.state.formatList[index-1]
+      this.state.formatList.splice(index-1, 1, a)
+      this.state.formatList.splice(index, 1, b)
+      this.setState({
+        formatList: this.state.formatList,
+        currentFormatIndex: index-1
+      })
+    }
+  }
+
+  downFormat(){
+    let index = this.state.currentFormatIndex
+    if(index < this.state.formatList.length-1){
+      let a = this.state.formatList[index]
+      let b = this.state.formatList[index+1]
+      this.state.formatList.splice(index+1, 1, a)
+      this.state.formatList.splice(index, 1, b)
+      this.setState({
+        formatList: this.state.formatList,
+        currentFormatIndex: index+1
+      })
+    }
+  }
+
+  get defaultFormat(){
+    return { name: 'WMV|FLV', player: '', args: '"$x"' }
+  }
+
+  // --------- SettingsPlayerDetail ---------
+  onChangeFormat(event, key){
+    this.state.formatList[this.state.currentFormatIndex][key] = event.target.value
+    this.setState({ formatList: this.state.formatList })
+  }
+
+  onClickDialogFormat(event, index){
+    let path = dialog.showOpenDialog()
+    this.state.formatList[index].player = path[0]
+    this.setState({ formats: this.state.formatList })
   }
 
   render(){
@@ -187,8 +265,10 @@ class Settings extends React.Component {
       {
         name: "プレイヤー",
         component:
-          <SettingsPlayer player={this.state.player} playerPath={this.state.playerPath} playerArgs={this.state.playerArgs}
-            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} />
+          <SettingsPlayer formatList={this.state.formatList} currentFormatIndex={this.state.currentFormatIndex}
+            onClickItem={this.selectFormat} onClickAdd={this.addFormat} onClickDelete={this.deleteFormat}
+            onClickUp={this.upFormat} onClickDown={this.downFormat} onClickDialog={this.onClickDialog}
+            onClickDialog={this.onClickDialogFormat} onChangeFormat={this.onChangeFormat} />
       },
       {
         name: "PeerCast",
