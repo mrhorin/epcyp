@@ -143,13 +143,13 @@ ipcMain.on('asyn-yp', (event, yp)=>{
 })
 
 // ---------- 再生プレイヤーの起動 ----------
-ipcMain.on('asyn-play', (event, args) =>{
+ipcMain.on('asyn-play', (event, player, args) =>{
   let command
   if(global.process.platform=='darwin'){
     // Macの場合はopenコマンドで実行
-    command = `open -a ${config.get('playerPath')} ${args}`
+    command = `open -a ${player} ${args}`
   }else{
-    command = `${config.get('playerPath')} ${args}`
+    command = `${player} ${args}`
   }
   try{
     exec(command, (error, stdout, stderr)=>{

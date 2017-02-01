@@ -1,6 +1,6 @@
 import {ipcRenderer} from 'electron'
 import Config from 'electron-config'
-
+import storage from 'electron-json-storage'
 const config = new Config({
   defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
 })
@@ -16,7 +16,16 @@ module.exports = class Plsyer{
 
   // プレイヤーで再生する
   play(){
-    ipcRenderer.send('asyn-play', this.args)
+    storage.get('formatList', (error, data)=>{
+      for(let i=0; i<data.length; i++){
+        let format = data[i]
+        let ptn = new RegExp(format.name, "i")
+        if(this.channel.format.match(ptn)){
+          ipcRenderer.send('asyn-play', format.player, this.getPlayArgs(format.args))
+          break
+        }
+      }
+    })
   }
 
   // プレイリストURLを取得
@@ -33,8 +42,8 @@ module.exports = class Plsyer{
     return url
   }
 
-  // 引数で設定した値を取得
-  get args(){
+  // 再生用引数を取得
+  getPlayArgs(args){
     let res = ""
     let item = {
       "$x": this.playListURL,
@@ -49,7 +58,7 @@ module.exports = class Plsyer{
       "$8": this.channel.kbps,
       "$9": this.channel.format
     }
-    for(let arg of config.get('playerArgs').split(/\s/)){
+    for(let arg of args.split(/\s/)){
       res += `${item[arg.replace(/(")/gm, "")]} `
     }
     return res.replace(/\s$/, "")

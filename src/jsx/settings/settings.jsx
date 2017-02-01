@@ -263,14 +263,6 @@ class Settings extends React.Component {
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
       },
       {
-        name: "プレイヤー",
-        component:
-          <SettingsPlayer formatList={this.state.formatList} currentFormatIndex={this.state.currentFormatIndex}
-            onClickItem={this.selectFormat} onClickAdd={this.addFormat} onClickDelete={this.deleteFormat}
-            onClickUp={this.upFormat} onClickDown={this.downFormat} onClickDialog={this.onClickDialog}
-            onClickDialog={this.onClickDialogFormat} onChangeFormat={this.onChangeFormat} />
-      },
-      {
         name: "PeerCast",
         component:
           <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
@@ -284,6 +276,14 @@ class Settings extends React.Component {
             onClickItem={this.selectYP} onClickAdd={this.addYP} onClickDelete={this.deleteYP}
             onClickUp={this.upYP} onClickDown={this.downYP}
             onChangeYP={this.onChangeYP} />
+      },
+      {
+        name: "プレイヤー",
+        component:
+          <SettingsPlayer formatList={this.state.formatList} currentFormatIndex={this.state.currentFormatIndex}
+            onClickItem={this.selectFormat} onClickAdd={this.addFormat} onClickDelete={this.deleteFormat}
+            onClickUp={this.upFormat} onClickDown={this.downFormat} onClickDialog={this.onClickDialog}
+            onClickDialog={this.onClickDialogFormat} onChangeFormat={this.onChangeFormat} />
       },
     ]
     // カレントコンポーネント

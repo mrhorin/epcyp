@@ -7,6 +7,8 @@ const config = new Config({
   defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
 })
 
+import Player from 'js/player'
+
 module.exports = class ChannelItem extends React.Component {
 
   constructor(props){
@@ -14,16 +16,14 @@ module.exports = class ChannelItem extends React.Component {
     this.play = this.play.bind(this)
     this.openURL = this.openURL.bind(this)
     this.showContextMenu = this.showContextMenu.bind(this)
-    this.getFavorite = this.getFavorite.bind(this)
-    this.getPlayListURL = this.getPlayListURL.bind(this)
-    this.getArgs = this.getArgs.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
     this.onMiddleClick = this.onMiddleClick.bind(this)
   }
 
   // プレイヤーで再生する
   play(){
-    ipcRenderer.send('asyn-play', this.getArgs())
+    let player = new Player(this.props.channel)
+    player.play()
   }
 
   // コンタクトURLをBBSブラウザで開く
@@ -39,63 +39,6 @@ module.exports = class ChannelItem extends React.Component {
   // お気に入り登録
   registFavorite(favoriteIndex, channelName){
     this.props.registFavorite(favoriteIndex, channelName)
-  }
-
-  // プレイリストURLを取得
-  getPlayListURL(){
-    let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
-    return url
-  }
-
-  // ストリームURLを取得
-  getStreamURL(){
-    let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/stream/${this.props.channel.id}.${this.props.channel.format.toLowerCase()}`
-    return url
-  }
-
-  // 引数で設定した値を取得
-  getArgs(){
-    let res = ""
-    let item = {
-      "$x": this.getPlayListURL(),
-      "$0": this.props.channel.name,
-      "$1": this.props.channel.id,
-      "$2": this.props.channel.tip,
-      "$3": this.props.channel.url,
-      "$4": this.props.channel.genre,
-      "$5": this.props.channel.detail,
-      "$6": this.props.channel.listener,
-      "$7": this.props.channel.relay,
-      "$8": this.props.channel.kbps,
-      "$9": this.props.channel.format
-    }
-    for(let arg of config.get('playerArgs').split(/\s/)){
-      res += `${item[arg.replace(/(")/gm, "")]} `
-    }
-    return res.replace(/\s$/, "")
-  }
-
-  // マッチするお気に入り情報があれば取得
-  getFavorite(){
-    let res = null
-    for(let favorite of this.props.favorites){
-      // 検索文字欄が空の場合
-      if(!favorite.pattern) continue
-      let ptn = new RegExp(favorite.pattern, "i")
-      // ptnにマッチする AND 検索対象に指定されているか
-      if((this.props.channel.name.match(ptn)&&favorite.target.name)||
-        (this.props.channel.genre.match(ptn)&&favorite.target.genre)||
-        (this.props.channel.detail.match(ptn)&&favorite.target.detail)||
-        (this.props.channel.comment.match(ptn)&&favorite.target.comment)||
-        (this.props.channel.url.match(ptn)&&favorite.target.url)||
-        (this.props.channel.tip.match(ptn)&&favorite.target.tip)){
-        res = favorite
-        break
-      }
-    }
-    return res
   }
 
   // 右クリメニューを表示
@@ -135,8 +78,8 @@ module.exports = class ChannelItem extends React.Component {
       submenu: [
         { label: 'チャンネル名', click: ()=>{ clipboard.writeText(this.props.channel.name) } },
         { label: 'コンタクトURL', click: ()=>{ clipboard.writeText(this.props.channel.url) } },
-        { label: 'プレイリストURL', click: ()=>{ clipboard.writeText(this.getPlayListURL()) } },
-        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.getStreamURL()) } },
+        { label: 'プレイリストURL', click: ()=>{ clipboard.writeText(this.playListURL) } },
+        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.streamURL) } },
         { label: 'IPアドレス', click: ()=>{ clipboard.writeText(this.props.channel.tip.replace(/:\d+$/,"")) } },
         { type: 'separator' },
         {
@@ -170,8 +113,43 @@ module.exports = class ChannelItem extends React.Component {
     }
   }
 
+  // プレイリストURLを取得
+  get playListURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
+    return url
+  }
+
+  // ストリームURLを取得
+  get streamURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/stream/${this.props.channel.id}.${this.props.channel.format.toLowerCase()}`
+    return url
+  }
+
+  // マッチするお気に入り情報があれば取得
+  get favorite(){
+    let res = null
+    for(let favorite of this.props.favorites){
+      // 検索文字欄が空の場合
+      if(!favorite.pattern) continue
+      let ptn = new RegExp(favorite.pattern, "i")
+      // ptnにマッチする AND 検索対象に指定されているか
+      if((this.props.channel.name.match(ptn)&&favorite.target.name)||
+        (this.props.channel.genre.match(ptn)&&favorite.target.genre)||
+        (this.props.channel.detail.match(ptn)&&favorite.target.detail)||
+        (this.props.channel.comment.match(ptn)&&favorite.target.comment)||
+        (this.props.channel.url.match(ptn)&&favorite.target.url)||
+        (this.props.channel.tip.match(ptn)&&favorite.target.tip)){
+        res = favorite
+        break
+      }
+    }
+    return res
+  }
+
   render(){
-    let favorite = this.getFavorite()
+    let favorite = this.favorite
     let style = {}
     if(favorite){
       style = {
