@@ -1,4 +1,4 @@
-# epcyp(仮称)
+# PecaLounge
 
 ## ToDo
 - 検証

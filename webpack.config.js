@@ -3,7 +3,7 @@ var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
   entry: {
-    "epcyp": './src/jsx/index/index.jsx',
+    "pecalounge": './src/jsx/index/index.jsx',
     "settings": './src/jsx/settings/settings.jsx',
     "favorite": './src/jsx/favorite/favorite.jsx',
     "main": './src/main_process/main.js'
