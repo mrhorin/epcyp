@@ -145,10 +145,12 @@ class Settings extends React.Component {
   }
 
   deleteYP(){
+    let afterIndex = this.state.currentYpIndex - 1
+    if(afterIndex<0) afterIndex = 0
     this.state.ypList.splice(this.state.currentYpIndex, 1)
     this.setState({
       ypList: this.state.ypList,
-      currentYpIndex: this.state.currentYpIndex - 1
+      currentYpIndex: afterIndex
     })
   }
 
@@ -202,10 +204,12 @@ class Settings extends React.Component {
   }
 
   deleteFormat(){
+    let afterIndex = this.state.currentFormatIndex - 1
+    if(afterIndex<0) afterIndex = 0
     this.state.formatList.splice(this.state.currentFormatIndex, 1)
     this.setState({
       formatList: this.state.formatList,
-      currentFormatIndex: this.state.currentFormatIndex - 1
+      currentFormatIndex: afterIndex
     })
   }
 
