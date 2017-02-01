@@ -28,7 +28,7 @@ module.exports = class SettingsPeerCast extends React.Component {
         </div>
         <div className="form-group">
           <input className="checkbox" type="checkbox" name="showGuiTab" ref="showGuiTab" value={this.props.showGuiTab}
-            checked={this.props.showGuiTab} onChange={this.onChangeCheckbox} />リレー管理タブを表示する（PeerCastStion使用時のみ）
+            checked={this.props.showGuiTab} onChange={this.onChangeCheckbox} />リレー管理タブを表示する（PeerCastStation使用時のみ）
         </div>
       </div>
     )
