@@ -209,7 +209,6 @@ module.exports = class GuiItem extends React.Component{
       <div className={className}>
         <div className="gui-item-row1"
           onClick={this.onClick}
-          onDoubleClick={this.play}
           onContextMenu={this.showContextMenu}>
           <div className="gui-item-col1">
             <div className="gui-item-name">
