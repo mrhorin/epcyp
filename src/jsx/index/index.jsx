@@ -47,6 +47,7 @@ class Index extends React.Component {
       autoUpdate: config.get('autoUpdate'),
       autoUpdateCount: 60,
       lastUpdateTime: moment().add(-59, 's'),
+      updateStatus: 'wait',
       currentTabIndex: 0,
       mainWindowActive: true
     }
@@ -71,7 +72,7 @@ class Index extends React.Component {
           // お気に入りにマッチ&&通知設定されてたら通知
           let favoriteIndex = this.findIndexOfFavorites(newChannel)
           if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
-            this.notify(newChannel.name, newChannel.genre+newChannel.detail)
+            this.notify('★'+newChannel.name, newChannel.genre+newChannel.detail)
           }
         }
       })
@@ -106,7 +107,8 @@ class Index extends React.Component {
     if(this.addCount==this.state.ypList.length){
       this.setState({
         channels: this.currentChannels,
-        lastUpdateTime: moment()
+        lastUpdateTime: moment(),
+        updateStatus: 'wait'
       })
     }
   }
@@ -231,7 +233,8 @@ class Index extends React.Component {
 
   // index.txtを取得
   fetchIndexTxt(){
-    if(this.checkElapsed()){
+    if(this.checkElapsed()&&this.state.updateStatus!='updating'){
+      this.setState({ updateStatus: 'updating' })
       this.prevChannels = this.state.channels
       this.currentChannels = []
       this.addCount = 0
@@ -268,7 +271,7 @@ class Index extends React.Component {
 
   // 通知
   notify(title="", body=""){
-    new Notification(`★${title}`, {body: body})
+    new Notification(title, {body: body})
   }
 
   // 設定を初期化
@@ -332,10 +335,14 @@ class Index extends React.Component {
       }
     ]
     if(this.state.showGuiTab){
+      // relaysが空値の瞬間があるので応急処置-------------
+      let relays = this.state.relays
+      if(relays==undefined||relays==null) relays = []
+      // -------------------------------応急処置ここまで
       components.push({
-        name: `リレー(${this.state.relays.length})`,
+        name: `リレー(${relays.length})`,
         component:
-          <GuiBox relays={this.state.relays} />
+          <GuiBox relays={relays} />
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component
@@ -346,7 +353,8 @@ class Index extends React.Component {
          onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
-        <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount} lastUpdateTime={this.state.lastUpdateTime}
+        <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount}
+          lastUpdateTime={this.state.lastUpdateTime} updateStatus={this.state.updateStatus}
           onUpdate={this.fetchIndexTxt}/>
       </div>
     )
