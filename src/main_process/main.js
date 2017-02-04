@@ -128,17 +128,13 @@ app.on('window-all-closed', ()=>{
 -----------------------------------------*/
 // ------- index.txtを取得して返す -------
 ipcMain.on('asyn-yp', (event, yp)=>{
-  request.get(yp.url).end((err,res)=>{
-    try{
-      if(res && res.status == 200 && !res.error){
-        yp["txt"] = res.text
-      }else{
-        yp["txt"] = null
-      }
-      event.sender.send('asyn-yp-reply', yp)
-    }catch(e){
-      console.log(e)
+  request.get(yp.url).timeout(5000).end((err,res)=>{
+    if(res && res.status == 200 && !res.error){
+      yp["txt"] = res.text
+    }else{
+      yp["txt"] = ""
     }
+    event.sender.send('asyn-yp-reply', yp)
   })
 })
 
