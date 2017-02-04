@@ -127,16 +127,28 @@ app.on('window-all-closed', ()=>{
   イベントをバインド
 -----------------------------------------*/
 // ------- index.txtを取得して返す -------
-ipcMain.on('asyn-yp', (event, yp)=>{
-  request.get(yp.url).timeout(5000).end((err,res)=>{
-    if(res && res.status == 200 && !res.error){
-      yp["txt"] = res.text
-    }else{
-      yp["txt"] = ""
-    }
-    event.sender.send('asyn-yp-reply', yp)
-  })
+ipcMain.on('asyn-yp', (event, ypList)=>{
+  fetchIndexTxt(ypList, 0, event)
 })
+
+const fetchIndexTxt = (ypList, index, event)=>{
+  if(ypList.length>index){
+    getAsyn(ypList[index].url).then((res)=>{
+      ypList[index].txt = res.text
+      index += 1
+      // 再帰的呼出し
+      fetchIndexTxt(ypList, index, event)
+    },(err)=>{
+      console.log(err)
+      ypList[index].txt = ""
+      index += 1
+      // 再帰的呼出し
+      fetchIndexTxt(ypList, index, event)
+    })
+  }else{
+    event.sender.send('asyn-yp-reply', ypList)
+  }
+}
 
 // ---------- 再生プレイヤーの起動 ----------
 ipcMain.on('asyn-play', (event, player, args) =>{
@@ -244,6 +256,19 @@ const closeSettingsWindow = ()=>{
   window.settings = null
   window.main.setIgnoreMouseEvents(false)
   window.main.send('asyn-settings-window-close-reply')
+}
+
+// Promiseでsuperagent.get
+const getAsyn = (url)=>{
+  return new Promise((resolve, reject)=>{
+    request.get(url).timeout(5000).end((err,res)=>{
+      if(res && res.status == 200 && !res.error){
+        resolve(res)
+      }else{
+        reject(err)
+      }
+    })
+  })
 }
 
 // window.mainの中心の相対座標を取得

@@ -5,6 +5,7 @@ import {shell} from 'electron'
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import moment from 'moment'
+import _ from 'lodash'
 
 import Peercast from 'js/peercaststation'
 import YP from 'js/yp'
@@ -51,12 +52,6 @@ class Index extends React.Component {
       currentTabIndex: 0,
       mainWindowActive: true
     }
-    // 前回更新時のチャンネル一覧
-    this.prevChannels = []
-    // 現在のチャンネル一覧
-    this.currentChannel = []
-    // this.add()を実行した回数
-    this.addCount = 0
     this.bindEvents()
     this.loadFavorites()
     this.loadSettings()
@@ -64,12 +59,17 @@ class Index extends React.Component {
 
   bindEvents(){
     // index.txtを取得時
-    ipcRenderer.on('asyn-yp-reply', (event, replyYp) => {
-      let newChannels = this.state.ypList[0].parseIndexTxt(replyYp['txt'])
+    ipcRenderer.on('asyn-yp-reply', (event, ypList) => {
+      let newChannels = _.flattenDeep(ypList.map((yp)=>{
+        return(
+          this.state.ypList[0].parseIndexTxt(yp.txt)
+        )
+      }))
       this.add(newChannels, (newChannel)=>{
-        let now = moment()
-        if(this.prevChannels&&this.prevChannels.length>0){
-          // お気に入りにマッチ&&通知設定されてたら通知
+        // 新着チャンネルか
+        let channelIndex = this.findIndexOfChannels(newChannel)
+        if(channelIndex<0){
+          // お気に入りにマッチ&&通知設定されているか
           let favoriteIndex = this.findIndexOfFavorites(newChannel)
           if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
             this.notify('★'+newChannel.name, newChannel.genre+newChannel.detail)
@@ -98,19 +98,13 @@ class Index extends React.Component {
   // チャンネルを追加
   add(channels, call=()=>{}){
     for(let channel of channels){
-      let channelIndex = this.findIndexOfPrevChannels(channel)
-      // 新着チャンネル
-      if(channelIndex<0) call(channel)
-      this.currentChannels.push(channel)
+      call(channel)
     }
-    this.addCount += 1
-    if(this.addCount==this.state.ypList.length){
-      this.setState({
-        channels: this.currentChannels,
-        lastUpdateTime: moment(),
-        updateStatus: 'wait'
-      })
-    }
+    this.setState({
+      channels: channels,
+      lastUpdateTime: moment(),
+      updateStatus: 'wait'
+    })
   }
 
   // 設定を読み込む
@@ -160,20 +154,8 @@ class Index extends React.Component {
   findIndexOfChannels(channel){
     let index = -1
     for(let i=0; i < this.state.channels.length; i++){
-      if(channel.key == this.state.channels[i].key){
-        index = i
-        break
-      }
-    }
-    return index
-  }
-
-  // prevChannels内のindex位置を返す
-  findIndexOfPrevChannels(channel){
-    let index = -1
-    for(let i=0; i < this.prevChannels.length; i++){
-      if(channel.id == this.prevChannels[i].id&&
-         channel.name == this.prevChannels[i].name){
+      if(channel.name == this.state.channels[i].name&&
+         channel.id == this.state.channels[i].id){
         index = i
         break
       }
@@ -235,17 +217,12 @@ class Index extends React.Component {
   fetchIndexTxt(){
     if(this.checkElapsed()&&this.state.updateStatus!='updating'){
       this.setState({ updateStatus: 'updating' })
-      this.prevChannels = this.state.channels
-      this.currentChannels = []
-      this.addCount = 0
-      for(var yp of this.state.ypList){
-        ipcRenderer.send('asyn-yp', yp)
-      }
+      ipcRenderer.send('asyn-yp', this.state.ypList)
     }else{
       let sec = 30 - Math.round(moment().unix() - this.state.lastUpdateTime.unix())
       if(sec<0) sec = 30
       // エラー通知
-      this.notify("更新できませんでした", `30秒以上の間隔をあけて更新してくだい。\n次の更新まで、あと ${sec} 秒`)
+      this.notify("更新できませんでした", `30秒以上の間隔をあけて更新してくだい。\n次の更新まで ${sec}秒`)
     }
   }
 
