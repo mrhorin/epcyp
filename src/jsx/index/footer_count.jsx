@@ -27,11 +27,6 @@ module.exports = class FooterCount extends React.Component {
           let diffSec = this.props.autoUpdateCount - (Math.round((now.unix() - this.props.lastUpdateTime.unix())))
           this.setState({ diffSec: diffSec })
         }
-      }else{
-        // 自動更新OFF時の処理
-        if(this.state.diffSec != this.props.autoUpdateCount){
-          this.setState({ diffSec: this.props.autoUpdateCount })
-        }
       }
     }, 1000)
   }
