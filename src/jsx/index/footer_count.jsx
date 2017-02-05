@@ -10,7 +10,6 @@ module.exports = class FooterCount extends React.Component {
     this.state = {
       diffSec: this.props.autoUpdateCount
     }
-    this.startUpdateTimer()
   }
 
   // 自動更新タイマーの開始
@@ -31,6 +30,11 @@ module.exports = class FooterCount extends React.Component {
     }, 1000)
   }
 
+  // 自動更新タイマーの停止
+  stopUpdateTimer(){
+    clearInterval(this.countTimer)
+  }
+
   // mm:ssに変換
   toTimeFormat(secounds){
     let min = Math.floor((secounds / 60) % 60)
@@ -38,6 +42,16 @@ module.exports = class FooterCount extends React.Component {
     let sec = Math.floor(secounds % 60)
     if(sec<10) sec = `0${sec}`
     return `${min}:${sec}`
+  }
+
+  componentDidMount(){
+    this._isMounted = true
+    this.startUpdateTimer()
+  }
+
+  componentWillUnmount(){
+    this.stopUpdateTimer()
+    this._isMounted = false
   }
 
   render(){
