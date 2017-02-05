@@ -46,6 +46,13 @@ module.exports = class Peercaststation{
     })
   }
 
+  // PeerCast本体に関するステータスを取得
+  static getStatus(call=()=>{}){
+    this.postRequest('getStatus', null, (err, res)=>{
+      call(err, res)
+    })
+  }
+
   // チャンネル情報一覧を取得
   static getChannels(call=()=>{}){
     this.postRequest('getChannels', null, (err, res)=>{

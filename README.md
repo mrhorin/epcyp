@@ -1,5 +1,6 @@
 # PCLounge
 ## ToDo
+- fetchIndexTxt時のtimeout挙動
 - 検証
   - 共通
    - PeerCast本体を終了できるか
