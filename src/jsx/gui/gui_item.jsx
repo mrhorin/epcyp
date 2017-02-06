@@ -155,7 +155,17 @@ module.exports = class GuiItem extends React.Component{
   get connectionStatus(){
     var result = ""
     if(this.props.relay.status.isReceiving){
-      if(this.props.relay.status.isRelayFull){
+      if(this.props.status.isFirewalled!=undefined&&
+         this.props.status.isFirewalled!=null&&
+         this.props.status.isFirewalled){
+        // ポート未開放
+        if(this.props.relay.status.localRelays!=null && this.props.relay.status.localRelays>0){
+          result = "firewalledRelaying"
+        }
+        else{
+          result = "firewalled"
+        }
+      }else if(this.props.relay.status.isRelayFull){
         if(this.props.relay.status.localRelays!=null && this.props.relay.status.localRelays>0){
           result = "relayFull"
         }

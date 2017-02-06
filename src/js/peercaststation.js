@@ -69,7 +69,7 @@ module.exports = class Peercaststation{
     }
     if(params) json.params = params
     request.post(this.API_URL).send(JSON.stringify(json))
-      .set('X-Requested-With', 'X-Requested-With')
+      .set('X-Requested-With', 'XMLHttpRequest')
       .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
       .timeout(3000)
       .end((err, res)=>{

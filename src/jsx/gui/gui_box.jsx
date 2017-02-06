@@ -11,7 +11,7 @@ module.exports = class GuiBox extends React.Component{
   render(){
     let guiItems = this.props.relays.map((relay, index)=>{
       return(
-        <GuiItem key={relay.channelId} index={index} relay={relay} />
+        <GuiItem key={relay.channelId} index={index} relay={relay} status={this.props.status}/>
       )
     })
     return(

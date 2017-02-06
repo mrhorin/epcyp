@@ -43,6 +43,7 @@ class Index extends React.Component {
       favorites: [],
       channels: [],
       relays: [],
+      status: { isFirewalled: false },
       showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
@@ -102,7 +103,6 @@ class Index extends React.Component {
     }
     this.setState({
       channels: channels,
-      lastUpdateTime: moment(),
       updateStatus: 'wait'
     })
   }
@@ -216,9 +216,12 @@ class Index extends React.Component {
   // index.txtを取得
   fetchIndexTxt(){
     if(this.checkElapsed()&&this.state.updateStatus!='updating'){
-      this.setState({ updateStatus: 'updating' })
+      this.setState({
+        updateStatus: 'updating',
+        lastUpdateTime: moment()
+      })
       ipcRenderer.send('asyn-yp', this.state.ypList)
-    }else{
+    }else if(this.state.updateStatus!='updating'){
       let sec = 30 - Math.round(moment().unix() - this.state.lastUpdateTime.unix())
       if(sec<0) sec = 30
       // エラー通知
@@ -226,25 +229,46 @@ class Index extends React.Component {
     }
   }
 
-  // リレー情報の更新を開始
+  // リレー情報の自動更新を開始
   startUpdateRelays(){
-    Peercast.getChannels((err, res)=>{
-      let relays = []
-      if(res && res.status == 200 && !res.error && res.text){
-        let json = JSON.parse(res.text)
-        relays = json.result
-      }
-      if(this._isMounted){
-        this.setState({ relays: relays })
-        // 再帰呼び出し
-        this.updateRelaysTimer = setTimeout(()=>{ this.startUpdateRelays() }, 1000)
-      }
+    this.updateRelaysTimerId = setInterval(()=>{
+      Promise.all([ this.updateRelays(), this.updateStatus() ]).then((values)=>{
+        this.setState({ relays: values[0].result, status: values[1].result })
+      }).catch((err)=>{
+        console.log(err)
+      })
+    }, 1000)
+  }
+
+  // リレー情報の自動更新を停止
+  stopUpdateRelays(){
+    clearTimeout(this.updateRelaysTimerId)
+  }
+
+  updateRelays(){
+    return new Promise((resolve, reject)=>{
+      Peercast.getChannels((err, res)=>{
+        if(res && res.status == 200 && !res.error && res.text){
+          let json = JSON.parse(res.text)
+          resolve(json)
+        }else{
+          reject(err)
+        }
+      })
     })
   }
 
-  // リレー情報の更新を停止
-  stopUpdateRelays(){
-    clearTimeout(this.updateRelaysTimer)
+  updateStatus(){
+    return new Promise((resolve, reject)=>{
+      Peercast.getStatus((err, res)=>{
+        if(res && res.status == 200 && !res.error && res.text){
+          let json = JSON.parse(res.text)
+          resolve(json)
+        }else{
+          reject(err)
+        }
+      })
+    })
   }
 
   // 通知
@@ -320,7 +344,7 @@ class Index extends React.Component {
       components.push({
         name: `リレー(${relays.length})`,
         component:
-          <GuiBox relays={relays} />
+          <GuiBox relays={relays} status={this.state.status} />
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component

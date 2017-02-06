@@ -1,6 +1,7 @@
 # PCLounge
 ## ToDo
-- fetchIndexTxt時のtimeout挙動
+- 不具合
+ - Linux環境だとkillに時間かかってる？
 - 検証
   - 共通
    - PeerCast本体を終了できるか

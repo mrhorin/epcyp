@@ -14,7 +14,7 @@ module.exports = class FooterCount extends React.Component {
 
   // 自動更新タイマーの開始
   startUpdateTimer(){
-    this.countTimer = setInterval(()=>{
+    this.countTimerId = setInterval(()=>{
       if(this.props.autoUpdate){
         // 自動更新ON時の処理
         if(this.state.diffSec < 1){
@@ -26,13 +26,18 @@ module.exports = class FooterCount extends React.Component {
           let diffSec = this.props.autoUpdateCount - (Math.round((now.unix() - this.props.lastUpdateTime.unix())))
           this.setState({ diffSec: diffSec })
         }
+      }else{
+         // 自動更新OFF時の処理
+         if(this.state.diffSec != this.props.autoUpdateCount){
+           this.setState({ diffSec: this.props.autoUpdateCount })
+         }
       }
     }, 1000)
   }
 
   // 自動更新タイマーの停止
   stopUpdateTimer(){
-    clearInterval(this.countTimer)
+    clearInterval(this.countTimerId)
   }
 
   // mm:ssに変換
