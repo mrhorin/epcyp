@@ -6,6 +6,9 @@ $col3-widrh: 40px;
   background: #cbe4f4;
   border: 1px solid #4dbaff;
 }
+a, .link{
+  color: #0800ff;
+}
 
 /* Index */
 body{
@@ -155,7 +158,6 @@ td.channel-item-col1{
   max-width: 100%;
   padding: 5px 0px 5px 10px;
   .channel-item-name{
-    color: #1f0fe2;
     font-weight: bold;
     display: block;
     white-space: normal;
@@ -216,7 +218,6 @@ td.channel-item-col3{
   line-height: 40px;
   padding: 0px 10px;
   .gui-item-name{
-    color: #1f0fe2;
     font-weight: bold;
     display: block;
     white-space: nowrap;

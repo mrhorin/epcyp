@@ -157,10 +157,15 @@ module.exports = class ChannelItem extends React.Component {
         color: `#${favorite.fontColor}`
       }
     }
+    let nameClass = "channel-item-name"
+    if(this.props.channel.url) nameClass += " link"
     return(
-      <tr className="channel-item" onClick={this.onMiddleClick} onDoubleClick={this.play} onContextMenu={this.showContextMenu} style={style}>
+      <tr className="channel-item"  style={style}
+        onClick={this.onMiddleClick}
+        onDoubleClick={this.play}
+        onContextMenu={this.showContextMenu}>
         <td className="channel-item-col1">
-          <div className="channel-item-name">{this.props.channel.name}</div>
+          <div className={nameClass}>{this.props.channel.name}</div>
           <div className="channel-item-detail">
             {this.props.channel.genre}
             {this.props.channel.detail}

@@ -213,15 +213,17 @@ module.exports = class GuiItem extends React.Component{
           relay={this.props.relay} current={currentConnection} />
     }
     // アクティブ状態
-    let className = "gui-item"
-    if(this.props.current==this.props.index) className += " gui-item-active"
+    let itemClass = "gui-item"
+    if(this.props.current==this.props.index) itemClass += " gui-item-active"
+    let nameClass = "gui-item-name"
+    if(this.props.relay.info.url) nameClass += " link"
     return(
-      <div className={className}>
+      <div className={itemClass}>
         <div className="gui-item-row1"
           onClick={this.onClick}
           onContextMenu={this.showContextMenu}>
           <div className="gui-item-col1">
-            <div className="gui-item-name">
+            <div className={nameClass}>
               <i className={this.connectionStatus} />
               {this.props.relay.info.name}
             </div>
