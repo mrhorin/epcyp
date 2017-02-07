@@ -128,27 +128,16 @@ app.on('window-all-closed', ()=>{
 -----------------------------------------*/
 // ------- index.txtを取得して返す -------
 ipcMain.on('asyn-yp', (event, ypList)=>{
-  fetchIndexTxt(ypList, 0, event)
+  let asyns = ypList.map((yp)=>{
+    return getAsyn(yp.url)
+  })
+  Promise.all(asyns).then((values)=>{
+    event.sender.send('asyn-yp-reply', values)
+  }).catch((err)=>{
+    console.log(err)
+    event.sender.send('asyn-yp-reply', [])
+  })
 })
-
-const fetchIndexTxt = (ypList, index, event)=>{
-  if(ypList.length>index){
-    getAsyn(ypList[index].url).then((res)=>{
-      ypList[index].txt = res.text
-      index += 1
-      // 再帰的呼出し
-      fetchIndexTxt(ypList, index, event)
-    },(err)=>{
-      console.log(err)
-      ypList[index].txt = ""
-      index += 1
-      // 再帰的呼出し
-      fetchIndexTxt(ypList, index, event)
-    })
-  }else{
-    event.sender.send('asyn-yp-reply', ypList)
-  }
-}
 
 // ---------- 再生プレイヤーの起動 ----------
 ipcMain.on('asyn-play', (event, player, args) =>{
