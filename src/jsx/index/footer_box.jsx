@@ -15,8 +15,7 @@ module.exports = class FooterBox extends React.Component {
           autoUpdate={this.props.autoUpdate}
           autoUpdateCount={this.props.autoUpdateCount}
           lastUpdateTime={this.props.lastUpdateTime}
-          updateStatus={this.props.updateStatus}
-          onUpdate={this.props.onUpdate}/>
+          updateStatus={this.props.updateStatus} />
       </footer>
     )
   }

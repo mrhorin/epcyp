@@ -26,7 +26,7 @@ class Index extends React.Component {
   constructor(props){
     super(props)
     this.bindEvents = this.bindEvents.bind(this)
-    this.add = this.add.bind(this)
+    this.setChannels = this.setChannels.bind(this)
     this.loadSettings = this.loadSettings.bind(this)
     this.loadFavorites = this.loadFavorites.bind(this)
     this.findIndexOfChannels = this.findIndexOfChannels.bind(this)
@@ -34,7 +34,8 @@ class Index extends React.Component {
     this.checkElapsed = this.checkElapsed.bind(this)
     this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
-    this.startUpdateRelays = this.startUpdateRelays.bind(this)
+    this.startUpdateTimer = this.startUpdateTimer.bind(this)
+    this.stopUpdateTimer = this.stopUpdateTimer.bind(this)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
@@ -47,7 +48,7 @@ class Index extends React.Component {
       showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
-      autoUpdateCount: 60,
+      autoUpdateCount: 0,
       lastUpdateTime: moment().add(-59, 's'),
       updateStatus: 'wait',
       currentTabIndex: 0,
@@ -64,17 +65,22 @@ class Index extends React.Component {
       let newChannels = _.flattenDeep(responses.map((res)=>{
         return this.state.ypList[0].parseIndexTxt(res.text)
       }))
-      this.add(newChannels, (newChannel)=>{
-        // 新着チャンネルか
-        let channelIndex = this.findIndexOfChannels(newChannel)
-        if(channelIndex<0){
-          // お気に入りにマッチ&&通知設定されているか
-          let favoriteIndex = this.findIndexOfFavorites(newChannel)
-          if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
-            this.notify('★'+newChannel.name, newChannel.genre+newChannel.detail)
+      if(newChannels.length>0){
+        this.setChannels(newChannels, (newChannel)=>{
+          // 新着チャンネルか
+          let channelIndex = this.findIndexOfChannels(newChannel)
+          if(channelIndex<0){
+            // お気に入りにマッチ&&通知設定されているか
+            let favoriteIndex = this.findIndexOfFavorites(newChannel)
+            if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
+              this.notify('★'+newChannel.name, newChannel.genre+newChannel.detail)
+            }
           }
-        }
-      })
+        })
+      }else{
+        this.notify("Error", "チャンネル一覧を更新できませんでした")
+        this.setState({ autoUpdateCount: 60, updateStatus: 'wait' })
+      }
     })
     // メインウィンドウが非アクティブ時
     ipcRenderer.on('index-window-blur', (event)=>{
@@ -94,13 +100,15 @@ class Index extends React.Component {
     })
   }
 
-  // チャンネルを追加
-  add(channels, call=()=>{}){
+  // チャンネル情報をセット
+  setChannels(channels, call=()=>{}){
     for(let channel of channels){
       call(channel)
     }
     this.setState({
       channels: channels,
+      lastUpdateTime: moment(),
+      autoUpdateCount: 60,
       updateStatus: 'wait'
     })
   }
@@ -214,10 +222,7 @@ class Index extends React.Component {
   // index.txtを取得
   fetchIndexTxt(){
     if(this.checkElapsed()&&this.state.updateStatus!='updating'){
-      this.setState({
-        updateStatus: 'updating',
-        lastUpdateTime: moment()
-      })
+      this.setState({ updateStatus: 'updating' })
       ipcRenderer.send('asyn-yp', this.state.ypList)
     }else if(this.state.updateStatus!='updating'){
       let sec = 30 - Math.round(moment().unix() - this.state.lastUpdateTime.unix())
@@ -227,20 +232,45 @@ class Index extends React.Component {
     }
   }
 
-  // リレー情報の自動更新を開始
-  startUpdateRelays(){
-    this.updateRelaysTimerId = setInterval(()=>{
-      Promise.all([ this.updateRelays(), this.updateStatus() ]).then((values)=>{
-        this.setState({ relays: values[0].result, status: values[1].result })
+  // 更新処理を開始
+  startUpdateTimer(){
+    this.updateTimerId = setInterval(()=>{
+      Promise.all([
+        this.updateRelays(),
+        this.updateStatus(),
+        this.updateCount()
+      ]).then((values)=>{
+        this.setState({
+          relays: values[0].result,
+          status: values[1].result,
+          autoUpdateCount: values[2]
+        })
       }).catch((err)=>{
         console.log(err)
       })
     }, 1000)
   }
 
-  // リレー情報の自動更新を停止
-  stopUpdateRelays(){
-    clearTimeout(this.updateRelaysTimerId)
+  // 更新処理を停止
+  stopUpdateTimer(){
+    clearTimeout(this.updateTimerId)
+  }
+
+  updateCount(){
+    return new Promise((resolve, reject)=>{
+      if(this.state.autoUpdate&&this.state.updateStatus=='wait'){
+        // 自動更新ON時の処理
+        if(this.state.autoUpdateCount < 1){
+          this.fetchIndexTxt()
+          resolve(60)
+        }else{
+          resolve(this.state.autoUpdateCount-1)
+        }
+      }else{
+         // 自動更新OFF時の処理
+         resolve(60)
+      }
+    })
   }
 
   updateRelays(){
@@ -276,9 +306,7 @@ class Index extends React.Component {
 
   // 設定を初期化
   initialize(){
-    storage.clear(()=>{
-      config.clear()
-    })
+    storage.clear(()=>{ config.clear() })
   }
 
   // -------- HeaderUpdateButton --------
@@ -307,11 +335,11 @@ class Index extends React.Component {
 
   componentDidMount(){
     this._isMounted = true
-    this.startUpdateRelays()
+    this.startUpdateTimer()
   }
 
   componentWillUnmount(){
-    this.stopUpdateRelays()
+    this.stopUpdateTimer()
     this._isMounted = false
   }
 
@@ -354,8 +382,7 @@ class Index extends React.Component {
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
         <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount}
-          lastUpdateTime={this.state.lastUpdateTime} updateStatus={this.state.updateStatus}
-          onUpdate={this.fetchIndexTxt}/>
+          lastUpdateTime={this.state.lastUpdateTime} updateStatus={this.state.updateStatus} />
       </div>
     )
   }
