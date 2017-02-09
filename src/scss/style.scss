@@ -21,29 +21,25 @@ body::-webkit-scrollbar{
 }
 #container{
   position: relative;
-  padding-top: 60px;
+  padding-top: 65px;
   padding-bottom: 20px;
 }
 #index{
   .tab-group{
     border-top: 1px solid #888;
     border-bottom: 1px solid #888;
-    position: fixed;
     width: 100%;
+    position: fixed;
     top: 45px;
   }
-  table{
-    padding-top: 5px;
+}
+#index.darwin{
+  padding-top: 20px;
+  .tab-group{
+    top: 65px;
   }
-  // darwin環境時
-  header.darwin{
+  header{
     padding-top: 20px;
-  }
-  .tab-group.darwin{
-    top: 63px;
-  }
-  .table-striped.darwin{
-    padding-top: 0px;
   }
 }
 
@@ -64,6 +60,7 @@ header{
     margin-top: 10px;
   }
 }
+
 // ウィンドウ非アクティブ時
 header.blur{
   background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#e6e6e6),color-stop(100%,#dedede)) !important;
@@ -121,9 +118,6 @@ footer{
 }
 
 /* ChannelBox */
-table.darwin{
-  padding-top: 23px !important;
-}
 th.channel-box-col1{
   color: #000 !important;
   font-size: 11px;
@@ -195,7 +189,6 @@ td.channel-item-col3{
 /* GuiBox */
 .gui-box{
   width: 100%;
-  margin-top: 5px;
 }
 
 /* GuiItem */
@@ -372,11 +365,11 @@ ul.gui-connection-box{
 /* Favorite */
 #container-favorite{
   overflow: hidden;
-  padding-top: 15px;
+  padding-top: 10px;
   header{
   }
   #favorite-main{
-    padding: 15px 10px;
+    padding: 25px 15px;
   }
 }
 #favorite{
@@ -446,7 +439,6 @@ ul.gui-connection-box{
   }
   #settings-main{
     padding: 15px;
-    margin-top: 30px;
   }
   #settings-btn-group{
     position: absolute;
@@ -454,10 +446,10 @@ ul.gui-connection-box{
     right: 25px;
   }
   .tab-group{
-    position: fixed;
     width: 100%;
-    top: 23px;
+    padding-top: 6px;
     .tab-item{
+      border-top: 1px solid #989698;
       background: #bababa;
     }
     .tab-item:hover{

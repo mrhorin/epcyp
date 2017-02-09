@@ -199,7 +199,7 @@ ipcMain.on('asyn-settings-window-close', (event) =>{
 -----------------------------------------*/
 const openFavoriteWindow = ()=>{
   if(window.favorite == null){
-    let bounds = getChildBoundsFromMain(480, 370)
+    let bounds = getChildBoundsFromMain(490, 375)
     window.favorite = new BrowserWindow({
       x: bounds.x,
       y: bounds.y,

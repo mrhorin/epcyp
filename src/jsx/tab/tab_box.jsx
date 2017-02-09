@@ -14,7 +14,6 @@ module.exports = class TabBox extends React.Component {
 
   render(){
     // darwin環境時
-    var tabClass = global.process.platform == 'darwin' ? "tab-group darwin" : "tab-group"
     let tabs = this.props.components.map((tab, index)=>{
       // アクティブなタブか
       let active = this.props.currentTabIndex==index ? true : false
@@ -25,7 +24,7 @@ module.exports = class TabBox extends React.Component {
     })
 
     return(
-      <div className={tabClass}>
+      <div className="tab-group">
         {tabs}
       </div>
     )

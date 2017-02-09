@@ -374,9 +374,11 @@ class Index extends React.Component {
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component
+    // darwin環境
+    let indexClass = global.process.platform == 'darwin' ? "darwin" : ""
 
     return(
-      <div id="index">
+      <div id="index" className={indexClass}>
         <HeaderBox mainWindowActive={this.state.mainWindowActive} autoUpdate={this.state.autoUpdate}
          onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
