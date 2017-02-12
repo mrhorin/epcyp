@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 module.exports = class Channel{
 
   constructor(hash){
@@ -29,6 +31,15 @@ module.exports = class Channel{
     }else{
       return 0
     }
+  }
+
+  // 文字列をutf-16コードの数値列にして返す
+  getCharCode(string){
+    let res = ""
+    for(let s of string){
+      res += s.charCodeAt().toString()
+    }
+    return _.toInteger(res)
   }
 
 }

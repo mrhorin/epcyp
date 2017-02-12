@@ -27,16 +27,17 @@ class Index extends React.Component {
     super(props)
     this.bindEvents = this.bindEvents.bind(this)
     this.setChannels = this.setChannels.bind(this)
+    this.sortChannels = this.sortChannels.bind(this)
     this.loadSettings = this.loadSettings.bind(this)
     this.loadFavorites = this.loadFavorites.bind(this)
     this.findIndexOfChannels = this.findIndexOfChannels.bind(this)
     this.findIndexOfFavorites = this.findIndexOfFavorites.bind(this)
     this.checkElapsed = this.checkElapsed.bind(this)
-    this.getFavoriteChannels = this.getFavoriteChannels.bind(this)
     this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
     this.startUpdateTimer = this.startUpdateTimer.bind(this)
     this.stopUpdateTimer = this.stopUpdateTimer.bind(this)
     this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
+    this.setSearchWord = this.setSearchWord.bind(this)
     this.selectTab = this.selectTab.bind(this)
     this.registFavorite = this.registFavorite.bind(this)
     this.state = {
@@ -45,6 +46,7 @@ class Index extends React.Component {
       channels: [],
       relays: [],
       status: { isFirewalled: false },
+      searchWord: "",
       showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       autoUpdate: config.get('autoUpdate'),
@@ -78,7 +80,6 @@ class Index extends React.Component {
           }
         })
       }else{
-        this.notify("Error", "チャンネル一覧を更新できませんでした")
         this.setState({ autoUpdateCount: 60, updateStatus: 'wait' })
       }
     })
@@ -111,6 +112,26 @@ class Index extends React.Component {
       autoUpdateCount: 60,
       updateStatus: 'wait'
     })
+  }
+
+  // チャンネルを並び替えて返す
+  sortChannels(channels){
+    let key = this.state.sort.key
+    if(this.state.sort.orderBy=='asc'){
+      // 昇順
+      return _.sortBy(channels, (item)=>{
+        // 数値化処理
+        if(key=='time') return _.toInteger(item[key].replace(/:/, ""))
+        if(key=='format') return item.getCharCode(item[key])
+        return item[key]
+      })
+    }else{
+      return _.sortBy(channels, (item)=>{
+        if(key=='time') return - _.toInteger(item[key].replace(/:/, ""))
+        if(key=='format') return - item.getCharCode(item[key])
+        return - item[key]
+      })
+    }
   }
 
   // 設定を読み込む
@@ -192,10 +213,15 @@ class Index extends React.Component {
     return index
   }
 
+  // チャンネル一覧を取得
+  get channels(){
+    return this.sortChannels(this.state.channels)
+  }
+
   // お気に入りチャンネル一覧を取得
-  getFavoriteChannels(){
+  get favoriteChannels(){
     let favoriteChannels = []
-    for(let channel of this.state.channels){
+    for(let channel of this.channels){
       for(let favorite of this.state.favorites){
         // 検索文字欄が空の場合
         if(!favorite.pattern) continue
@@ -216,6 +242,20 @@ class Index extends React.Component {
     // 重複を除去
     return favoriteChannels.filter((channel, index, self)=>{
       return self.indexOf(channel) === index
+    })
+  }
+
+  // チャンネルの検索結果一覧を所得
+  get searchChannels(){
+    if(!this.state.searchWord) return []
+    let pattern = new RegExp(this.state.searchWord, 'gi')
+    return _.filter(this.channels, (channel)=>{
+      if(channel.name.match(pattern)||
+         channel.genre.match(pattern)||
+         channel.detail.match(pattern)||
+         channel.comment.match(pattern)){
+           return 1
+         }
     })
   }
 
@@ -316,6 +356,12 @@ class Index extends React.Component {
     this.setState({autoUpdate: !this.state.autoUpdate})
   }
 
+  // ----------- HeaderSearch -----------
+  // 検索ワードをセット
+  setSearchWord(word){
+    this.setState({ searchWord: word, currentTabIndex: 2 })
+  }
+
   // -------------- TabBox --------------
   selectTab(tabIndex){
     this.setState({ currentTabIndex: tabIndex })
@@ -344,21 +390,29 @@ class Index extends React.Component {
   }
 
   render(){
-    // お気に入りチャンネル一覧
-    let favoriteChannels = this.getFavoriteChannels()
     let components = [
       {
         name: `すべて(${this.state.channels.length})`,
         component:
-          <ChannelBox channels={this.state.channels}
-            favorites={this.state.favorites} sort={this.state.sort}
+          <ChannelBox
+            channels={this.channels}
+            favorites={this.state.favorites}
             registFavorite={this.registFavorite} />
       },
       {
-        name: `お気に入り(${favoriteChannels.length})`,
+        name: `お気に入り(${this.favoriteChannels.length})`,
         component:
-          <ChannelBox channels={favoriteChannels}
-            favorites={this.state.favorites} sort={this.state.sort}
+          <ChannelBox
+            channels={this.favoriteChannels}
+            favorites={this.state.favorites}
+            registFavorite={this.registFavorite} />
+      },
+      {
+        name: `検索(${this.searchChannels.length})`,
+        component:
+          <ChannelBox
+            channels={this.searchChannels}
+            favorites={this.state.favorites}
             registFavorite={this.registFavorite} />
       }
     ]
@@ -380,7 +434,8 @@ class Index extends React.Component {
     return(
       <div id="index" className={indexClass}>
         <HeaderBox mainWindowActive={this.state.mainWindowActive} autoUpdate={this.state.autoUpdate}
-         onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt} />
+         onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt}
+         setSearchWord={this.setSearchWord} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
         <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount}

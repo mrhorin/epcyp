@@ -1,7 +1,9 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
-import HeaderButton from 'jsx/index/header_button.jsx'
-import HeaderUpdateButton from 'jsx/index/header_update_button.jsx'
+
+import HeaderButton from 'jsx/index/header_button'
+import HeaderUpdateButton from 'jsx/index/header_update_button'
+import HeaderSearch from 'jsx/index/header_search'
 
 module.exports = class HeaderBox extends React.Component {
 
@@ -32,6 +34,7 @@ module.exports = class HeaderBox extends React.Component {
             <HeaderButton key={1} icon={"icon-star"} onClickhandler={this.onClickFavorite}/>
             <HeaderButton key={2} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
           </div>
+          <HeaderSearch setSearchWord={word=>{ this.props.setSearchWord(word) }} />
         </div>
       </header>
     )
