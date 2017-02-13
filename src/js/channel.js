@@ -14,9 +14,9 @@ module.exports = class Channel{
     this.relay = this.toNumber(hash.relay)
     this.kbps = this.toNumber(hash.kbps)
     this.format = hash.format
+    this.track = hash.track
     this.time = hash.time
     this.comment = this.unEscapeHTML(hash.comment)
-    if(this.genre) this.genre = `[${this.genre}] `
   }
 
   unEscapeHTML(string){

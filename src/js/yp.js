@@ -26,6 +26,12 @@ module.exports = class YP{
           relay: line[7],
           kbps: line[8],
           format: line[9],
+          track: {
+            artist: line[10],
+            album: line[11],
+            title: line[12],
+            url: line[13]
+          },
           time: line[15],
           comment: line[17],
         }

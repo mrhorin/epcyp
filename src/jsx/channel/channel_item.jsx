@@ -113,6 +113,12 @@ module.exports = class ChannelItem extends React.Component {
     }
   }
 
+  get detail(){
+    let channel = this.props.channel
+    let genre = channel.genre ? `${channel.genre} - ` : channel.genre
+    return `${genre}${channel.detail} ${channel.comment} ${channel.track.artist}`
+  }
+
   // プレイリストURLを取得
   get playListURL(){
     let port = config.get('port')
@@ -166,11 +172,7 @@ module.exports = class ChannelItem extends React.Component {
         onContextMenu={this.showContextMenu}>
         <td className="channel-item-col1">
           <div className={nameClass}>{this.props.channel.name}</div>
-          <div className="channel-item-detail">
-            {this.props.channel.genre}
-            {this.props.channel.detail}
-            {this.props.channel.comment}
-          </div>
+          <div className="channel-item-detail">{this.detail}</div>
         </td>
         <td className="channel-item-col2">
           <div className="channel-item-listener">{this.props.channel.listener}/{this.props.channel.relay}</div>
