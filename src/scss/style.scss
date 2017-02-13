@@ -100,6 +100,8 @@ header{
       margin-right: 4px;
       text-align: right;
       input[type="text"]{
+        -webkit-app-region: no-drag; /* ドラッグ不可 */
+        -webkit-user-select: auto; /* テキスト選択可能 */
         width: 100%;
         max-width: 160px;
         min-width: 80px;
