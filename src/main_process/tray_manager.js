@@ -13,7 +13,7 @@ module.exports = class TrayManager{
 
   show(){
     this.tray = new Tray(this.trayIcon)
-    this.tray.setToolTip('PCLounge')
+    this.tray.setToolTip('epcyp')
     this.tray.setContextMenu(this.trayContextMenu)
   }
 

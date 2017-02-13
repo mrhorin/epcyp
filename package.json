@@ -1,5 +1,5 @@
 {
-  "name": "PCLounge",
+  "name": "epcyp",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/main.js",
@@ -10,7 +10,8 @@
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
     "list": "npm list --depth=0",
-    "release:darwin": "npm run build && ./node_modules/gulp/bin/gulp.js package:darwin"
+    "release:darwin": "npm run build && ./node_modules/gulp/bin/gulp.js package:darwin",
+    "release:linux": "npm run build && ./node_modules/gulp/bin/gulp.js package:linux"
   },
   "author": "mrhorin",
   "license": "ISC",
