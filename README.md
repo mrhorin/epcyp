@@ -1,4 +1,5 @@
 # epcyp
+[![Build Status](https://travis-ci.org/mrhorin/epcyp.svg?branch=master)](https://travis-ci.org/mrhorin/epcyp)
 MacやLinux環境でも動作するpeercastチャンネルビューア  
 
 ## 特徴
