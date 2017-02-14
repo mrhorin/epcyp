@@ -567,7 +567,7 @@ ul.gui-connection-box{
 /* SettingsYPDetail */
 #settings-yp-detail{
   input{
-    width: 200px;
+    width: 220px;
   }
 }
 
@@ -581,10 +581,27 @@ ul.gui-connection-box{
 /* SettingsPlayerDetail */
 #settings-player-detail{
   .form-dialog>input{
-    width: 160px;
+    width: 180px;
   }
   input{
-    width: 200px;
+    width: 220px;
+  }
+  #settings-player-args{
+    input{
+      width: 220px;
+      padding-right: 30px;
+    }
+    button{
+      width: 25px;
+      height: 21px;
+      border-radius: 0px;
+      margin-left: -31px;
+      margin-top: -1px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border: none;
+      border-left: 1px solid #dfdfdf;
+    }
   }
 }
 
