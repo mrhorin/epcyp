@@ -77,7 +77,11 @@ app.on('ready', ()=>{
   menu.show()
 
   // システムトレイ
-  tray.setContextMenu([{ label: '終了', click: ()=>{ app.quit() } }])
+  tray.setContextMenu([
+    { label: '環境設定', click: ()=>{ openSettingsWindow() } },
+    { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
+    { label: '終了', click: ()=>{ app.quit() } }
+  ])
   tray.show()
 
   // PeerCast起動
