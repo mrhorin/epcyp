@@ -115,7 +115,7 @@ module.exports = class ChannelItem extends React.Component {
 
   get detail(){
     let channel = this.props.channel
-    let genre = channel.detail ? `${channel.genre} - ` : channel.genre
+    let genre = channel.genre&&channel.detail ? `${channel.genre} - ` : channel.genre
     return `${genre}${channel.detail} ${channel.comment} ${channel.track.artist}`
   }
 
