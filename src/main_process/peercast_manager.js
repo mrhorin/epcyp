@@ -49,6 +49,8 @@ module.exports = class PeercastManager{
 
   // PeerCastが起動済みか
   checkStarted(){
+    // PeerCastのパスが未設定の場合
+    if(!this.peercastPath) return false
     // 起動確認コマンド
     let psCmd
     if(global.process.platform == 'win32'){
