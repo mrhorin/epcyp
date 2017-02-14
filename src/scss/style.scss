@@ -71,7 +71,6 @@ $header-update-ccw: #00b900;
 $header-update-star: #efbf00;
 $header-update-cog: #808080;
 header{
-  /*
   .icon-arrows-ccw{
     -webkit-text-stroke-color: darken($header-update-ccw, 5%);
     -webkit-text-stroke-width: 0.4px;
@@ -87,7 +86,6 @@ header{
     -webkit-text-stroke-width: 0.4px;
     color: $header-update-cog !important;
   }
-  */
   .toolbar-actions{
     display: flex;
     .btn-group{
@@ -139,7 +137,7 @@ header{
         padding-left: 0px;
         padding-right: 2px;
         .icon{
-          color: #ddd;
+          color: #cdcdcd;
         }
       }
       button#search-cancel:hover>.icon{
