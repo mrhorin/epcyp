@@ -86,7 +86,7 @@ module.exports = class ChannelItem extends React.Component {
           label: 'チャンネル詳細一行',
           click: ()=>{
             let text = `${this.props.channel.name}(${this.props.channel.listener}/${this.props.channel.relay})`+
-                       `${this.props.channel.genre} ${this.props.channel.detail}`
+                       `[${this.props.channel.genre} - ${this.props.channel.detail}]`
             if(this.props.channel.comment) text += `「${this.props.channel.comment}」`
             clipboard.writeText(text)
           }
@@ -95,7 +95,7 @@ module.exports = class ChannelItem extends React.Component {
           label: 'チャンネル詳細複数行',
           click: ()=>{
             let text = `${this.props.channel.name}(${this.props.channel.listener}/${this.props.channel.relay})\n`+
-                       `${this.props.channel.genre} ${this.props.channel.detail}`
+                       `[${this.props.channel.genre} - ${this.props.channel.detail}]`
             if(this.props.channel.comment) text += `\n「${this.props.channel.comment}」`
             clipboard.writeText(text)
           }
@@ -115,7 +115,7 @@ module.exports = class ChannelItem extends React.Component {
 
   get detail(){
     let channel = this.props.channel
-    let genre = channel.genre ? `${channel.genre} - ` : channel.genre
+    let genre = channel.detail ? `${channel.genre} - ` : channel.genre
     return `${genre}${channel.detail} ${channel.comment} ${channel.track.artist}`
   }
 
