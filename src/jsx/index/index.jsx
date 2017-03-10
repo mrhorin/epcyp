@@ -75,7 +75,7 @@ class Index extends React.Component {
             // お気に入りにマッチ&&通知設定されているか
             let favoriteIndex = this.findIndexOfFavorites(newChannel)
             if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
-              this.notify('★'+newChannel.name, newChannel.genre+newChannel.detail)
+              this.notify('★'+newChannel.name, newChannel.desc)
             }
           }
         })

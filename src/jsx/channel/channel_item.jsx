@@ -1,11 +1,7 @@
 import React from 'react'
-import Config from 'electron-config'
 import {ipcRenderer} from 'electron'
 import {remote} from 'electron'
 import {shell} from 'electron'
-const config = new Config({
-  defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
-})
 
 import Player from 'js/player'
 
@@ -78,8 +74,8 @@ module.exports = class ChannelItem extends React.Component {
       submenu: [
         { label: 'チャンネル名', click: ()=>{ clipboard.writeText(this.props.channel.name) } },
         { label: 'コンタクトURL', click: ()=>{ clipboard.writeText(this.props.channel.url) } },
-        { label: 'プレイリストURL', click: ()=>{ clipboard.writeText(this.playListURL) } },
-        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.streamURL) } },
+        { label: 'プレイリストURL', click: ()=>{ clipboard.writeText(this.props.channel.playListURL) } },
+        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.props.channel.streamURL) } },
         { label: 'IPアドレス', click: ()=>{ clipboard.writeText(this.props.channel.tip.replace(/:\d+$/,"")) } },
         { type: 'separator' },
         {
@@ -111,26 +107,6 @@ module.exports = class ChannelItem extends React.Component {
     if(event.button==1){
       this.openURL()
     }
-  }
-
-  get detail(){
-    let channel = this.props.channel
-    let genre = channel.genre&&channel.detail ? `${channel.genre} - ` : channel.genre
-    return `${genre}${channel.detail} ${channel.comment} ${channel.track.artist}`
-  }
-
-  // プレイリストURLを取得
-  get playListURL(){
-    let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/pls/${this.props.channel.id}?tip=${this.props.channel.tip}`
-    return url
-  }
-
-  // ストリームURLを取得
-  get streamURL(){
-    let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/stream/${this.props.channel.id}.${this.props.channel.format.toLowerCase()}`
-    return url
   }
 
   // マッチするお気に入り情報があれば取得
@@ -172,7 +148,7 @@ module.exports = class ChannelItem extends React.Component {
         onContextMenu={this.showContextMenu}>
         <td className="channel-item-col1">
           <div className={nameClass}>{this.props.channel.name}</div>
-          <div className="channel-item-detail">{this.detail}</div>
+          <div className="channel-item-detail">{this.props.channel.desc}</div>
         </td>
         <td className="channel-item-col2">
           <div className="channel-item-listener">{this.props.channel.listener}/{this.props.channel.relay}</div>

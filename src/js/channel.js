@@ -1,4 +1,8 @@
+import Config from 'electron-config'
 import _ from 'lodash'
+const config = new Config({
+  defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
+})
 
 module.exports = class Channel{
 
@@ -40,6 +44,26 @@ module.exports = class Channel{
       res += s.charCodeAt().toString()
     }
     return _.toInteger(res)
+  }
+
+  get desc(){
+    let genre = this.genre&&this.detail ? `${this.genre} - ` : this.genre
+    return `${genre}${this.detail} ${this.comment} ${this.track.artist}`
+  }
+
+
+  // プレイリストURLを取得
+  get playListURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/pls/${this.id}?tip=${this.tip}`
+    return url
+  }
+
+  // ストリームURLを取得
+  get streamURL(){
+    let port = config.get('port')
+    var url = `http://127.0.0.1:${port}/stream/${this.id}.${this.format.toLowerCase()}`
+    return url
   }
 
 }
