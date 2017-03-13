@@ -1,4 +1,4 @@
-import {ipcMain, app, BrowserWindow, Tray, Menu} from 'electron'
+import {ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
 import {exec, execSync} from 'child_process'
 import request from 'superagent'
 import Config from 'electron-config'
@@ -63,11 +63,20 @@ app.on('ready', ()=>{
           role: 'redo'
         }
       ]
+    },
+    {
+      label: 'ヘルプ',
+      submenu: [
+        { label: 'epcypについて', click: ()=>{ shell.openExternal("https://github.com/mrhorin/epcyp") } },
+        { label: "問題を報告する", click: ()=>{ shell.openExternal("https://github.com/mrhorin/epcyp/issues") } }
+      ]
     }
   ])
   menu.setMacContextMenu({
       label: app.getName(),
       submenu: [
+        { label: 'epcypについて', click: ()=>{ shell.openExternal("https://github.com/mrhorin/epcyp") } },
+        { type: 'separator' },
         { label: '環境設定', accelerator: 'Command+,', click: ()=>{ openSettingsWindow() } },
         { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
         { type: 'separator' },
@@ -78,8 +87,11 @@ app.on('ready', ()=>{
 
   // システムトレイ
   tray.setContextMenu([
+    { label: 'すべてを表示', click: ()=>{ window.main.focus() } },
+    { type: 'separator' },
     { label: '環境設定', click: ()=>{ openSettingsWindow() } },
     { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
+    { type: 'separator' },
     { label: '終了', click: ()=>{ app.quit() } }
   ])
   tray.show()
