@@ -125,12 +125,12 @@ class Settings extends React.Component {
   }
 
   // --------- SettingsPeerCast ----------
-  onChangeCheckbox(event){
+  onChangeCheckbox(target){
     // ON/OFFを切り替えて文字列をbooleanに変換
     let bool = false
-    if(event.target.value == "true") bool = false
-    if(event.target.value == "false") bool = true
-    this.setState({ [event.target.name]: bool })
+    if(target.value == "true") bool = false
+    if(target.value == "false") bool = true
+    this.setState({ [target.name]: bool })
   }
 
   // ------------ SettingsYP -------------
