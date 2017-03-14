@@ -18,7 +18,7 @@ const config = new Config({
 
 var window = { main: null, settings: null, favorite: null }
 
-var tray = new TrayManager(`${__dirname}/../src/img/icon/darwin/icon_18x18.png`)
+var tray = new TrayManager()
 var menu = new MenuManager()
 var peercast = new PeercastManager()
 

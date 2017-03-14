@@ -5,9 +5,10 @@ import {Tray, Menu} from 'electron'
 ----------------------------------------*/
 module.exports = class TrayManager{
 
-  constructor(iconPath){
+  constructor(){
     this.tray = null
-    this.trayIcon = iconPath
+    let platform = global.process.platform == 'darwin' ? 'darwin' : 'linux'
+    this.trayIcon = `${__dirname}/../src/img/icon/${platform}/icon_tray.png`
     this.trayContextMenu  = null
   }
 
