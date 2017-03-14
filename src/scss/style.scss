@@ -210,7 +210,7 @@ tr.channel-item:nth-child(even):active{
 }
 tr.channel-item{
   color: #000 !important;
-  font-size: 13px;
+  font-size: 12px;
 }
 tr.channel-item:hover{
   @extend .hover-item;
@@ -228,7 +228,6 @@ td.channel-item-col1{
   .channel-item-genre{
   }
   .channel-item-detail{
-    font-size: 11px;
     display: block;
     white-space: normal;
     overflow: hidden;
