@@ -370,6 +370,8 @@ class Index extends React.Component {
   // ------------ ChannelItem ------------
   // お気に入り登録
   registFavorite(favoriteIndex, channelName){
+    // 正規表現の特殊文字をエスケープ
+    channelName = channelName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
     // 検索文字欄が空白でない場合は|を付与しない
     if(this.state.favorites[favoriteIndex].pattern){
       this.state.favorites[favoriteIndex].pattern += '|'
