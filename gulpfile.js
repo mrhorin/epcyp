@@ -32,7 +32,7 @@ gulp.task('package:darwin', ['default'], function (done) {
     name: package["name"],
     icon: "./src/img/icon/darwin/icon_1024x1024.icns",
     "app-version": package["version"],
-    "app-copyright": "Copyright (C) 2016 "+package["author"]+".",
+    "app-copyright": "Copyright (C) 2017 "+package["author"]+".",
     arch: 'x64',
     platform: 'darwin',
     overwrite: true,
