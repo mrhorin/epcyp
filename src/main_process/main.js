@@ -87,10 +87,10 @@ app.on('ready', ()=>{
 
   // システムトレイ
   tray.setContextMenu([
-    { label: 'すべてを表示', click: ()=>{ window.main.focus() } },
+    { label: 'すべて表示', click: ()=>{ window.main.show() } },
     { type: 'separator' },
-    { label: '環境設定', click: ()=>{ openSettingsWindow() } },
     { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
+    { label: '環境設定', click: ()=>{ openSettingsWindow() } },
     { type: 'separator' },
     { label: '終了', click: ()=>{ app.quit() } }
   ])
