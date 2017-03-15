@@ -83,6 +83,10 @@ class Index extends React.Component {
         this.setState({ autoUpdateCount: 60, updateStatus: 'wait' })
       }
     })
+    // メインウィンドウを表示
+    ipcRenderer.on('index-window-show', (event, tabIndex)=>{
+      this.setState({ currentTabIndex: tabIndex })
+    })
     // メインウィンドウが非アクティブ時
     ipcRenderer.on('index-window-blur', (event)=>{
       this.setState({ mainWindowActive: false })

@@ -87,7 +87,20 @@ app.on('ready', ()=>{
 
   // システムトレイ
   tray.setContextMenu([
-    { label: 'すべて表示', click: ()=>{ window.main.show() } },
+    {
+      label: 'すべて',
+      click: ()=>{
+        window.main.show()
+        window.main.send('index-window-show', 0)
+      }
+    },
+    {
+      label: 'お気に入り',
+      click: ()=>{
+        window.main.show()
+        window.main.send('index-window-show', 1)
+      }
+    },
     { type: 'separator' },
     { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
     { label: '環境設定', click: ()=>{ openSettingsWindow() } },
