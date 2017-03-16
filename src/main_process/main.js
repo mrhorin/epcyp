@@ -158,7 +158,7 @@ app.on('window-all-closed', ()=>{
 // ------- index.txtを取得して返す -------
 ipcMain.on('asyn-yp', (event, ypList)=>{
   let asyns = ypList.map((yp)=>{
-    return getAsyn(yp.url)
+    return getAsyn(yp.url+'index.txt')
   })
   Promise.all(asyns).then((values)=>{
     event.sender.send('asyn-yp-reply', values)

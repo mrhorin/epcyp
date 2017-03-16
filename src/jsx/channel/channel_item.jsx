@@ -22,14 +22,14 @@ module.exports = class ChannelItem extends React.Component {
     player.play()
   }
 
-  // コンタクトURLをBBSブラウザで開く
-  openBBS(){
-    ipcRenderer.send('asyn-open-bbs', this.props.channel.url)
+  // BBSブラウザで開く
+  openBBS(url){
+    ipcRenderer.send('asyn-open-bbs', url)
   }
 
-  // コンタクトURLを既定ブラウザで開く
-  openURL(){
-    shell.openExternal(this.props.channel.url)
+  // 既定ブラウザで開く
+  openURL(url){
+    shell.openExternal(url)
   }
 
   // お気に入り登録
@@ -49,11 +49,15 @@ module.exports = class ChannelItem extends React.Component {
     }))
     menu.append(new MenuItem({
       label: 'コンタクトURLを開く',
-      click: ()=>{ this.openURL() }
+      click: ()=>{ this.openURL(this.props.channel.url) }
     }))
     menu.append(new MenuItem({
       label: 'BBSブラウザで開く',
-      click: ()=>{ this.openBBS() }
+      click: ()=>{ this.openBBS(this.props.channel.url) }
+    }))
+    menu.append(new MenuItem({
+      label: '統計URLを開く',
+      click: ()=>{ this.openURL(this.props.channel.statisticsURL) }
     }))
     menu.append(new MenuItem({
       type: 'separator'

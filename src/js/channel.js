@@ -21,6 +21,7 @@ module.exports = class Channel{
     this.track = hash.track
     this.time = hash.time
     this.comment = this.unEscapeHTML(hash.comment)
+    this.yp = hash.yp
   }
 
   unEscapeHTML(string){
@@ -64,6 +65,11 @@ module.exports = class Channel{
     let port = config.get('port')
     var url = `http://127.0.0.1:${port}/stream/${this.id}.${this.format.toLowerCase()}`
     return url
+  }
+
+  // 統計URLを取得
+  get statisticsURL(){
+    return `${this.yp.url}getgmt.php?cn=${this.name}`
   }
 
 }

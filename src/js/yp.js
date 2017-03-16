@@ -34,6 +34,10 @@ module.exports = class YP{
           },
           time: line[15],
           comment: line[17],
+          yp: {
+            name: this.name,
+            url: this.url
+          }
         }
         var channel = new Channel(hash)
         channels.push(channel)
@@ -42,12 +46,12 @@ module.exports = class YP{
     return channels
   }
 
-  // YPのURL末尾を/index.txtの形に変換
+  // YPのURL末尾に/をつける
   parseUrl(url){
     // urlの末尾1文字
     let urlEnd = url.slice(-1)
     if(urlEnd != '/') url += '/'
-    return url+'index.txt'
+    return url
   }
 
 }
