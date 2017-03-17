@@ -7,7 +7,7 @@ module.exports = class YP{
     this.url = this.parseUrl(url)
   }
 
-  parseIndexTxt(txt){
+  parseIndexTxt(txt, requestUrl){
     var channels = []
     if(txt){
       for(let line of txt.split(/\n/)){
@@ -35,8 +35,7 @@ module.exports = class YP{
           time: line[15],
           comment: line[17],
           yp: {
-            name: this.name,
-            url: this.url
+            url: requestUrl.replace(/index.txt$/, "")
           }
         }
         var channel = new Channel(hash)

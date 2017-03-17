@@ -52,7 +52,6 @@ module.exports = class Channel{
     return `${genre}${this.detail} ${this.comment} ${this.track.artist}`
   }
 
-
   // プレイリストURLを取得
   get playListURL(){
     let port = config.get('port')
