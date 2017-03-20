@@ -1,11 +1,18 @@
 import React from 'react'
 import {ipcRenderer, remote, shell} from 'electron'
+import Config from 'electron-config'
 
 import Peercast from 'js/peercaststation'
 import Player from 'js/player'
 import Channel from 'js/channel'
 
 import GuiConnectionBox from 'jsx/gui/gui_connection_box'
+
+const config = new Config({
+  defaults: {
+    fontSize: 13
+  }
+})
 
 module.exports = class GuiItem extends React.Component{
 
@@ -202,6 +209,7 @@ module.exports = class GuiItem extends React.Component{
   }
 
   render(){
+    let style = { fontSize: `${config.get('fontSize')}px` }
     // 接続一覧
     let connectionBox
     if(this.state.showConnections){
@@ -218,7 +226,7 @@ module.exports = class GuiItem extends React.Component{
     let nameClass = "gui-item-name"
     if(this.props.relay.info.url) nameClass += " link"
     return(
-      <div className={itemClass}>
+      <div className={itemClass} style={style}>
         <div className="gui-item-row1"
           onClick={this.onClick}
           onContextMenu={this.showContextMenu}>

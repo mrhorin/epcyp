@@ -22,7 +22,8 @@ const config = new Config({
     useMono: false,
     showGuiTab: false,
     playerPath: '',
-    playerArgs: '"$x"'
+    playerArgs: '"$x"',
+    fontSize: 13
   }
 })
 
@@ -65,6 +66,7 @@ class Settings extends React.Component {
       exitPeercast: config.get('exitPeercast'),
       useMono: config.get('useMono'),
       showGuiTab: config.get('showGuiTab'),
+      fontSize: config.get('fontSize'),
       ypList: [yp],
       formatList: [format],
       currentTabIndex: 0,
@@ -93,6 +95,7 @@ class Settings extends React.Component {
     config.set('exitPeercast', this.state.exitPeercast)
     config.set('useMono', this.state.useMono)
     config.set('showGuiTab', this.state.showGuiTab)
+    config.set('fontSize', this.state.fontSize)
     storage.set('ypList', this.state.ypList, (error)=>{
       storage.set('formatList', this.state.formatList, (error)=>{
         this.close()
@@ -263,7 +266,7 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral port={this.state.port} bbs={this.state.bbs} sort={this.state.sort}
+          <SettingsGeneral port={this.state.port} bbs={this.state.bbs} sort={this.state.sort} fontSize={this.state.fontSize}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
       },
       {

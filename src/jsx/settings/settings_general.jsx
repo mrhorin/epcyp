@@ -35,6 +35,7 @@ module.exports = class SettingsGeneral extends React.Component {
             <option value="asc">昇順</option>
           </select>
         </div>
+        <FormText label={"フォントサイズ"} value={this.props.fontSize} onChange={e => this.props.onChangeForm(e, 'fontSize')} />
       </div>
     )
   }

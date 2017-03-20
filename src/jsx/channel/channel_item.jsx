@@ -2,8 +2,15 @@ import React from 'react'
 import {ipcRenderer} from 'electron'
 import {remote} from 'electron'
 import {shell} from 'electron'
+import Config from 'electron-config'
 
 import Player from 'js/player'
+
+const config = new Config({
+  defaults: {
+    fontSize: 13
+  }
+})
 
 module.exports = class ChannelItem extends React.Component {
 
@@ -136,17 +143,15 @@ module.exports = class ChannelItem extends React.Component {
 
   render(){
     let favorite = this.favorite
-    let style = {}
+    let style = { fontSize: `${config.get('fontSize')}px` }
     if(favorite){
-      style = {
-        background: `#${favorite.bgColor}`,
-        color: `#${favorite.fontColor}`
-      }
+      style['background'] = `#${favorite.bgColor}`
+      style['color'] = `#${favorite.fontColor}`
     }
     let nameClass = "channel-item-name"
     if(this.props.channel.url) nameClass += " link"
     return(
-      <tr className="channel-item"  style={style}
+      <tr className="channel-item" style={style}
         onClick={this.onMiddleClick}
         onDoubleClick={this.play}
         onContextMenu={this.showContextMenu}>
