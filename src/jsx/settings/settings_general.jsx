@@ -17,11 +17,19 @@ module.exports = class SettingsGeneral extends React.Component {
   render(){
     return(
       <div id="settings-general">
-        <FormText label={"ポート番号"} value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
+        <div id="settings-port" className="form-group">
+          <label>ポート番号</label>
+          <input type="number" value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
+        </div>
         <FormDialog label={"BBSブラウザ"} value={this.props.bbs}
           onChange={e => this.props.onChangeForm(e, 'bbs')} onClick={e => this.props.onClickDialog('bbs')} />
+        <div id="settings-font" className="form-group">
+          <label>フォントサイズ</label>
+          <input type="number" value={this.props.fontSize} min="1"
+           onChange={e => this.props.onChangeForm(e, 'fontSize')} />
+        </div>
         <div id="settings-sort" className="form-group">
-          <label>チャンネル一覧ソート</label>
+          <label>チャンネル一覧</label>
           <select ref="sortKey" onChange={this.onChangeSort} value={this.props.sort.key}>
             <option value="listener">リスナー数</option>
             <option value="relay">リレー数</option>
@@ -35,7 +43,6 @@ module.exports = class SettingsGeneral extends React.Component {
             <option value="asc">昇順</option>
           </select>
         </div>
-        <FormText label={"フォントサイズ"} value={this.props.fontSize} onChange={e => this.props.onChangeForm(e, 'fontSize')} />
       </div>
     )
   }
