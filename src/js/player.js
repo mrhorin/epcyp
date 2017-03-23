@@ -47,6 +47,7 @@ module.exports = class Plsyer{
     let res = ""
     let item = {
       "$x": this.playListURL,
+      "$y": this.streamURL,
       "$0": this.channel.name,
       "$1": this.channel.id,
       "$2": this.channel.tip,

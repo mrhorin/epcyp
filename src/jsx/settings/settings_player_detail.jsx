@@ -45,6 +45,7 @@ module.exports = class SettingsPlayerDetail extends React.Component {
       type: 'submenu',
       submenu: [
         { label: '$x: プレイリストURL', click: ()=>{ this.arg = '"$x"' } },
+        { label: '$y: ストリームURL', click: ()=>{ this.arg = '"$y"' } },
       ]
     }))
     e.preventDefault()
