@@ -12,11 +12,12 @@ module.exports = class SettingsPlayerDetail extends React.Component {
   }
 
   set arg(value){
-    if(this.refs.args.value){
-      this.refs.args.value += ` ${value}`
+    if(this.textArgs.value){
+      this.textArgs.value += ` ${value}`
     }else{
-      this.refs.args.value = value
+      this.textArgs.value = value
     }
+    this.props.onChangeFormat(this.textArgs.value, 'args')
   }
 
   showContextMenu(e){
@@ -60,8 +61,8 @@ module.exports = class SettingsPlayerDetail extends React.Component {
           onClick={e => this.props.onClickDialog(e, this.props.index)} />
         <div id="settings-player-args" className="form-group">
           <label>引数</label>
-          <input type="text" ref="args" value={this.props.format.args}
-            onChange={e => this.props.onChangeFormat(e, 'args')} />
+          <input type="text" ref={(input) => { this.textArgs = input }} value={this.props.format.args}
+            onChange={e => this.props.onChangeFormat(e.target.value, 'args')} />
           <button className="btn btn-default" onClick={this.showContextMenu}>
             <span className="icon icon-dot-3"></span>
           </button>

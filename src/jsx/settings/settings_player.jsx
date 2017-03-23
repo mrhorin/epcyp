@@ -18,7 +18,7 @@ module.exports = class SettingsPlayer extends React.Component {
           onClickUp={this.props.onClickUp} onClickDown={this.props.onClickDown} />
         <SettingsPlayerDetail format={this.props.formatList[this.props.currentFormatIndex]}
           index={this.props.currentFormatIndex}
-          onChangeFormat={(event, key) => this.props.onChangeFormat(event, key)}
+          onChangeFormat={(value, key) => this.props.onChangeFormat(value, key)}
           onClickDialog={(event, index)=> this.props.onClickDialog(event, index)} />
       </div>
     )

@@ -249,8 +249,8 @@ class Settings extends React.Component {
   }
 
   // --------- SettingsPlayerDetail ---------
-  onChangeFormat(event, key){
-    this.state.formatList[this.state.currentFormatIndex][key] = event.target.value
+  onChangeFormat(value, key){
+    this.state.formatList[this.state.currentFormatIndex][key] = value
     this.setState({ formatList: this.state.formatList })
   }
 
