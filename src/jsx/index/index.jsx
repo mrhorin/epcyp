@@ -107,6 +107,34 @@ class Index extends React.Component {
     ipcRenderer.on('shortcut-search', (event)=>{
       document.getElementById('search-word').focus()
     })
+    // タブ左移動右ショートカット押下時
+    ipcRenderer.on('shortcut-tab-left', (event)=>{
+      if(this.state.currentTabIndex<=0){
+        if(this.state.showGuiTab){
+          this.setState({ currentTabIndex: 3 })
+        }else{
+          this.setState({ currentTabIndex: 2 })
+        }
+      }else{
+        this.setState({ currentTabIndex: this.state.currentTabIndex-1 })
+      }
+    })
+    // タブ右移動ショートカット押下時
+    ipcRenderer.on('shortcut-tab-right', (event)=>{
+      if(this.state.showGuiTab){
+        if(this.state.currentTabIndex>=3){
+          this.setState({ currentTabIndex: 0 })
+        }else{
+          this.setState({ currentTabIndex: this.state.currentTabIndex+1 })
+        }
+      }else{
+        if(this.state.currentTabIndex>=2){
+          this.setState({ currentTabIndex: 0 })
+        }else{
+          this.setState({ currentTabIndex: this.state.currentTabIndex+1 })
+        }
+      }
+    })
   }
 
   // チャンネル情報をセット

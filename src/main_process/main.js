@@ -70,6 +70,21 @@ app.on('ready', ()=>{
             window.main.webContents.send('shortcut-search')
           }
         },
+        { type: 'separator' },
+        {
+          label: 'タブ左移動',
+          accelerator: 'CmdOrCtrl+Left',
+          click: ()=>{
+            window.main.webContents.send('shortcut-tab-left')
+          }
+        },
+        {
+          label: 'タブ右移動',
+          accelerator: 'CmdOrCtrl+Right',
+          click: ()=>{
+            window.main.webContents.send('shortcut-tab-right')
+          }
+        },
       ]
     },
     {
