@@ -7,13 +7,20 @@ module.exports = class TrayManager{
 
   constructor(){
     this.tray = null
-    let platform = global.process.platform == 'darwin' ? 'darwin' : 'linux'
-    this.trayIcon = `${__dirname}/../src/img/icon/${platform}/icon_tray.png`
+    this.iconPath = {
+      darwin: `${__dirname}/../src/img/icon/darwin/icon_tray.png`,
+      linux: `${__dirname}/../src/img/icon/linux/icon_tray.png`
+    }
+    this.platform = global.process.platform == 'darwin' ? 'darwin' : 'linux'
     this.trayContextMenu  = null
   }
 
   show(){
-    this.tray = new Tray(this.trayIcon)
+    if(this.platform == 'darwin'){
+      this.tray = new Tray(this.iconPath.darwin)
+    }else{
+      this.tray = new Tray(this.iconPath.linux)
+    }
     this.tray.setToolTip('epcyp')
     this.tray.setContextMenu(this.trayContextMenu)
   }
@@ -24,6 +31,10 @@ module.exports = class TrayManager{
 
   setContextMenu(template){
     this.trayContextMenu = Menu.buildFromTemplate(template)
+  }
+
+  setImage(platform){
+    this.tray.setImage(this.iconPath[platform])
   }
 
   bindEvents(){

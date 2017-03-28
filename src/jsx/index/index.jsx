@@ -54,7 +54,8 @@ class Index extends React.Component {
       lastUpdateTime: moment().add(-59, 's'),
       updateStatus: 'wait',
       currentTabIndex: 0,
-      mainWindowActive: true
+      mainWindowActive: true,
+      unread: false
     }
     this.bindEvents()
     this.loadFavorites()
@@ -75,7 +76,12 @@ class Index extends React.Component {
             // お気に入りにマッチ&&通知設定されているか
             let favoriteIndex = this.findIndexOfFavorites(newChannel)
             if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
+              // お気に入り通知
               this.notify('★'+newChannel.name, newChannel.desc)
+              if(!this.state.mainWindowActive){
+                this.setState({ unread: true })
+                ipcRenderer.send('asyn-set-trayicon', 'linux')
+              }
             }
           }
         })
@@ -93,7 +99,10 @@ class Index extends React.Component {
     })
     // メインウィンドウがアクティブ時
     ipcRenderer.on('index-window-focus', (event)=>{
-      this.setState({ mainWindowActive: true })
+      if(this.state.unread){
+        ipcRenderer.send('asyn-set-trayicon', 'darwin')
+      }
+      this.setState({ mainWindowActive: true, unread: false })
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{

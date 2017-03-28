@@ -246,6 +246,13 @@ ipcMain.on('asyn-settings-window-close', (event) =>{
   closeSettingsWindow()
 })
 
+// --------- [MacOS]トレイアイコンをセット ---------
+ipcMain.on('asyn-set-trayicon', (event, platform) =>{
+  if(global.process.platform=='darwin'){
+    tray.setImage(platform)
+  }
+})
+
 /*-----------------------------------------
   functions
 -----------------------------------------*/
