@@ -103,6 +103,10 @@ class Index extends React.Component {
     ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
       this.loadSettings()
     })
+    // 検索ショートカット押下時
+    ipcRenderer.on('shortcut-search', (event)=>{
+      document.getElementById('search-word').focus()
+    })
   }
 
   // チャンネル情報をセット

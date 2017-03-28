@@ -61,7 +61,15 @@ app.on('ready', ()=>{
           label: '進む',
           accelerator: 'Shift+CmdOrCtrl+Z',
           role: 'redo'
-        }
+        },
+        { type: 'separator' },
+        {
+          label: '検索',
+          accelerator: 'CmdOrCtrl+F',
+          click: ()=>{
+            window.main.webContents.send('shortcut-search')
+          }
+        },
       ]
     },
     {
