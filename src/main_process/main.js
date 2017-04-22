@@ -309,7 +309,7 @@ const closeSettingsWindow = ()=>{
 // Promiseでsuperagent.get
 const getAsyn = (url)=>{
   return new Promise((resolve, reject)=>{
-    request.get(url).timeout(5000).end((err,res)=>{
+    request.get(url).timeout(15000).end((err,res)=>{
       if(res && res.status == 200 && !res.error){
         resolve(res)
       }else{
