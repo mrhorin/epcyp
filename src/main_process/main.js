@@ -196,7 +196,7 @@ ipcMain.on('asyn-play', (event, player, args) =>{
   let command
   if(global.process.platform=='darwin'){
     // Macの場合はopenコマンドで実行
-    command = `open -a ${player} ${args}`
+    command = `open -a ${player} -n --args ${args}`
   }else{
     command = `${player} ${args}`
   }
