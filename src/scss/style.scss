@@ -21,16 +21,16 @@ body::-webkit-scrollbar{
 }
 #container{
   position: relative;
-  padding-top: 65px;
+  padding-top: 50px;
   padding-bottom: 20px;
 }
 #index{
   .tab-group{
-    border-top: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border-top: none;
+    border-bottom: 1px solid #999;
     width: 100%;
     position: fixed;
-    top: 45px;
+    top: 31px;
   }
 }
 #index.darwin{
@@ -57,7 +57,8 @@ header{
     }
   }
   .toolbar-actions{
-    margin-top: 10px;
+    margin-top: 2px;
+    padding: 0px;
   }
 }
 
@@ -68,7 +69,7 @@ header.blur{
 
 /* HeaderUpdateButton */
 $header-update-ccw: #00b900;
-$header-update-star: #efbf00;
+$header-update-star: #ffcc00;
 $header-update-cog: #808080;
 header{
   .icon-arrows-ccw{
@@ -77,7 +78,7 @@ header{
     color: $header-update-ccw !important;
   }
   .icon-star{
-    -webkit-text-stroke-color: darken($header-update-star, 5%);
+    -webkit-text-stroke-color: darken($header-update-star, 10%);
     -webkit-text-stroke-width: 0.4px;
     color: $header-update-star !important;
   }
@@ -88,9 +89,12 @@ header{
   }
   .toolbar-actions{
     display: flex;
+    padding-left: 2px;
     .btn-group{
       width: auto;
       display: -webkit-inline-box;
+      margin-right: 0px;
+      margin-left: 2px;
     }
     .search-group{
       flex: 1;
@@ -159,7 +163,7 @@ header{
   margin-left: 0px;
 }
 header .toolbar-actions{
-  padding-bottom: 10px;
+  padding-bottom: 0px;
   white-space: nowrap;
 }
 
@@ -184,23 +188,24 @@ footer{
 /* ChannelBox */
 th.channel-box-col1{
   color: #000 !important;
-  font-size: 11px;
+  font-size: 10.5px;
   -webkit-box-sizing: border-box;
   width: 100%;
+  padding: 0px 10px;
 }
 th.channel-box-col2{
   color: #000 !important;
-  font-size: 11px;
+  font-size: 10.5px;
   box-sizing: border-box;
   max-width: $col2-widrh;
-  padding: 2px 5px;
+  padding: 0px 5px;
 }
 th.channel-box-col3{
   color: #000 !important;
-  font-size: 11px;
+  font-size: 10.5px;
   box-sizing: border-box;
   max-width: $col3-widrh;
-  padding: 2px 5px;
+  padding: 0px 5px;
 }
 
 /* ChannelItem */
@@ -217,7 +222,7 @@ tr.channel-item:hover{
 }
 td.channel-item-col1{
   max-width: 100%;
-  padding: 5px 0px 5px 10px;
+  padding: 5px 0px 5px 8px;
   .channel-item-name{
     font-weight: bold;
     display: block;
@@ -644,14 +649,9 @@ nav#rule-box-nav{
 .btn-warning > .icon{
   color: #fff;
 }
-.btn-mini{
-  font-size: 11px;
-  height: 20px;
-  color: #333;
-}
 
 .tab-item{
-  font-size: 11px !important;
+  font-size: 10px !important;
   padding: 1px !important;
   white-space: nowrap !important;
 }

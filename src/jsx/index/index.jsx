@@ -475,11 +475,9 @@ class Index extends React.Component {
       })
     }
     let currentComponent = components[this.state.currentTabIndex].component
-    // darwin環境
-    let indexClass = global.process.platform == 'darwin' ? "darwin" : ""
 
     return(
-      <div id="index" className={indexClass}>
+      <div id="index">
         <HeaderBox mainWindowActive={this.state.mainWindowActive} autoUpdate={this.state.autoUpdate}
          onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt}
          setSearchWord={this.setSearchWord} />

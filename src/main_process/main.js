@@ -144,7 +144,6 @@ app.on('ready', ()=>{
     x: x,
     y: y,
     frame: true,
-    titleBarStyle: 'hidden-inset',
     scrollBounce: true,
     icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`
   })
