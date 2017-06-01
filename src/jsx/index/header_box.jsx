@@ -22,10 +22,8 @@ module.exports = class HeaderBox extends React.Component {
   }
 
   render(){
-    // headerのアクティブ状態
-    var headerClass = this.props.mainWindowActive ? "toolbar toolbar-header" : "toolbar toolbar-header blur"
     return(
-      <header className={headerClass}>
+      <header className="toolbar toolbar-header">
         <h1 className="title">
         </h1>
         <div className="toolbar-actions">
