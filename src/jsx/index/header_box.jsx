@@ -27,7 +27,7 @@ module.exports = class HeaderBox extends React.Component {
         <h1 className="title">
         </h1>
         <div className="toolbar-actions">
-          <HeaderUpdateButton autoUpdate={this.props.autoUpdate} onClickUpdate={this.props.onClickUpdate} onClickAutoUpdate={this.props.onClickAutoUpdate}/>
+          <HeaderUpdateButton isAutoUpdate={this.props.isAutoUpdate} onClickUpdate={this.props.onClickUpdate} onClickAutoUpdate={this.props.onClickAutoUpdate}/>
           <div className="btn-group">
             <HeaderButton key={1} icon={"icon-star"} onClickhandler={this.onClickFavorite}/>
             <HeaderButton key={2} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>

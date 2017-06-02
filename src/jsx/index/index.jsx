@@ -18,28 +18,13 @@ import ChannelBox from 'jsx/channel/channel_box'
 import GuiBox from 'jsx/gui/gui_box'
 
 const config = new Config({
-  defaults: { autoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false }
+  defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false }
 })
 
 class Index extends React.Component {
 
   constructor(props){
     super(props)
-    this.bindEvents = this.bindEvents.bind(this)
-    this.setChannels = this.setChannels.bind(this)
-    this.sortChannels = this.sortChannels.bind(this)
-    this.loadSettings = this.loadSettings.bind(this)
-    this.loadFavorites = this.loadFavorites.bind(this)
-    this.findIndexOfChannels = this.findIndexOfChannels.bind(this)
-    this.findIndexOfFavorites = this.findIndexOfFavorites.bind(this)
-    this.checkElapsed = this.checkElapsed.bind(this)
-    this.fetchIndexTxt = this.fetchIndexTxt.bind(this)
-    this.startUpdateTimer = this.startUpdateTimer.bind(this)
-    this.stopUpdateTimer = this.stopUpdateTimer.bind(this)
-    this.switchAutoUpdate = this.switchAutoUpdate.bind(this)
-    this.setSearchWord = this.setSearchWord.bind(this)
-    this.selectTab = this.selectTab.bind(this)
-    this.registFavorite = this.registFavorite.bind(this)
     this.state = {
       ypList: [],
       favorites: [],
@@ -49,20 +34,20 @@ class Index extends React.Component {
       searchWord: "",
       showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
-      autoUpdate: config.get('autoUpdate'),
+      isAutoUpdate: config.get('isAutoUpdate'),
+      isMainWindowActive: true,
+      isUnRead: false,
       autoUpdateCount: 0,
       lastUpdateTime: moment().add(-59, 's'),
       updateStatus: 'wait',
       currentTabIndex: 0,
-      mainWindowActive: true,
-      unread: false
     }
     this.bindEvents()
     this.loadFavorites()
     this.loadSettings()
   }
 
-  bindEvents(){
+  bindEvents = () => {
     // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, responses) => {
       let newChannels = _.flattenDeep(responses.map((res)=>{
@@ -78,8 +63,8 @@ class Index extends React.Component {
             if(favoriteIndex>=0&&this.state.favorites[favoriteIndex].notify){
               // お気に入り通知
               this.notify('★'+newChannel.name, newChannel.desc)
-              if(!this.state.mainWindowActive){
-                this.setState({ unread: true })
+              if(!this.state.isMainWindowActive){
+                this.setState({ isUnRead: true })
                 ipcRenderer.send('asyn-set-trayicon', 'linux')
               }
             }
@@ -95,14 +80,14 @@ class Index extends React.Component {
     })
     // メインウィンドウが非アクティブ時
     ipcRenderer.on('index-window-blur', (event)=>{
-      this.setState({ mainWindowActive: false })
+      this.setState({ isMainWindowActive: false })
     })
     // メインウィンドウがアクティブ時
     ipcRenderer.on('index-window-focus', (event)=>{
-      if(this.state.unread){
+      if(this.state.isUnRead){
         ipcRenderer.send('asyn-set-trayicon', 'darwin')
       }
-      this.setState({ mainWindowActive: true, unread: false })
+      this.setState({ isMainWindowActive: true, isUnRead: false })
     })
     // お気に入りウィンドウを閉じた時
     ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
@@ -147,7 +132,7 @@ class Index extends React.Component {
   }
 
   // チャンネル情報をセット
-  setChannels(channels, call=()=>{}){
+  setChannels = (channels, call = () => { }) => {
     for(let channel of channels){
       call(channel)
     }
@@ -160,7 +145,7 @@ class Index extends React.Component {
   }
 
   // チャンネルを並び替えて返す
-  sortChannels(channels){
+  sortChannels = (channels) => {
     let key = this.state.sort.key
     if(this.state.sort.orderBy=='asc'){
       // 昇順
@@ -180,7 +165,7 @@ class Index extends React.Component {
   }
 
   // 設定を読み込む
-  loadSettings(call = ()=>{}){
+  loadSettings = (call = () => { }) => {
     // YP
     storage.get('ypList', (error, data)=>{
       // ソート
@@ -201,7 +186,7 @@ class Index extends React.Component {
   }
 
   // お気に入り設定を読み込む
-  loadFavorites(call = ()=>{}){
+  loadFavorites = (call = () => { }) => {
     storage.get('favorites', (error, data)=>{
       if(Object.keys(data).length != 0){
         this.setState({ favorites: data })
@@ -211,7 +196,7 @@ class Index extends React.Component {
   }
 
   // 最後の更新から30秒経過したか？
-  checkElapsed(){
+  checkElapsed = () => {
     let now = moment()
     // 差分秒
     let diffSec = Math.round(now.unix() - this.state.lastUpdateTime.unix())
@@ -223,7 +208,7 @@ class Index extends React.Component {
   }
 
   // state.channels内のindex位置を返す
-  findIndexOfChannels(channel){
+  findIndexOfChannels = (channel) => {
     let index = -1
     for(let i=0; i < this.state.channels.length; i++){
       if(channel.name == this.state.channels[i].name&&
@@ -236,7 +221,7 @@ class Index extends React.Component {
   }
 
   // マッチするstate.favorites内のindex位置を返す
-  findIndexOfFavorites(channel){
+  findIndexOfFavorites = (channel) => {
     let index = -1
     for(let i=0; i<this.state.favorites.length; i++){
       let favorite = this.state.favorites[i]
@@ -305,7 +290,7 @@ class Index extends React.Component {
   }
 
   // index.txtを取得
-  fetchIndexTxt(){
+  fetchIndexTxt = () => {
     if(this.checkElapsed()&&this.state.updateStatus!='updating'){
       this.setState({ updateStatus: 'updating' })
       ipcRenderer.send('asyn-yp', this.state.ypList)
@@ -318,7 +303,7 @@ class Index extends React.Component {
   }
 
   // 更新処理を開始
-  startUpdateTimer(){
+  startUpdateTimer = () => {
     this.updateTimerId = setInterval(()=>{
       Promise.all([
         this.updateRelays(),
@@ -337,13 +322,13 @@ class Index extends React.Component {
   }
 
   // 更新処理を停止
-  stopUpdateTimer(){
+  stopUpdateTimer = () => {
     clearTimeout(this.updateTimerId)
   }
 
-  updateCount(){
+  updateCount = () => {
     return new Promise((resolve, reject)=>{
-      if(this.state.autoUpdate&&this.state.updateStatus=='wait'){
+      if(this.state.isAutoUpdate&&this.state.updateStatus=='wait'){
         // 自動更新ON時の処理
         if(this.state.autoUpdateCount < 1){
           this.fetchIndexTxt()
@@ -358,7 +343,7 @@ class Index extends React.Component {
     })
   }
 
-  updateRelays(){
+  updateRelays = () => {
     return new Promise((resolve, reject)=>{
       Peercast.getChannels((err, res)=>{
         if(res && res.status == 200 && !res.error && res.text){
@@ -371,7 +356,7 @@ class Index extends React.Component {
     })
   }
 
-  updateStatus(){
+  updateStatus = () => {
     return new Promise((resolve, reject)=>{
       Peercast.getStatus((err, res)=>{
         if(res && res.status == 200 && !res.error && res.text){
@@ -385,36 +370,36 @@ class Index extends React.Component {
   }
 
   // 通知
-  notify(title="", body=""){
+  notify = (title = "", body = "") => {
     new Notification(title, {body: body})
   }
 
   // 設定を初期化
-  initialize(){
+  initialize = () => {
     storage.clear(()=>{ config.clear() })
   }
 
   // -------- HeaderUpdateButton --------
   // 自動更新ON/OFF
-  switchAutoUpdate(){
-    config.set('autoUpdate', !this.state.autoUpdate)
-    this.setState({autoUpdate: !this.state.autoUpdate})
+  switchAutoUpdate = () => {
+    config.set('isAutoUpdate', !this.state.isAutoUpdate)
+    this.setState({isAutoUpdate: !this.state.isAutoUpdate})
   }
 
   // ----------- HeaderSearch -----------
   // 検索ワードをセット
-  setSearchWord(word){
+  setSearchWord = (word) => {
     this.setState({ searchWord: word, currentTabIndex: 2 })
   }
 
   // -------------- TabBox --------------
-  selectTab(tabIndex){
+  selectTab = (tabIndex) => {
     this.setState({ currentTabIndex: tabIndex })
   }
 
   // ------------ ChannelItem ------------
   // お気に入り登録
-  registFavorite(favoriteIndex, channelName){
+  registFavorite = (favoriteIndex, channelName) => {
     // 正規表現の特殊文字をエスケープ
     channelName = channelName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
     // 検索文字欄が空白でない場合は|を付与しない
@@ -478,12 +463,12 @@ class Index extends React.Component {
 
     return(
       <div id="index">
-        <HeaderBox mainWindowActive={this.state.mainWindowActive} autoUpdate={this.state.autoUpdate}
+        <HeaderBox isAutoUpdate={this.state.isAutoUpdate}
          onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt}
          setSearchWord={this.setSearchWord} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
-        <FooterBox autoUpdate={this.state.autoUpdate} autoUpdateCount={this.state.autoUpdateCount}
+        <FooterBox isAutoUpdate={this.state.isAutoUpdate} autoUpdateCount={this.state.autoUpdateCount}
           lastUpdateTime={this.state.lastUpdateTime} updateStatus={this.state.updateStatus} />
       </div>
     )

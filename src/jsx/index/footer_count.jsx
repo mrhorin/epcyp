@@ -21,7 +21,7 @@ module.exports = class FooterCount extends React.Component {
     let counter
     if(this.props.updateStatus=='updating'){
       counter = "更新中"
-    }else if(this.props.autoUpdate){
+    }else if(this.props.isAutoUpdate){
       counter = this.toTimeFormat(this.props.autoUpdateCount)
     }else{
       counter = "停止中"

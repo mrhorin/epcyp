@@ -12,7 +12,7 @@ module.exports = class FooterBox extends React.Component {
           {this.props.lastUpdateTime.format("HH:mm")}
         </div>
         <FooterCount
-          autoUpdate={this.props.autoUpdate}
+          isAutoUpdate={this.props.isAutoUpdate}
           autoUpdateCount={this.props.autoUpdateCount}
           lastUpdateTime={this.props.lastUpdateTime}
           updateStatus={this.props.updateStatus} />

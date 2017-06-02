@@ -13,7 +13,7 @@ module.exports = class HeaderUpdateButton extends React.Component {
     this.state.menu.append(new MenuItem({
       label: '自動更新',
       type: 'checkbox',
-      checked: this.props.autoUpdate,
+      checked: this.props.isAutoUpdate,
       click: (optional)=>{
         this.props.onClickAutoUpdate()
       }
