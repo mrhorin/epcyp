@@ -235,7 +235,7 @@ class Index extends React.Component {
         (channel.comment.match(ptn)&&favorite.target.comment)||
         (channel.url.match(ptn)&&favorite.target.url)||
         (channel.tip.match(ptn)&&favorite.target.tip)){
-        index = i
+        return i
       }else{
         continue
       }
