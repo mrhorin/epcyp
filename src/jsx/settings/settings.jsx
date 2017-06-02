@@ -269,13 +269,15 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral ip={this.state.ip} port={this.state.port} bbs={this.state.bbs} sort={this.state.sort} fontSize={this.state.fontSize}
-            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
+          <SettingsGeneral bbs={this.state.bbs} sort={this.state.sort} fontSize={this.state.fontSize}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort} />
       },
       {
         name: "PeerCast",
         component:
-          <SettingsPeerCast peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
+          <SettingsPeerCast
+            ip={this.state.ip} port={this.state.port}  
+            peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
             useMono={this.state.useMono} showGuiTab={this.state.showGuiTab}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
       },

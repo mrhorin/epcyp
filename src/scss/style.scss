@@ -563,6 +563,9 @@ ul.gui-connection-box{
 
 /* SettingsGeneral */
 #settings-general{
+  .form-group{
+    margin-bottom: 0px;
+  }
 }
 #settings-sort{
 }
@@ -572,6 +575,9 @@ ul.gui-connection-box{
   input.checkbox{
     width: auto;
     display: inline-block;
+  }
+  .form-group{
+    margin-bottom: 0px;
   }
 }
 

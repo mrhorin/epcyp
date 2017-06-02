@@ -17,14 +17,6 @@ module.exports = class SettingsGeneral extends React.Component {
   render(){
     return(
       <div id="settings-general">
-        <div id="settings-ip" className="form-group">
-          <label>PeerCast IPアドレス</label>
-          <input type="text" value={this.props.ip} onChange={e => this.props.onChangeForm(e, 'ip')} />
-        </div>
-        <div id="settings-port" className="form-group">
-          <label>ポート番号</label>
-          <input type="number" value={this.props.port} onChange={e => this.props.onChangeForm(e, 'port')} />
-        </div>
         <FormDialog label={"BBSブラウザ"} value={this.props.bbs}
           onChange={e => this.props.onChangeForm(e, 'bbs')} onClick={e => this.props.onClickDialog('bbs')} />
         <div id="settings-font" className="form-group">
