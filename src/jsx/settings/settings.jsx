@@ -13,6 +13,7 @@ import SettingsYP from 'jsx/settings/settings_yp'
 const dialog = remote.dialog
 const config = new Config({
   defaults: {
+    ip: '127.0.0.1',
     port: 7144,
     bbs: "",
     sortKey: "listener",
@@ -59,6 +60,7 @@ class Settings extends React.Component {
     this.onClickDialogFormat = this.onClickDialogFormat.bind(this)
     let format = this.defaultFormat
     this.state = {
+      ip: config.get('ip'),
       port: config.get('port'),
       bbs: config.get('bbs'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
@@ -87,6 +89,7 @@ class Settings extends React.Component {
 
   // 設定保存
   save(){
+    config.set('ip', this.state.ip)
     config.set('port', this.state.port)
     config.set('bbs', this.state.bbs)
     config.set('sortKey', this.state.sort.key)
@@ -266,7 +269,7 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral port={this.state.port} bbs={this.state.bbs} sort={this.state.sort} fontSize={this.state.fontSize}
+          <SettingsGeneral ip={this.state.ip} port={this.state.port} bbs={this.state.bbs} sort={this.state.sort} fontSize={this.state.fontSize}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort}  />
       },
       {

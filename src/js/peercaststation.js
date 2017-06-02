@@ -78,7 +78,9 @@ module.exports = class Peercaststation{
   }
 
   static get API_URL(){
-    return 'http://127.0.0.1:'+config.get('port')+'/api/1'
+    let ip = config.get('ip')
+    let port = config.get('port')
+    return `http://${ip}:${port}/api/1`
   }
 
   // 4桁のランダムな数値IDを取得
