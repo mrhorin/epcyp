@@ -54,15 +54,17 @@ module.exports = class Channel{
 
   // プレイリストURLを取得
   get playListURL(){
+    let ip = config.get('ip')
     let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/pls/${this.id}?tip=${this.tip}`
+    var url = `http://${ip}:${port}/pls/${this.id}?tip=${this.tip}`
     return url
   }
 
   // ストリームURLを取得
   get streamURL(){
+    let ip = config.get('ip')
     let port = config.get('port')
-    var url = `http://127.0.0.1:${port}/stream/${this.id}.${this.format.toLowerCase()}`
+    var url = `http://${ip}:${port}/stream/${this.id}.${this.format.toLowerCase()}`
     return url
   }
 
