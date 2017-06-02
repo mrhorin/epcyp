@@ -21,8 +21,13 @@ body::-webkit-scrollbar{
 }
 #container{
   position: relative;
-  padding-top: 50px;
+  padding-top: 47px;
   padding-bottom: 20px;
+}
+.flex-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 #index{
   .tab-group{
@@ -30,7 +35,7 @@ body::-webkit-scrollbar{
     border-bottom: 1px solid #999;
     width: 100%;
     position: fixed;
-    top: 31px;
+    top: 29px;
   }
 }
 #index.darwin{
@@ -68,37 +73,44 @@ header.blur{
 }
 
 /* HeaderUpdateButton */
-$header-update-ccw: #00b900;
-$header-update-star: #ffcc00;
+$header-update-ccw: #62c554;
+$header-update-star: #f5bf4f;
 $header-update-cog: #808080;
 header{
   .icon-arrows-ccw{
-    -webkit-text-stroke-color: darken($header-update-ccw, 5%);
-    -webkit-text-stroke-width: 0.4px;
+    -webkit-text-stroke-color: darken($header-update-ccw, 18%);
+    -webkit-text-stroke-width: 0.5px;
     color: $header-update-ccw !important;
   }
   .icon-star{
-    -webkit-text-stroke-color: darken($header-update-star, 10%);
-    -webkit-text-stroke-width: 0.4px;
+    -webkit-text-stroke-color: darken($header-update-star, 18%);
+    -webkit-text-stroke-width: 0.5px;
     color: $header-update-star !important;
   }
   .icon-cog{
-    -webkit-text-stroke-color: darken($header-update-star, 5%);
-    -webkit-text-stroke-width: 0.4px;
+    -webkit-text-stroke-color: darken($header-update-cog, 18%);
+    -webkit-text-stroke-width: 0.5px;
     color: $header-update-cog !important;
   }
-  .toolbar-actions{
-    display: flex;
-    padding-left: 2px;
-    .btn-group{
-      width: auto;
+  .flex-container{
+    padding: 3px;
+    .flex-header-update-btns{
+      order: 1;
       display: -webkit-inline-box;
-      margin-right: 0px;
-      margin-left: 2px;
+      margin-right: 2px;
+    }
+    .flex-header-settings-btns{
+      order: 2;
+      display: -webkit-inline-box;
+      margin-right: 2px;
+    }
+    .flex-header-search{
+      order: 3;
+      flex-grow: 1;
+      display: -webkit-inline-box;
     }
     .search-group{
-      flex: 1;
-      margin-left: 4px;
+      margin-left: auto;
       margin-right: 6px;
       text-align: right;
       input#search-word[type="text"]{
@@ -111,7 +123,7 @@ header{
         border-width: 1px;
         border-color: #c2c0c2 #c2c0c2 #a19fa1;
         border-radius: 4px;
-        height: 24px;
+        height: 22px;
         margin: 0px;
         padding: 0px;
         padding-left: 3px;
@@ -128,6 +140,7 @@ header{
         background-color: #fff;
         background-image: none;
         box-shadow: none;
+        padding: 2px 8px;
       }
       button:hover, button:active{
         border-radius: 0px 4px 4px 0px;
@@ -657,4 +670,8 @@ nav#rule-box-nav{
 }
 select{
   height: 20px;
+}
+
+.btn-group{
+  display: -webkit-inline-box !important;
 }

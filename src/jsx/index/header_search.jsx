@@ -20,15 +20,17 @@ module.exports = class HeaderSearch extends React.Component {
   }
 
   render(){
-    return(
-      <div className="search-group">
-        <input id="search-word" ref="searchWord" type="text" onKeyPress={this.search} />
-        <button id="search-cancel" className="btn btn-default" onKeyDown={this.search} onClick={this.cancel}>
-          <span className="icon icon-cancel" />
-        </button>
-        <button id="search-submit" className="btn btn-default" onKeyDown={this.search} onClick={this.search}>
-          <span className="icon icon-search" />
-        </button>
+    return (
+      <div className="flex-header-search">
+        <div className="search-group">
+          <input id="search-word" ref="searchWord" type="text" onKeyPress={this.search} />
+          <button id="search-cancel" className="btn btn-default" onKeyDown={this.search} onClick={this.cancel}>
+            <span className="icon icon-cancel" />
+          </button>
+          <button id="search-submit" className="btn btn-default" onKeyDown={this.search} onClick={this.search}>
+            <span className="icon icon-search" />
+          </button>
+        </div>
       </div>
     )
   }

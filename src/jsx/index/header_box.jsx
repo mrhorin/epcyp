@@ -24,14 +24,17 @@ module.exports = class HeaderBox extends React.Component {
   render(){
     return(
       <header className="toolbar toolbar-header">
-        <h1 className="title">
-        </h1>
-        <div className="toolbar-actions">
-          <HeaderUpdateButton isAutoUpdate={this.props.isAutoUpdate} onClickUpdate={this.props.onClickUpdate} onClickAutoUpdate={this.props.onClickAutoUpdate}/>
-          <div className="btn-group">
-            <HeaderButton key={1} icon={"icon-star"} onClickhandler={this.onClickFavorite}/>
-            <HeaderButton key={2} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
+        <div className="flex-container">
+          {/*更新ボタン*/}
+          <HeaderUpdateButton isAutoUpdate={this.props.isAutoUpdate} onClickUpdate={this.props.onClickUpdate} onClickAutoUpdate={this.props.onClickAutoUpdate} />
+          {/*設定ボタン*/}
+          <div className="flex-header-settings-btns">
+            <div className="btn-group">
+              <HeaderButton key={1} icon={"icon-star"} onClickhandler={this.onClickFavorite}/>
+              <HeaderButton key={2} icon={"icon-cog"} onClickhandler={this.onClickConfig}/>
+            </div>
           </div>
+          {/*検索フォーム*/}
           <HeaderSearch setSearchWord={word=>{ this.props.setSearchWord(word) }} />
         </div>
       </header>
