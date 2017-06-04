@@ -141,6 +141,10 @@ module.exports = class ChannelItem extends React.Component {
     return res
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.channel != nextProps.channel
+  }
+
   render(){
     let favorite = this.favorite
     let style = { fontSize: `${config.get('fontSize')}px` }
