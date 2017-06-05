@@ -1,5 +1,7 @@
 # epcyp
 [![Build Status](https://travis-ci.org/mrhorin/epcyp.svg?branch=master)](https://travis-ci.org/mrhorin/epcyp)
+[![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/mrhorin/epcyp/master/LICENSE)
+
 
 ![チャンネル一覧](https://raw.githubusercontent.com/wiki/mrhorin/epcyp/img/mainwindow.png)
 
