@@ -55,11 +55,14 @@ module.exports = class SettingsPlayerDetail extends React.Component {
   render(){
     return(
       <div id="settings-player-detail">
+        {/*タイプ*/}
         <FormText label={"タイプ(正規表現)"} value={this.props.format.name}
-          onChange={e => this.props.onChangeFormat(e, 'name')} />
+          onChange={e => this.props.onChangeFormat(e.target.value, 'name')} />
+        {/*再生プレイヤー*/}
         <FormDialog label={"再生プレイヤー"} value={this.props.format.player}
           onChange={e => this.props.onChangeFormat(e, 'player')}
           onClick={e => this.props.onClickDialog(e, this.props.index)} />
+        {/*引数*/}
         <div id="settings-player-args" className="form-group">
           <label>引数</label>
           <input type="text" ref={(input) => { this.textArgs = input }} value={this.props.format.args}
