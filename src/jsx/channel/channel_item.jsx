@@ -2,15 +2,8 @@ import React from 'react'
 import {ipcRenderer} from 'electron'
 import {remote} from 'electron'
 import {shell} from 'electron'
-import Config from 'electron-config'
 
 import Player from 'js/player'
-
-const config = new Config({
-  defaults: {
-    fontSize: 13
-  }
-})
 
 module.exports = class ChannelItem extends React.Component {
 
@@ -142,12 +135,12 @@ module.exports = class ChannelItem extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.channel != nextProps.channel
+    return this.props.channel != nextProps.channel || this.props.fontSize != nextProps.fontSize
   }
 
-  render(){
+  render() {
     let favorite = this.favorite
-    let style = { fontSize: `${config.get('fontSize')}px` }
+    let style = { fontSize: `${this.props.fontSize}px` }
     if(favorite){
       style['background'] = `#${favorite.bgColor}`
       style['color'] = `#${favorite.fontColor}`

@@ -1,7 +1,14 @@
 import React from 'react'
+import Config from 'electron-config'
 import _ from 'lodash'
 
 import ChannelItem from 'jsx/channel/channel_item.jsx'
+
+const config = new Config({
+  defaults: {
+    fontSize: 13
+  }
+})
 
 module.exports = class ChannelBox extends React.Component {
 
@@ -18,7 +25,8 @@ module.exports = class ChannelBox extends React.Component {
   render(){
     let channelItems = this.props.channels.map((channel) => {
       return (
-        <ChannelItem key={channel.key} channel={channel} favorites={this.props.favorites}
+        <ChannelItem
+          key={channel.key} channel={channel} favorites={this.props.favorites} fontSize={config.get('fontSize')}
           registFavorite={this.registFavorite} />
       )
     })
