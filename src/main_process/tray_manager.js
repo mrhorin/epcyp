@@ -8,8 +8,8 @@ module.exports = class TrayManager{
   constructor(){
     this.tray = null
     this.iconPath = {
-      darwin: `${__dirname}/../src/img/icon/darwin/icon_tray.png`,
-      linux: `${__dirname}/../src/img/icon/linux/icon_tray.png`
+      darwin: `${__dirname}/../src/img/icon/darwin/iconTemplate.png`,
+      linux: `${__dirname}/../src/img/icon/linux/iconTemplate.png`
     }
     this.platform = global.process.platform == 'darwin' ? 'darwin' : 'linux'
     this.trayContextMenu  = null
