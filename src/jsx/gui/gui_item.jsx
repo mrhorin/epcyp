@@ -87,7 +87,7 @@ module.exports = class GuiItem extends React.Component{
 
   // コンタクトURLをBBSブラウザで開く
   openBBS(){
-    ipcRenderer.send('asyn-open-bbs', this.props.relay.info.url)
+    ipcRenderer.send('asyn-open-bbs', this.props.relay.info.url, this.props.relay.info.name)
   }
 
   // コンタクトURLを既定ブラウザで開く

@@ -209,13 +209,13 @@ ipcMain.on('asyn-play', (event, player, args) =>{
 })
 
 // ------------- BBSブラウザの起動 -------------
-ipcMain.on('asyn-open-bbs', (event, url) =>{
+ipcMain.on('asyn-open-bbs', (event, url, name) => {
   let command
   if (global.process.platform == 'darwin') {
     // -nオプションで多重起動を許可する
-    command = `open -a ${config.get('bbs')} -n --args ${url}`
+    command = `open -a ${config.get('bbs')} -n --args '${url}' '${name}'`
   }else{
-    command = `${config.get('bbs')} ${url}`
+    command = `${config.get('bbs')} '${url}' '${name}'`
   }
   try{
     exec(command, (error, stdout, stderr)=>{

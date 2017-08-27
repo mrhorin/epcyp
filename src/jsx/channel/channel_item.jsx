@@ -23,8 +23,8 @@ module.exports = class ChannelItem extends React.Component {
   }
 
   // BBSブラウザで開く
-  openBBS(url){
-    ipcRenderer.send('asyn-open-bbs', url)
+  openBBS(url, name){
+    ipcRenderer.send('asyn-open-bbs', url, name)
   }
 
   // 既定ブラウザで開く
@@ -53,7 +53,7 @@ module.exports = class ChannelItem extends React.Component {
     }))
     menu.append(new MenuItem({
       label: 'BBSブラウザで開く',
-      click: ()=>{ this.openBBS(this.props.channel.url) }
+      click: ()=>{ this.openBBS(this.props.channel.url, this.props.channel.name) }
     }))
     menu.append(new MenuItem({
       label: '統計URLを開く',
