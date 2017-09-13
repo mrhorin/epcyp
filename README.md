@@ -8,8 +8,8 @@
 MacやLinux環境でも動作するpeercastチャンネルビューア  
 
 ## ダウンロード
-[epcyp v1.1.1 for macOS](https://github.com/mrhorin/epcyp/releases/download/v1.1.1/epcyp_v1.1.1_macos.zip)  
-[epcyp v1.1.1 for Linux](https://github.com/mrhorin/epcyp/releases/download/v1.1.1/epcyp_v1.1.1_linux.zip)
+[epcyp v1.2.0 for macOS](https://github.com/mrhorin/epcyp/releases/download/v1.2.0/epcyp_v1.2.0_macos.zip)  
+[epcyp v1.2.0 for Linux](https://github.com/mrhorin/epcyp/releases/download/v1.2.0/epcyp_v1.2.0_linux.zip)
 
 ## 特徴
 - クロスプラットフォーム
