@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/mrhorin/epcyp/master/LICENSE)
 
 
-![チャンネル一覧](https://raw.githubusercontent.com/wiki/mrhorin/epcyp/img/mainwindow.png)
+![チャンネル一覧](https://user-images.githubusercontent.com/6502717/30453224-1a8213f4-99d3-11e7-87bc-9b2edabbfc59.png)  
 
 MacやLinux環境でも動作するpeercastチャンネルビューア  
 
