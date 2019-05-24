@@ -1,6 +1,6 @@
 import React from 'react'
 
-module.exports = class FormText extends React.Component {
+export default class FormText extends React.Component {
 
   constructor(props){
     super(props)

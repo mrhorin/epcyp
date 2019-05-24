@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
 
-module.exports = class FooterCount extends React.Component {
+export default class FooterCount extends React.Component {
 
   constructor(props){
     super(props)

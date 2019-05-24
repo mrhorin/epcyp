@@ -5,7 +5,7 @@ import {shell} from 'electron'
 
 import Player from 'js/player'
 
-module.exports = class ChannelItem extends React.Component {
+export default class ChannelItem extends React.Component {
 
   constructor(props){
     super(props)

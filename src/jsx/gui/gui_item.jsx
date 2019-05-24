@@ -14,7 +14,7 @@ const config = new Config({
   }
 })
 
-module.exports = class GuiItem extends React.Component{
+export default class GuiItem extends React.Component{
 
   constructor(props){
     super(props)

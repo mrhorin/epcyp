@@ -2,7 +2,7 @@ import React from 'react'
 import css from 'scss/style'
 import RuleItem from 'jsx/rule/rule_item'
 
-module.exports = class RuleBox extends React.Component {
+export default class RuleBox extends React.Component {
 
   constructor(props){
     super(props)

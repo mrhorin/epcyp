@@ -1,6 +1,6 @@
 import Channel from 'js/channel'
 
-module.exports = class YP{
+export default class YP{
 
   constructor(name, url){
     this.name = name

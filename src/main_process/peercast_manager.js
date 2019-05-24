@@ -5,7 +5,7 @@ import fixPath from 'fix-path'
 /*---------------------------------------
   PeerCast本体を操作するクラス
 ----------------------------------------*/
-module.exports = class PeercastManager{
+export default class PeercastManager{
 
   constructor(){
     // PATHの解決

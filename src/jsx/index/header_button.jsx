@@ -1,6 +1,6 @@
 import React from "react"
 
-module.exports = class HeaderButton extends React.Component {
+export default class HeaderButton extends React.Component {
 
   render(){
     // photon.cssアイコンのクラス名

@@ -10,7 +10,7 @@ const config = new Config({
   }
 })
 
-module.exports = class ChannelBox extends React.Component {
+export default class ChannelBox extends React.Component {
 
   constructor(props){
     super(props)

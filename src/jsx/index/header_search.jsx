@@ -1,7 +1,7 @@
 import React from 'react'
 import {ipcRenderer} from 'electron'
 
-module.exports = class HeaderSearch extends React.Component {
+export default class HeaderSearch extends React.Component {
 
   constructor(props){
     super(props)

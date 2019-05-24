@@ -5,7 +5,7 @@ import HeaderButton from 'jsx/index/header_button'
 import HeaderUpdateButton from 'jsx/index/header_update_button'
 import HeaderSearch from 'jsx/index/header_search'
 
-module.exports = class HeaderBox extends React.Component {
+export default class HeaderBox extends React.Component {
 
   constructor(props){
     super(props)

@@ -1,6 +1,6 @@
 import React from 'react'
 
-module.exports = class SettingsYPDetail extends React.Component {
+export default class SettingsYPDetail extends React.Component {
 
   constructor(props){
     super(props)

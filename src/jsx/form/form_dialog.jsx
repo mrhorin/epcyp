@@ -1,6 +1,6 @@
 import React from 'react'
 
-module.exports = class FormDialog extends React.Component {
+export default class FormDialog extends React.Component {
 
   constructor(props){
     super(props)

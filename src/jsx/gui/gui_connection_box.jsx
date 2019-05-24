@@ -2,7 +2,7 @@ import React from 'react'
 
 import GuiConnectionItem from 'jsx/gui/gui_connection_item'
 
-module.exports = class GuiConnectionBox extends React.Component{
+export default class GuiConnectionBox extends React.Component{
 
   constructor(props){
     super(props)

@@ -2,7 +2,7 @@ import React from 'react'
 
 import GuiItem from 'jsx/gui/gui_item'
 
-module.exports = class GuiBox extends React.Component{
+export default class GuiBox extends React.Component{
 
   constructor(props){
     super(props)

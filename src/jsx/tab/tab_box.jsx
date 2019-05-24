@@ -1,7 +1,7 @@
 import React from 'react'
 import TabItem from 'jsx/tab/tab_item'
 
-module.exports = class TabBox extends React.Component {
+export default class TabBox extends React.Component {
 
   constructor(props){
     super(props)

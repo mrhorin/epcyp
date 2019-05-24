@@ -4,7 +4,7 @@ const config = new Config({
   defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
 })
 
-module.exports = class Channel{
+export default class Channel{
 
   constructor(hash){
     this.key = hash.key

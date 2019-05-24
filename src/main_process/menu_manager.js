@@ -3,7 +3,7 @@ import {Menu} from 'electron'
 /*---------------------------------------
   アプリケーションメニューを操作するクラス
 ----------------------------------------*/
-module.exports = class MenuManager{
+export default class MenuManager{
 
   constructor(){
     this.menu = null

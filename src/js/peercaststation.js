@@ -7,7 +7,7 @@ const config = new Config({ defaults: { port: 7144 } })
   PeerCastStionを操作するクラス
   参考: PeerCastStation.UI.HTTP/html/js/peercaststation.1.0.0.js
 ------------------------------------------------------------------*/
-module.exports = class Peercaststation{
+export default class Peercaststation{
 
   // 切断
   static stopChannel(channelId, call=()=>{}){

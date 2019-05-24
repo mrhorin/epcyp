@@ -3,7 +3,7 @@ import {remote} from 'electron'
 const Menu =  remote.Menu
 const MenuItem =  remote.MenuItem
 
-module.exports = class HeaderUpdateButton extends React.Component {
+export default class HeaderUpdateButton extends React.Component {
 
   constructor(props){
     super(props)

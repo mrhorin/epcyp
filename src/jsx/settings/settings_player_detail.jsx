@@ -4,7 +4,7 @@ import {remote} from 'electron'
 import FormText from 'jsx/form/form_text'
 import FormDialog from 'jsx/form/form_dialog'
 
-module.exports = class SettingsPlayerDetail extends React.Component {
+export default class SettingsPlayerDetail extends React.Component {
 
   constructor(props){
     super(props)

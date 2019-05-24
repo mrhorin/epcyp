@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import Peercast from 'js/peercaststation'
 
-module.exports = class GuiConnectionItem extends React.Component{
+export default class GuiConnectionItem extends React.Component{
 
   constructor(props){
     super(props)

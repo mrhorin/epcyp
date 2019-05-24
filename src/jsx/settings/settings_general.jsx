@@ -2,7 +2,7 @@ import React from 'react'
 import FormText from 'jsx/form/form_text'
 import FormDialog from 'jsx/form/form_dialog'
 
-module.exports = class SettingsGeneral extends React.Component {
+export default class SettingsGeneral extends React.Component {
 
   constructor(props){
     super(props)

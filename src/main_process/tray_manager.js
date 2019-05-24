@@ -3,7 +3,7 @@ import {Tray, Menu} from 'electron'
 /*---------------------------------------
   システムトレイを操作するクラス
 ----------------------------------------*/
-module.exports = class TrayManager{
+export default class TrayManager{
 
   constructor(){
     this.tray = null

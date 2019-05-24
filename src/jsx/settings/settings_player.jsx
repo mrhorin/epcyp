@@ -3,7 +3,7 @@ import React from 'react'
 import RuleBox from 'jsx/rule/rule_box'
 import SettingsPlayerDetail from 'jsx/settings/settings_player_detail'
 
-module.exports = class SettingsPlayer extends React.Component {
+export default class SettingsPlayer extends React.Component {
 
   constructor(props){
     super(props)

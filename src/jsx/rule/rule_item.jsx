@@ -1,7 +1,7 @@
 import React from 'react'
 import css from 'scss/style'
 
-module.exports = class RuleItem extends React.Component {
+export default class RuleItem extends React.Component {
 
   constructor(props){
     super(props)

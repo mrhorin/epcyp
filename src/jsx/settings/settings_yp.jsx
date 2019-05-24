@@ -2,7 +2,7 @@ import React from 'react'
 import RuleBox from 'jsx/rule/rule_box'
 import SettingsYPDetail from 'jsx/settings/settings_yp_detail'
 
-module.exports = class SettingsYP extends React.Component {
+export default class SettingsYP extends React.Component {
 
   constructor(props){
     super(props)
