@@ -10,22 +10,28 @@ gulp.task('watch', function(){
 });
 
 // jadeコンパイル
-gulp.task('jade', function(){
+gulp.task('jade', function(cb){
   gulp.src('src/jade/**/*.jade')
     .pipe(plumber())
     .pipe(jade({
       pretty: true
     }))
     .pipe(gulp.dest('dist/'));
+  cb();
 });
 
 // distを空に
 gulp.task('clean', function(cb) {
   del(['dist', '**/*.log'], cb);
+  cb();
 });
 
+gulp.task('default', gulp.series('jade', function (cb) {
+  cb();
+}));
+
 // OSX用にパッケージ化
-gulp.task('package:darwin', ['default'], function (done) {
+gulp.task('package:darwin', gulp.series('default', function (cb) {
   packager({
     dir: './',
     out: 'release/darwin',
@@ -39,12 +45,12 @@ gulp.task('package:darwin', ['default'], function (done) {
     version: '1.4.13',
     ignore: ['release']
   }, function (err, path) {
-    done();
+    cb();
   });
-});
+}));
 
 // Linux用にパッケージ化
-gulp.task('package:linux', ['default'], function (done) {
+gulp.task('package:linux', gulp.series('default', function (cb) {
   packager({
     dir: './',
     out: 'release/linux',
@@ -58,8 +64,6 @@ gulp.task('package:linux', ['default'], function (done) {
     version: '1.4.13',
     ignore: ['release']
   }, function (err, path) {
-    done();
+    cb();
   });
-});
-
-gulp.task('default', ['jade']);
+}));
