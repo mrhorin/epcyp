@@ -145,7 +145,10 @@ app.on('ready', ()=>{
     y: y,
     frame: true,
     scrollBounce: true,
-    icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`
+    icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`,
+    webPreferences: {
+      nodeIntegration: true,
+    }
   })
   window.main.loadURL(`file://${__dirname}/index.html`)
 
@@ -267,7 +270,10 @@ const openFavoriteWindow = ()=>{
       center: false,
       frame: false,
       alwaysOnTop: true,
-      resizable: false
+      resizable: false,
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
     window.favorite.loadURL(`file://${__dirname}/favorite.html`)
     window.main.setIgnoreMouseEvents(true)
@@ -292,7 +298,10 @@ const openSettingsWindow = ()=>{
       center: false,
       frame: false,
       alwaysOnTop: true,
-      resizable: false
+      resizable: false,
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
     window.settings.loadURL(`file://${__dirname}/settings.html`)
     window.main.setIgnoreMouseEvents(true)
