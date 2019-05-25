@@ -47,6 +47,7 @@ gulp.task('package:darwin', gulp.series('default', function (cb) {
   }, function (err, path) {
     cb();
   });
+  cb();
 }));
 
 // Linux用にパッケージ化
@@ -66,4 +67,5 @@ gulp.task('package:linux', gulp.series('default', function (cb) {
   }, function (err, path) {
     cb();
   });
+  cb();
 }));
