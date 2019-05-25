@@ -459,8 +459,11 @@ ul.gui-connection-box{
 #favorite{
 }
 #favorite-btn-group{
-  margin-top: 15px;
-  text-align: right;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  // margin-top: 15px;
+  // text-align: right;
 }
 #favorite-ok{
   margin-right: 5px;

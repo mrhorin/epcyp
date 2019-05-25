@@ -9,6 +9,12 @@ export default class SettingsPlayer extends React.Component {
     super(props)
   }
 
+  hasFormatList() {
+    return (
+      (this.props.formatList.length > 0)
+    )
+  }
+
   render(){
     return(
       <div id="settings-player">
@@ -16,10 +22,13 @@ export default class SettingsPlayer extends React.Component {
           onClickItem={index => this.props.onClickItem(index)}
           onClickAdd={this.props.onClickAdd} onClickDelete={this.props.onClickDelete}
           onClickUp={this.props.onClickUp} onClickDown={this.props.onClickDown} />
-        <SettingsPlayerDetail format={this.props.formatList[this.props.currentFormatIndex]}
-          index={this.props.currentFormatIndex}
-          onChangeFormat={(value, key) => this.props.onChangeFormat(value, key)}
-          onClickDialog={(event, index)=> this.props.onClickDialog(event, index)} />
+        {
+          this.hasFormatList() &&
+          <SettingsPlayerDetail format={this.props.formatList[this.props.currentFormatIndex]}
+            index={this.props.currentFormatIndex}
+            onChangeFormat={(value, key) => this.props.onChangeFormat(value, key)}
+            onClickDialog={(event, index)=> this.props.onClickDialog(event, index)} />
+        }
       </div>
     )
   }

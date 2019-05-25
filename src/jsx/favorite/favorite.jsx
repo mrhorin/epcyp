@@ -54,6 +54,12 @@ class Favorite extends React.Component {
     return favorite
   }
 
+  hasFavorites() {
+    return (
+      (this.state.favorites.length > 0)
+    )
+  }
+
   onClickItem(index){
     this.setState({ current: index })
   }
@@ -150,7 +156,7 @@ class Favorite extends React.Component {
     ipcRenderer.send('asyn-favorite-window-close')
   }
 
-  render(){
+  render() {
     return(
       <div id="favorite">
         <header className="toolbar toolbar-header">
@@ -163,10 +169,13 @@ class Favorite extends React.Component {
           <RuleBox rules={this.state.favorites} current={this.state.current}
             onClickItem={this.onClickItem} onClickAdd={this.add} onClickDelete={this.onClickDelete}
             onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
-          <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
-            onChangeNotify={this.onChangeNotify}
-            onChangeForm={this.onChangeForm} onChangeTarget={this.onChangeTarget}
-            onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />
+          {
+            this.hasFavorites() &&
+            <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
+              onChangeNotify={this.onChangeNotify}
+              onChangeForm={this.onChangeForm} onChangeTarget={this.onChangeTarget}
+              onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />            
+          }
           <div id="favorite-btn-group">
             <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>OK</button>
             <button id="favorite-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
