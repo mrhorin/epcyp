@@ -50,7 +50,7 @@ export default class SettingsPeerCast extends React.Component {
             checked={this.props.showGuiTab} onChange={e => { this.props.onChangeCheckbox(e.target) }}
           />
           <span onClick={e =>{this.props.onChangeCheckbox(this.refs.showGuiTab)}}>
-            リレー管理タブを表示する（PeerCastStation使用時のみ）
+            リレー管理タブを表示する（PeerCastStation、YT版のみ）
           </span>
         </div>
       </div>
