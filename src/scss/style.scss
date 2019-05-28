@@ -18,6 +18,7 @@ body{
   font-size: 11px;
   background: #fff;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 body::-webkit-scrollbar{
   display: none !important;
@@ -40,6 +41,9 @@ body::-webkit-scrollbar{
     width: 100%;
     position: fixed;
     top: 29px;
+  }
+  table{
+    margin-bottom: 22px
   }
 }
 #index.darwin{
@@ -279,7 +283,7 @@ td.channel-item-col2{
 td.channel-item-col3{
   box-sizing: border-box;
   max-width: $col3-widrh;
-  padding: 2px 5px;
+  padding: 2px 8px 2px 4px;
   text-align: right;
 }
 
