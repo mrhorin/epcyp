@@ -20,7 +20,7 @@ body{
   overflow-y: scroll;
 }
 body::-webkit-scrollbar{
-  display: none;
+  display: none !important;
 }
 #container{
   height: 100%;
@@ -750,7 +750,7 @@ $darktheme-btn-color: darken($darktheme-base-color, 3%);
     border-top-color: lighten($darktheme-btn-color, 10%);
     border-right-color: lighten($darktheme-btn-color, 10%);
     border-left-color: lighten($darktheme-btn-color, 10%);
-    border-bottom-color: lighten($darktheme-btn-color, 5%);
+    border-bottom-color: lighten($darktheme-btn-color, 3%);
     background-image: linear-gradient(to bottom, darken($darktheme-btn-color, 5%) 0%, darken($darktheme-btn-color, 10%) 100%);
     color: #fdfdfd;
     .icon{
@@ -833,20 +833,23 @@ $darktheme-btn-color: darken($darktheme-base-color, 3%);
       background-color: darken($darktheme-base-color, 5%);
       tr>th{
         color: #ffffff;
-        border-right-color: lighten($darktheme-base-color, 20%);
-        border-bottom-color: lighten($darktheme-base-color, 20%);
+        border-right: 1px solid lighten($darktheme-base-color, 15%);
+        border-bottom: 1px solid darken($darktheme-base-color, 10%);
+      }
+      tr>th:last-child{
+        border-right: none;
       }
     }
     tbody{
       tr.channel-item{
-        background-color: darken($darktheme-base-color, 7%);
+        background-color: darken($darktheme-base-color, 13%);
         color: #fff;
       }
       tr.channel-item:hover,
       tr.channel-item:active,
       tr.channel-item:nth-child(odd):active,
       tr.channel-item:nth-child(even):active{
-        background-color: darken($darktheme-base-color, 15%);
+        background-color: darken($darktheme-base-color, 20%);
       }
     }    
   }
