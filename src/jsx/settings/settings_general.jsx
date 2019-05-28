@@ -6,12 +6,15 @@ export default class SettingsGeneral extends React.Component {
 
   constructor(props){
     super(props)
-    this.onChangeSort = this.onChangeSort.bind(this)
   }
 
-  onChangeSort(){
+  onChangeSort = () => {
     let sort = { key: this.refs.sortKey.value, orderBy: this.refs.sortOrderBy.value }
     this.props.onChangeSort(sort)
+  }
+
+  onChangeTheme = () => {
+    this.props.onChangeTheme(this.refs.theme.value)
   }
 
   render(){
@@ -39,6 +42,14 @@ export default class SettingsGeneral extends React.Component {
             <option value="asc">昇順</option>
           </select>
         </div>
+        <div id="settings-theme" className="form-group">
+          <label>テーマ</label>
+          <select ref="theme" onChange={this.onChangeTheme} value={this.props.theme}>
+            <option value="light">ライト</option>
+            <option value="dark">ダーク</option>
+          </select>
+        </div>
+        
       </div>
     )
   }

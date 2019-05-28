@@ -18,7 +18,7 @@ import ChannelBox from 'jsx/channel/channel_box'
 import GuiBox from 'jsx/gui/gui_box'
 
 const config = new Config({
-  defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false }
+  defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false, theme: 'light' }
 })
 
 class Index extends React.Component {
@@ -34,6 +34,7 @@ class Index extends React.Component {
       searchWord: "",
       showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
+      theme: config.get('theme'),
       isAutoUpdate: config.get('isAutoUpdate'),
       isMainWindowActive: true,
       isUnRead: false,
@@ -170,6 +171,7 @@ class Index extends React.Component {
     storage.get('ypList', (error, data)=>{
       // ソート
       let sort = { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') }
+      let theme = config.get('theme')
       let ypList = []
       if(Object.keys(data).length != 0){
         ypList = data.map((yp, index)=>{
@@ -178,6 +180,7 @@ class Index extends React.Component {
       }
       this.setState({
         sort: sort,
+        theme: theme,
         ypList: ypList,
         showGuiTab: config.get('showGuiTab'),
         currentTabIndex: 0
@@ -466,7 +469,7 @@ class Index extends React.Component {
     let currentComponent = components[this.state.currentTabIndex].component
 
     return(
-      <div id="index">
+      <div id="index" className={this.state.theme}>
         <HeaderBox isAutoUpdate={this.state.isAutoUpdate}
          onClickAutoUpdate={this.switchAutoUpdate} onClickUpdate={this.fetchIndexTxt}
          setSearchWord={this.setSearchWord} />

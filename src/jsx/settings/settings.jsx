@@ -18,6 +18,7 @@ const config = new Config({
     bbs: "",
     sortKey: "listener",
     sortOrderBy: "desc",
+    theme: 'light',
     peercast: "",
     exitPeercast: true,
     useMono: false,
@@ -32,38 +33,14 @@ class Settings extends React.Component {
 
   constructor(props){
     super(props)
-    this.save = this.save.bind(this)
-    this.selectTab = this.selectTab.bind(this)
-    // SettingsGeneral
-    this.onChangeForm = this.onChangeForm.bind(this)
-    this.onClickDialog = this.onClickDialog.bind(this)
-    this.onChangeSort = this.onChangeSort.bind(this)
-    // SettingsPeerCast
-    this.onChangeCheckbox = this.onChangeCheckbox.bind(this)
-    // SettingsYP
-    this.selectYP = this.selectYP.bind(this)
-    this.addYP = this.addYP.bind(this)
-    this.deleteYP = this.deleteYP.bind(this)
-    this.upYP = this.upYP.bind(this)
-    this.downYP = this.downYP.bind(this)
-    // SettingsYPDetail
-    this.onChangeYP = this.onChangeYP.bind(this)
     let yp = this.defaultYp
-    // SettingsPlayer
-    this.selectFormat = this.selectFormat.bind(this)
-    this.addFormat = this.addFormat.bind(this)
-    this.deleteFormat = this.deleteFormat.bind(this)
-    this.upFormat = this.upFormat.bind(this)
-    this.downFormat = this.downFormat.bind(this)
-    // SettingsPlayerDetail
-    this.onChangeFormat = this.onChangeFormat.bind(this)
-    this.onClickDialogFormat = this.onClickDialogFormat.bind(this)
     let format = this.defaultFormat
     this.state = {
       ip: config.get('ip'),
       port: config.get('port'),
       bbs: config.get('bbs'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
+      theme: config.get('theme'),
       peercast: config.get('peercast'),
       exitPeercast: config.get('exitPeercast'),
       useMono: config.get('useMono'),
@@ -88,12 +65,13 @@ class Settings extends React.Component {
   }
 
   // 設定保存
-  save(){
+  save = () => {
     config.set('ip', this.state.ip)
     config.set('port', this.state.port)
     config.set('bbs', this.state.bbs)
     config.set('sortKey', this.state.sort.key)
     config.set('sortOrderBy', this.state.sort.orderBy)
+    config.set('theme', this.state.theme)
     config.set('peercast', this.state.peercast)
     config.set('exitPeercast', this.state.exitPeercast)
     config.set('useMono', this.state.useMono)
@@ -107,31 +85,35 @@ class Settings extends React.Component {
   }
 
   // 設定ウィンドウを閉じる
-  close(){
+  close = () => {
     ipcRenderer.send('asyn-settings-window-close')
   }
 
   // -------------- TabBox --------------
-  selectTab(index){
+  selectTab = (index) => {
     this.setState({ currentTabIndex: index })
   }
 
   // ---------- SettingsGeneral ----------
-  onChangeForm(event, key){
+  onChangeForm = (event, key) => {
     this.setState({ [key]: event.target.value })
   }
 
-  onClickDialog(key){
+  onClickDialog = (key) => {
     let path = dialog.showOpenDialog()
     this.setState({ [key]: path[0] })
   }
 
-  onChangeSort(sort){
+  onChangeSort = (sort) => {
     this.setState({ sort: sort })
   }
 
+  onChangeTheme = (theme) => {
+    this.setState({ theme: theme })
+  }
+
   // --------- SettingsPeerCast ----------
-  onChangeCheckbox(target){
+  onChangeCheckbox = (target) => {
     // ON/OFFを切り替えて文字列をbooleanに変換
     let bool = false
     if(target.value == "true") bool = false
@@ -140,17 +122,17 @@ class Settings extends React.Component {
   }
 
   // ------------ SettingsYP -------------
-  selectYP(index){
+  selectYP = (index) => {
     this.setState({ currentYpIndex: index })
   }
 
-  addYP(){
+  addYP = () => {
     let yp = this.defaultYp
     this.state.ypList.push(yp)
     this.setState({ ypList: this.state.ypList })
   }
 
-  deleteYP(){
+  deleteYP = () => {
     let afterIndex = this.state.currentYpIndex - 1
     if(afterIndex<0) afterIndex = 0
     this.state.ypList.splice(this.state.currentYpIndex, 1)
@@ -160,7 +142,7 @@ class Settings extends React.Component {
     })
   }
 
-  upYP(){
+  upYP = () => {
     let index = this.state.currentYpIndex
     if(index > 0){
       let a = this.state.ypList[index]
@@ -174,7 +156,7 @@ class Settings extends React.Component {
     }
   }
 
-  downYP(){
+  downYP = () => {
     let index = this.state.currentYpIndex
     if(index < this.state.ypList.length-1){
       let a = this.state.ypList[index]
@@ -193,23 +175,23 @@ class Settings extends React.Component {
   }
 
   // --------- SettingsYPDetail ---------
-  onChangeYP(event, key){
+  onChangeYP = (event, key) => {
     this.state.ypList[this.state.currentYpIndex][key] = event.target.value
     this.setState({ ypList: this.state.ypList })
   }
 
   // ------------ SettingsPlayer -------------
-  selectFormat(index){
+  selectFormat = (index) => {
     this.setState({ currentFormatIndex: index })
   }
 
-  addFormat(){
+  addFormat = () => {
     let format = this.defaultFormat
     this.state.formatList.push(format)
     this.setState({ formatList: this.state.formatList })
   }
 
-  deleteFormat(){
+  deleteFormat = () => {
     let afterIndex = this.state.currentFormatIndex - 1
     if(afterIndex<0) afterIndex = 0
     this.state.formatList.splice(this.state.currentFormatIndex, 1)
@@ -219,7 +201,7 @@ class Settings extends React.Component {
     })
   }
 
-  upFormat(){
+  upFormat = () => {
     let index = this.state.currentFormatIndex
     if(index > 0){
       let a = this.state.formatList[index]
@@ -233,7 +215,7 @@ class Settings extends React.Component {
     }
   }
 
-  downFormat(){
+  downFormat = () => {
     let index = this.state.currentFormatIndex
     if(index < this.state.formatList.length-1){
       let a = this.state.formatList[index]
@@ -252,12 +234,12 @@ class Settings extends React.Component {
   }
 
   // --------- SettingsPlayerDetail ---------
-  onChangeFormat(value, key){
+  onChangeFormat = (value, key) => {
     this.state.formatList[this.state.currentFormatIndex][key] = value
     this.setState({ formatList: this.state.formatList })
   }
 
-  onClickDialogFormat(event, index){
+  onClickDialogFormat = (event, index) => {
     let path = dialog.showOpenDialog()
     this.state.formatList[index].player = path[0]
     this.setState({ formats: this.state.formatList })
@@ -269,8 +251,10 @@ class Settings extends React.Component {
       {
         name: "全般",
         component:
-          <SettingsGeneral bbs={this.state.bbs} sort={this.state.sort} fontSize={this.state.fontSize}
-            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeSort={this.onChangeSort} />
+          <SettingsGeneral
+            bbs={this.state.bbs} sort={this.state.sort} theme={this.state.theme} fontSize={this.state.fontSize}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm}
+            onChangeTheme={this.onChangeTheme} onChangeSort={this.onChangeSort} />
       },
       {
         name: "PeerCast",
@@ -302,7 +286,7 @@ class Settings extends React.Component {
     let currentComponent = components[this.state.currentTabIndex].component
 
     return(
-      <div id="settings">
+      <div id="settings" className={this.state.theme}>
         <header className="toolbar toolbar-header">
           <h1 className="title">
             <span className="icon icon-cog"></span>

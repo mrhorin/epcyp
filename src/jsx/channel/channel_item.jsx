@@ -140,11 +140,12 @@ export default class ChannelItem extends React.Component {
   render() {
     let favorite = this.favorite
     let style = { fontSize: `${this.props.fontSize}px` }
-    if(favorite){
+    let nameClass = "channel-item-name"
+    if (favorite) {
       style['background'] = `#${favorite.bgColor}`
       style['color'] = `#${favorite.fontColor}`
+      nameClass += ' channel-item-name-favorite'
     }
-    let nameClass = "channel-item-name"
     if(this.props.channel.url) nameClass += " link"
     return(
       <tr className="channel-item" style={style}

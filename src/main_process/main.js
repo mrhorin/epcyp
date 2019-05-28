@@ -1,4 +1,4 @@
-import {ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
+import {systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
 import {exec, execSync} from 'child_process'
 import request from 'superagent'
 import Config from 'electron-config'
@@ -12,7 +12,8 @@ const config = new Config({
     bounds: { width: 300, height: 600 },
     playerPath: '',
     playerArgs: '"$x"',
-    bbs: ""
+    bbs: "",
+    theme: 'light'
   }
 })
 
@@ -21,6 +22,8 @@ var window = { main: null, settings: null, favorite: null }
 var tray = new TrayManager()
 var menu = new MenuManager()
 var peercast = new PeercastManager()
+
+systemPreferences.setAppLevelAppearance(config.get('theme'))
 
 /*-----------------------------------------
   アプリケーション起動準備完了時
@@ -311,6 +314,7 @@ const openSettingsWindow = ()=>{
 const closeSettingsWindow = ()=>{
   window.settings.close()
   window.settings = null
+  systemPreferences.setAppLevelAppearance(config.get('theme'))
   window.main.setIgnoreMouseEvents(false)
   window.main.send('asyn-settings-window-close-reply')
 }

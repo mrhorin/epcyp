@@ -1,10 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {ipcRenderer} from 'electron'
+import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import css from 'scss/style'
 import RuleBox from 'jsx/rule/rule_box'
 import FavoriteDetail from 'jsx/favorite/favorite_detail'
+
+const config = new Config({
+  defaults: {
+    theme: 'light'
+  }
+})
 
 class Favorite extends React.Component {
 
@@ -23,6 +30,7 @@ class Favorite extends React.Component {
     let favorite = this.getDefaultFavorite()
     favorite.name = ""
     this.state = {
+      theme: config.get('theme'),
       favorites: [favorite],
       current: 0
     }
@@ -159,7 +167,7 @@ class Favorite extends React.Component {
 
   render() {
     return(
-      <div id="favorite">
+      <div id="favorite" className={this.state.theme}>
         <header className="toolbar toolbar-header">
           <h1 className="title">
             <span className="icon icon-star"></span>
