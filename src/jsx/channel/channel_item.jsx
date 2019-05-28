@@ -9,36 +9,31 @@ export default class ChannelItem extends React.Component {
 
   constructor(props){
     super(props)
-    this.play = this.play.bind(this)
-    this.openURL = this.openURL.bind(this)
-    this.showContextMenu = this.showContextMenu.bind(this)
-    this.registFavorite = this.registFavorite.bind(this)
-    this.onMiddleClick = this.onMiddleClick.bind(this)
   }
 
   // プレイヤーで再生する
-  play(){
+  play = () => {
     let player = new Player(this.props.channel)
     player.play()
   }
 
   // BBSブラウザで開く
-  openBBS(url, name){
+  openBBS = (url, name) => {
     ipcRenderer.send('asyn-open-bbs', url, name)
   }
 
   // 既定ブラウザで開く
-  openURL(url){
+  openURL = (url) => {
     shell.openExternal(url)
   }
 
   // お気に入り登録
-  registFavorite(favoriteIndex, channelName){
-    this.props.registFavorite(favoriteIndex, channelName)
+  registerFavorite = (favoriteIndex, channelName) => {
+    this.props.registerFavorite(favoriteIndex, channelName)
   }
 
   // 右クリメニューを表示
-  showContextMenu(e){
+  showContextMenu = (e) => {
     const clipboard = remote.clipboard
     const Menu =  remote.Menu
     const MenuItem =  remote.MenuItem
@@ -68,7 +63,11 @@ export default class ChannelItem extends React.Component {
       submenu: this.props.favorites.map((favorite, index)=>{
         return {
           label: favorite.name,
-          click: ()=>{ this.registFavorite(index, this.props.channel.name) }
+          click: () => {
+            this.registerFavorite(index, this.props.channel.name)
+            // お気に入り表示を反映
+            // this.forceUpdate()
+          }
         }
       })
     }))
@@ -107,7 +106,7 @@ export default class ChannelItem extends React.Component {
   }
 
   // 中クリック押下時
-  onMiddleClick(event){
+  onMiddleClick = (event) => {
     if(event.button==1){
       this.openURL()
     }
@@ -135,7 +134,7 @@ export default class ChannelItem extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.channel != nextProps.channel || this.props.fontSize != nextProps.fontSize
+    return this.props.channel != nextProps.channel || this.props.fontSize != nextProps.fontSize || this.props.favorites != nextProps.favorites
   }
 
   render() {

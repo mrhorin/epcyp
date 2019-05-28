@@ -326,6 +326,7 @@ class Index extends React.Component {
     clearTimeout(this.updateTimerId)
   }
 
+  // 自動更新カウントを更新
   updateCount = () => {
     return new Promise((resolve, reject)=>{
       if(this.state.isAutoUpdate&&this.state.updateStatus=='wait'){
@@ -343,6 +344,7 @@ class Index extends React.Component {
     })
   }
 
+  // リレー情報の更新
   updateRelays = () => {
     return new Promise((resolve, reject)=>{
       Peercast.getChannels((err, res)=>{
@@ -399,7 +401,7 @@ class Index extends React.Component {
 
   // ------------ ChannelItem ------------
   // お気に入り登録
-  registFavorite = (favoriteIndex, channelName) => {
+  registerFavorite = (favoriteIndex, channelName) => {
     // 正規表現の特殊文字をエスケープ
     channelName = channelName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
     // 検索文字欄が空白でない場合は|を付与しない
@@ -407,10 +409,12 @@ class Index extends React.Component {
       this.state.favorites[favoriteIndex].pattern += '|'
     }
     this.state.favorites[favoriteIndex].pattern += channelName
-    this.setState({ favorites: this.state.favorites })
-    storage.set('favorites', this.state.favorites)
+    storage.set('favorites', this.state.favorites, (err) => {
+      this.loadFavorites()
+    })
   }
 
+  // ---------- Lifecycle Methods ----------
   componentDidMount(){
     this._isMounted = true
     this.startUpdateTimer()
@@ -429,7 +433,7 @@ class Index extends React.Component {
           <ChannelBox
             channels={this.channels}
             favorites={this.state.favorites}
-            registFavorite={this.registFavorite} />
+            registerFavorite={this.registerFavorite} />
       },
       {
         name: `お気に入り(${this.favoriteChannels.length})`,
@@ -437,7 +441,7 @@ class Index extends React.Component {
           <ChannelBox
             channels={this.favoriteChannels}
             favorites={this.state.favorites}
-            registFavorite={this.registFavorite} />
+            registerFavorite={this.registerFavorite} />
       },
       {
         name: `検索(${this.searchChannels.length})`,
@@ -445,7 +449,7 @@ class Index extends React.Component {
           <ChannelBox
             channels={this.searchChannels}
             favorites={this.state.favorites}
-            registFavorite={this.registFavorite} />
+            registerFavorite={this.registerFavorite} />
       }
     ]
     if(this.state.showGuiTab){

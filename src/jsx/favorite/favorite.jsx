@@ -54,6 +54,7 @@ class Favorite extends React.Component {
     return favorite
   }
 
+  // favoritesのリストが存在するか
   hasFavorites() {
     return (
       (this.state.favorites.length > 0)

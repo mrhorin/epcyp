@@ -14,12 +14,12 @@ export default class ChannelBox extends React.Component {
 
   constructor(props){
     super(props)
-    this.registFavorite = this.registFavorite.bind(this)
+    this.registerFavorite = this.registerFavorite.bind(this)
   }
 
   // ------------ ChannelItem ------------
-  registFavorite(favoriteIndex, channelName){
-    this.props.registFavorite(favoriteIndex, channelName)
+  registerFavorite(favoriteIndex, channelName){
+    this.props.registerFavorite(favoriteIndex, channelName)
   }
 
   render(){
@@ -27,7 +27,7 @@ export default class ChannelBox extends React.Component {
       return (
         <ChannelItem
           key={channel.key} channel={channel} favorites={this.props.favorites} fontSize={config.get('fontSize')}
-          registFavorite={this.registFavorite} />
+          registerFavorite={this.registerFavorite} />
       )
     })
     return(
