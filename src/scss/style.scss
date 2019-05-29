@@ -711,7 +711,8 @@ select{
 
 /* dark theme */
 $darktheme-base-color: #444444;
-$darktheme-btn-color: darken($darktheme-base-color, 3%);
+$darktheme-btn-default-color: darken($darktheme-base-color, 3%);
+$darktheme-btn-primary-color: #308cff;
 
 #index.dark,
 #settings.dark,
@@ -743,33 +744,44 @@ $darktheme-btn-color: darken($darktheme-base-color, 3%);
     color: #ffffff;
   }
   .toolbar-footer{
-    border-top-color: lighten($darktheme-btn-color, 20%);
+    border-top-color: lighten($darktheme-btn-default-color, 20%);
   }
   .toolbar-header{
-    border-bottom-color: lighten($darktheme-btn-color, 20%);
+    border-bottom-color: lighten($darktheme-btn-default-color, 20%);
   }
   
   .btn-default{
-    background-color: $darktheme-btn-color;
-    border-top-color: lighten($darktheme-btn-color, 10%);
-    border-right-color: lighten($darktheme-btn-color, 10%);
-    border-left-color: lighten($darktheme-btn-color, 10%);
-    border-bottom-color: lighten($darktheme-btn-color, 3%);
-    background-image: linear-gradient(to bottom, darken($darktheme-btn-color, 5%) 0%, darken($darktheme-btn-color, 10%) 100%);
+    background-color: $darktheme-btn-default-color;
+    border-color: lighten($darktheme-btn-default-color, 10%);
+    border-bottom-color: lighten($darktheme-btn-default-color, 3%);
+    background-image: linear-gradient(to bottom, darken($darktheme-btn-default-color, 5%) 0%, darken($darktheme-btn-default-color, 10%) 100%);
     color: #fdfdfd;
     .icon{
       color: #fdfdfd;
     }
   }
   .btn-default:hover{
-    background-color: darken($darktheme-btn-color, 10%);
-    background-image: linear-gradient(to bottom, darken($darktheme-btn-color, 15%) 0%, darken($darktheme-btn-color, 20%) 100%);
+    background-color: darken($darktheme-btn-default-color, 10%);
+    background-image: linear-gradient(to bottom, darken($darktheme-btn-default-color, 15%) 0%, darken($darktheme-btn-default-color, 20%) 100%);
   }
   .btn-default:active{
-    background-color: darken($darktheme-btn-color, 25%);
+    background-color: darken($darktheme-btn-default-color, 25%);
+  }
+  .btn-primary{
+    background-color: $darktheme-btn-primary-color;
+    border-color: lighten($darktheme-btn-primary-color, 10%);
+    border-bottom-color: lighten($darktheme-btn-primary-color, 3%);
+    background-image: linear-gradient(to bottom, darken($darktheme-btn-primary-color, 5%) 0%, darken($darktheme-btn-primary-color, 10%) 100%);
+  }
+  .btn-primary:hover{
+    background-color: darken($darktheme-btn-primary-color, 10%);
+    background-image: linear-gradient(to bottom, darken($darktheme-btn-primary-color, 15%) 0%, darken($darktheme-btn-primary-color, 20%) 100%);
+  }
+  .btn-primary:active{
+    background-color: darken($darktheme-btn-primary-color, 25%);
   }
   .btn-group .btn + .btn {
-    border-left-color: lighten($darktheme-btn-color, 10%);
+    border-left-color: lighten($darktheme-btn-default-color, 10%);
   }
   
   .search-group{
