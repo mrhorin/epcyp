@@ -5,8 +5,8 @@
   "main": "./dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && ./node_modules/gulp/bin/gulp.js && webpack",
-    "watch": "webpack --watch",
+    "build": "npm run clean && ./node_modules/gulp/bin/gulp.js && webpack --mode=production",
+    "watch": "webpack --watch --mode=development",
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
     "list": "npm list --depth=0",
