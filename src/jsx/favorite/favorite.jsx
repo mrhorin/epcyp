@@ -17,15 +17,6 @@ class Favorite extends React.Component {
 
   constructor(props){
     super(props)
-    this.onClickItem = this.onClickItem.bind(this)
-    this.onChangeForm = this.onChangeForm.bind(this)
-    this.onChangeTarget = this.onChangeTarget.bind(this)
-    this.onClickDelete = this.onClickDelete.bind(this)
-    this.onChangeColor = this.onChangeColor.bind(this)
-    this.add = this.add.bind(this)
-    this.onClickUp = this.onClickUp.bind(this)
-    this.onClickDown = this.onClickDown.bind(this)
-    this.save = this.save.bind(this)
     let favorite = this.getDefaultFavorite()
     favorite.name = ""
     this.state = {
@@ -42,7 +33,7 @@ class Favorite extends React.Component {
   }
 
   // お気に入り初期値ハッシュを取得
-  getDefaultFavorite(){
+  getDefaultFavorite = () => {
     let favorite = {
       name: "noname",
       pattern: "",
@@ -63,22 +54,22 @@ class Favorite extends React.Component {
   }
 
   // favoritesのリストが存在するか
-  hasFavorites() {
+  hasFavorites = () => {
     return (
       (this.state.favorites.length > 0)
     )
   }
 
-  onClickItem(index){
+  onClickItem = (index) => {
     this.setState({ current: index })
   }
 
-  onChangeForm(event, index){
+  onChangeForm = (event, index) => {
     this.state.favorites[index][event.target.name] = event.target.value
     this.setState({ favorites: this.state.favorites })
   }
 
-  onChangeTarget(target, index){
+  onChangeTarget = (target, index) => {
     // ON/OFFを切り替えて文字列をbooleanに変換
     let bool = false
     if(target.value == "true") bool = false
@@ -95,19 +86,17 @@ class Favorite extends React.Component {
     if(target.value == "true") bool = false
     if(target.value == "false") bool = true
     this.state.favorites[index][target.name] = bool
-    this.setState({
-      favorites: this.state.favorites
-    })
+    this.setState({ favorites: this.state.favorites })
   }
 
-  onChangeColor(target, index){
+  onChangeColor = (target, index) => {
     this.state.favorites[index][target.name] = target.value
     this.setState({
       favorites: this.state.favorites
     })
   }
 
-  onClickDelete(){
+  onClickDelete = () => {
     this.state.favorites.splice(this.state.current, 1)
     this.setState({
       favorites: this.state.favorites,
@@ -116,7 +105,7 @@ class Favorite extends React.Component {
   }
 
   // favoritesのcurrentを上へ移動
-  onClickUp(){
+  onClickUp = () => {
     let index = this.state.current
     if(index > 0){
       let a = this.state.favorites[index]
@@ -131,7 +120,7 @@ class Favorite extends React.Component {
   }
 
   // favoritesのcurrentを下へ移動
-  onClickDown(){
+  onClickDown = () => {
     let index = this.state.current
     if(index < this.state.favorites.length-1){
       let a = this.state.favorites[index]
@@ -146,7 +135,7 @@ class Favorite extends React.Component {
   }
 
   // お気に入りを追加
-  add(){
+  add = () => {
     let favorite = this.getDefaultFavorite()
     this.state.favorites.push(favorite)
     this.setState({
@@ -154,14 +143,14 @@ class Favorite extends React.Component {
     })
   }
 
-  save(){
+  save = () => {
     storage.set('favorites', this.state.favorites, (error)=>{
       this.close()
     })
   }
 
   // お気に入り登録ウィンドウを閉じる
-  close(){
+  close = () => {
     ipcRenderer.send('asyn-favorite-window-close')
   }
 

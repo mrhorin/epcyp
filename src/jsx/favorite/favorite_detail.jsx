@@ -56,7 +56,7 @@ export default class FavoriteDetail extends React.Component {
         </div>
         <div id="favorite-detail-colors">
           <label>色設定</label>
-          <div id="sample" style={sampleStyle}>Sample文字</div>
+          <div id="sample" style={sampleStyle}>SAMPLE文字</div>
           <input id="font-color" ref="fontColor" name="fontColor" type="hidden" value={this.props.favorite.fontColor}
            onChange={this.onChangeFontColor} />
           <button className="btn btn-mini btn-default jscolor {valueElement:'font-color',styleElement:'font-color'}" onBlur={this.onChangeFontColor}>
