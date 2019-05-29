@@ -541,13 +541,12 @@ ul.gui-connection-box{
   overflow: hidden;
   width: 100%;
   height: 350px;
-  position: relative;
   #settings-main{
     padding: 15px;
   }
   #settings-btn-group{
-    position: absolute;
-    bottom: 35px;
+    position: fixed;
+    bottom: 25px;
     right: 25px;
   }
   .tab-group{
@@ -580,6 +579,7 @@ ul.gui-connection-box{
   margin-right: 5px;
 }
 #settings-cancel{
+  margin-right: 5px;
 }
 
 /* SettingsGeneral */

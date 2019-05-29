@@ -10,24 +10,8 @@ import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsPlayer from 'jsx/settings/settings_player'
 import SettingsPeerCast from 'jsx/settings/settings_peercast'
 import SettingsYP from 'jsx/settings/settings_yp'
+
 const dialog = remote.dialog
-const config = new Config({
-  defaults: {
-    ip: '127.0.0.1',
-    port: 7144,
-    bbs: "",
-    sortKey: "listener",
-    sortOrderBy: "desc",
-    theme: 'light',
-    peercast: "",
-    exitPeercast: true,
-    useMono: false,
-    showGuiTab: false,
-    playerPath: '',
-    playerArgs: '"$x"',
-    fontSize: 13
-  }
-})
 
 class Settings extends React.Component {
 
@@ -35,17 +19,18 @@ class Settings extends React.Component {
     super(props)
     let yp = this.defaultYp
     let format = this.defaultFormat
+    this.config = new Config({ default: this.defaultSettings })
     this.state = {
-      ip: config.get('ip'),
-      port: config.get('port'),
-      bbs: config.get('bbs'),
-      sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
-      theme: config.get('theme'),
-      peercast: config.get('peercast'),
-      exitPeercast: config.get('exitPeercast'),
-      useMono: config.get('useMono'),
-      showGuiTab: config.get('showGuiTab'),
-      fontSize: config.get('fontSize'),
+      ip: this.config.get('ip'),
+      port: this.config.get('port'),
+      bbs: this.config.get('bbs'),
+      sort: { key: this.config.get('sortKey'), orderBy: this.config.get('sortOrderBy') },
+      theme: this.config.get('theme'),
+      peercast: this.config.get('peercast'),
+      exitPeercast: this.config.get('exitPeercast'),
+      useMono: this.config.get('useMono'),
+      showGuiTab: this.config.get('showGuiTab'),
+      fontSize: this.config.get('fontSize'),
       ypList: [yp],
       formatList: [format],
       currentTabIndex: 0,
@@ -66,17 +51,17 @@ class Settings extends React.Component {
 
   // 設定保存
   save = () => {
-    config.set('ip', this.state.ip)
-    config.set('port', this.state.port)
-    config.set('bbs', this.state.bbs)
-    config.set('sortKey', this.state.sort.key)
-    config.set('sortOrderBy', this.state.sort.orderBy)
-    config.set('theme', this.state.theme)
-    config.set('peercast', this.state.peercast)
-    config.set('exitPeercast', this.state.exitPeercast)
-    config.set('useMono', this.state.useMono)
-    config.set('showGuiTab', this.state.showGuiTab)
-    config.set('fontSize', this.state.fontSize)
+    this.config.set('ip', this.state.ip)
+    this.config.set('port', this.state.port)
+    this.config.set('bbs', this.state.bbs)
+    this.config.set('sortKey', this.state.sort.key)
+    this.config.set('sortOrderBy', this.state.sort.orderBy)
+    this.config.set('theme', this.state.theme)
+    this.config.set('peercast', this.state.peercast)
+    this.config.set('exitPeercast', this.state.exitPeercast)
+    this.config.set('useMono', this.state.useMono)
+    this.config.set('showGuiTab', this.state.showGuiTab)
+    this.config.set('fontSize', this.state.fontSize)
     storage.set('ypList', this.state.ypList, (error)=>{
       storage.set('formatList', this.state.formatList, (error)=>{
         this.close()
@@ -87,6 +72,36 @@ class Settings extends React.Component {
   // 設定ウィンドウを閉じる
   close = () => {
     ipcRenderer.send('asyn-settings-window-close')
+  }
+
+  // 設定の初期化
+  onClickInitialize = () => {
+    let settings = this.defaultSettings
+    if (this.state.currentTabIndex == 0) {
+      // 全般
+      this.setState({
+        bbs: settings.bbs,
+        fontSize: settings.fontSize,
+        sort: { key: settings.sortKey, orderBy: settings.sortOrderBy },
+        theme: settings.theme  
+      })      
+    } else if (this.state.currentTabIndex == 1) {
+      // PeerCast
+      this.setState({
+        port: settings.port,
+        ip: settings.ip,
+        peercast: settings.peercast,
+        useMono: settings.useMono,
+        exitPeercast: settings.exitPeercast,
+        showGuiTab: settings.showGuiTab
+      })
+    } else if (this.state.currentTabIndex == 2) {
+      // YP
+      this.setState({ ypList: [this.defaultYp] })
+    } else if (this.state.currentTabIndex == 3) {
+      // プレイヤー
+      this.setState({ formatList: [this.defaultFormat] })
+    }
   }
 
   // -------------- TabBox --------------
@@ -172,6 +187,24 @@ class Settings extends React.Component {
 
   get defaultYp(){
     return { name: "YP", url: "http://" }
+  }
+
+  get defaultSettings() {
+    return {
+      ip: '127.0.0.1',
+      port: 7144,
+      bbs: "",
+      sortKey: "listener",
+      sortOrderBy: "desc",
+      theme: 'light',
+      peercast: "",
+      exitPeercast: true,
+      useMono: false,
+      showGuiTab: false,
+      playerPath: '',
+      playerArgs: '"$x"',
+      fontSize: 13
+    }
   }
 
   // --------- SettingsYPDetail ---------
@@ -301,6 +334,7 @@ class Settings extends React.Component {
         <div id="settings-btn-group">
           <button id="settings-ok" className="btn btn-primary" onClick={this.save}>OK</button>
           <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+          <button id="settings-initialize" className="btn btn-default" onClick={this.onClickInitialize}>初期化</button>
         </div>
       </div>
     )
