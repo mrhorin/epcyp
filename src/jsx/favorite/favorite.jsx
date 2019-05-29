@@ -22,7 +22,6 @@ class Favorite extends React.Component {
     this.onChangeTarget = this.onChangeTarget.bind(this)
     this.onClickDelete = this.onClickDelete.bind(this)
     this.onChangeColor = this.onChangeColor.bind(this)
-    this.onChangeNotify = this.onChangeNotify.bind(this)
     this.add = this.add.bind(this)
     this.onClickUp = this.onClickUp.bind(this)
     this.onClickDown = this.onClickDown.bind(this)
@@ -57,7 +56,8 @@ class Favorite extends React.Component {
       },
       fontColor: "444444",
       bgColor: "ffffff",
-      notify: false
+      notify: false,
+      ignore: false
     }
     return favorite
   }
@@ -89,7 +89,7 @@ class Favorite extends React.Component {
     })
   }
 
-  onChangeNotify(target, index){
+  onChangeCheckbox = (target, index) => {
     // ON/OFFを切り替えて文字列をbooleanに変換
     let bool = false
     if(target.value == "true") bool = false
@@ -181,7 +181,7 @@ class Favorite extends React.Component {
           {
             this.hasFavorites() &&
             <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
-              onChangeNotify={this.onChangeNotify}
+              onChangeCheckbox={this.onChangeCheckbox}
               onChangeForm={this.onChangeForm} onChangeTarget={this.onChangeTarget}
               onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />            
           }

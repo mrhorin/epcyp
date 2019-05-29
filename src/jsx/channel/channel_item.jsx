@@ -142,9 +142,11 @@ export default class ChannelItem extends React.Component {
     let style = { fontSize: `${this.props.fontSize}px` }
     let nameClass = "channel-item-name"
     if (favorite) {
+      nameClass += ' channel-item-name-favorite'
       style['background'] = `#${favorite.bgColor}`
       style['color'] = `#${favorite.fontColor}`
-      nameClass += ' channel-item-name-favorite'
+      // 無視リストの時は非表示に
+      if (favorite.ignore) style['visibility'] = 'collapse'
     }
     if(this.props.channel.url) nameClass += " link"
     return(

@@ -69,10 +69,13 @@ export default class FavoriteDetail extends React.Component {
           </button>
         </div>
         <div id="favorite-detail-notify">
-          <label>通知機能</label>
+          <label>オプション</label>
           <input ref="notify" name="notify" type="checkbox" value={this.props.favorite.notify} checked={this.props.favorite.notify}
-            onChange={e=>{this.props.onChangeNotify(e.target, this.props.index)}} />
-            <span onClick={e =>{this.props.onChangeNotify(this.refs.notify, this.props.index)}}>新着時に通知する</span>
+            onChange={e=>{this.props.onChangeCheckbox(e.target, this.props.index)}} />
+            <span onClick={e =>{this.props.onChangeCheckbox(this.refs.notify, this.props.index)}}>新着時に通知</span>
+          <input ref="ignore" name="ignore" type="checkbox" value={this.props.favorite.ignore} checked={this.props.favorite.ignore}
+            onChange={e=>{this.props.onChangeCheckbox(e.target, this.props.index)}} />
+            <span onClick={e =>{this.props.onChangeCheckbox(this.refs.ignore, this.props.index)}}>無視リスト</span>
         </div>
       </div>
     )
