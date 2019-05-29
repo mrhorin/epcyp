@@ -826,13 +826,13 @@ $darktheme-btn-primary-color: #308cff;
     border-bottom-color: lighten($base, 10%);
     .tab-item{
       background-color: $base;
-      background-image: linear-gradient(to bottom, $base 0%, $base*0.82 100%);
+      background-image: linear-gradient(to bottom, $base 0%, darken($base, 5%) 100%);
       color: #ffffff;
       border-left: 1px solid lighten($base, 10%);
     }
     .tab-item.active{
       background-color: $darktheme-base-color;
-      background-image: linear-gradient(to bottom, $darktheme-base-color 0%, $darktheme-base-color*0.82 100%);
+      background-image: linear-gradient(to bottom, $darktheme-base-color*0.82 0%, $darktheme-base-color*0.82 100%);
     }
     .tab-item:hover,
     .tab-item.active:hover{
