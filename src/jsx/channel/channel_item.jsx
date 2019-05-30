@@ -9,6 +9,7 @@ export default class ChannelItem extends React.Component {
 
   constructor(props){
     super(props)
+    this.state = { hovered: false }
   }
 
   // プレイヤーで再生する
@@ -133,8 +134,39 @@ export default class ChannelItem extends React.Component {
     return res
   }
 
+  // カラーコードを暗くして返す
+  convertToDarkerColor = (color) => {
+    color = String(color)
+    // カラーコードを三原色ごとに分割
+    let rgb = {
+      r: color.slice(0, 2),
+      g: color.slice(2, 4),
+      b: color.slice(4, 6),
+    }
+    for (let key in rgb) {
+      // 10進数に変換して0.8倍
+      rgb[key] = Math.round(parseInt(rgb[key], 16) * 0.8)
+      // 16進数に戻す
+      rgb[key] = rgb[key].toString(16)
+      // 2桁に揃える
+      rgb[key] = ("00" + rgb[key]).slice(-2)
+    }
+    return rgb.r + rgb.g + rgb.b
+  }
+
+  activateHovered = () => {
+    this.setState({ hovered: true })
+  }
+
+  deactivateHovered = () => {
+    this.setState({ hovered: false })
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.channel != nextProps.channel || this.props.fontSize != nextProps.fontSize || this.props.favorites != nextProps.favorites
+    return this.props.channel != nextProps.channel ||
+      this.props.fontSize != nextProps.fontSize ||
+      this.props.favorites != nextProps.favorites ||
+      this.state.hovered != nextState.hovered
   }
 
   render() {
@@ -143,8 +175,13 @@ export default class ChannelItem extends React.Component {
     let nameClass = "channel-item-name"
     if (favorite) {
       nameClass += ' channel-item-name-favorite'
-      style['background'] = `#${favorite.bgColor}`
       style['color'] = `#${favorite.fontColor}`
+      // hover時は背景を暗くする
+      if (this.state.hovered) {
+        style['background'] = `#${this.convertToDarkerColor(favorite.bgColor)}`
+      } else {
+        style['background'] = `#${favorite.bgColor}`
+      }
       // 無視リストの時は非表示に
       if (favorite.ignore) style['visibility'] = 'collapse'
     }
@@ -153,7 +190,9 @@ export default class ChannelItem extends React.Component {
       <tr className="channel-item" style={style}
         onClick={this.onMiddleClick}
         onDoubleClick={this.play}
-        onContextMenu={this.showContextMenu}>
+        onContextMenu={this.showContextMenu}
+        onMouseEnter={this.activateHovered}
+        onMouseLeave={this.deactivateHovered}>
         <td className="channel-item-col1">
           <div className={nameClass}>{this.props.channel.name}</div>
           <div className="channel-item-detail">{this.props.channel.desc}</div>

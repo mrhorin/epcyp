@@ -838,7 +838,7 @@ $darktheme-btn-primary-color: #308cff;
     .tab-item:hover,
     .tab-item.active:hover{
       background-color: darken($darktheme-base-color, 8%);
-      background-image: none;
+      background-image: linear-gradient(to bottom, darken($darktheme-base-color, 10%) 0%, darken($darktheme-base-color, 10%) 100%);
     }
     .tab-item:first-child{
       border-left: none;
