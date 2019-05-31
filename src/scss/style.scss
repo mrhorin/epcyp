@@ -709,7 +709,6 @@ select{
   display: -webkit-inline-box !important;
 }
 
-
 /* dark theme */
 $darktheme-base-color: #444444;
 $darktheme-btn-default-color: darken($darktheme-base-color, 3%);
@@ -848,14 +847,18 @@ $darktheme-btn-primary-color: #308cff;
     background-color: darken($darktheme-base-color, 5%);
     thead{
       background-color: darken($darktheme-base-color, 5%);
-      tr>th{
-        color: #ffffff;
-        border-right: 1px solid lighten($darktheme-base-color, 15%);
-        border-bottom: 1px solid darken($darktheme-base-color, 10%);
+      tr{
+        th{
+          color: #ffffff;
+          border-right: 1px solid lighten($darktheme-base-color, 15%);
+          border-bottom: 1px solid darken($darktheme-base-color, 10%);
+        }
+        th:active{
+          background-color: darken($darktheme-base-color, 10%);
+        }
       }
-      tr>th:last-child{
-        border-right: none;
-      }
+      tr>th:last-child{ border-right: none; }
+      tr:active{ background-color: darken($darktheme-base-color, 5%); }
     }
     tbody{
       tr.channel-item{
@@ -886,3 +889,4 @@ $darktheme-btn-primary-color: #308cff;
     border-bottom: 1px solid lighten($darktheme-base-color, 5%);
   }
 }
+

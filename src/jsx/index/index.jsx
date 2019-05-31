@@ -148,21 +148,13 @@ class Index extends React.Component {
   // チャンネルを並び替えて返す
   sortChannels = (channels) => {
     let key = this.state.sort.key
-    if(this.state.sort.orderBy=='asc'){
-      // 昇順
-      return _.sortBy(channels, (item)=>{
-        // 数値化処理
-        if(key=='time') return _.toInteger(item[key].replace(/:/, ""))
-        if(key=='format') return item.getCharCode(item[key])
-        return item[key]
-      })
-    }else{
-      return _.sortBy(channels, (item)=>{
-        if(key=='time') return - _.toInteger(item[key].replace(/:/, ""))
-        if(key=='format') return - item.getCharCode(item[key])
-        return - item[key]
-      })
-    }
+    return _.orderBy(channels, (item) => {
+      // 数値化処理
+      if(key=='time') return _.toInteger(item[key].replace(/:/, ""))
+      if(key=='format') return item.getCharCode(item[key])
+      if(key=='channel') item.getCharCode(item[key])
+      return item[key]
+    }, this.state.sort.orderBy)
   }
 
   // 設定を読み込む
@@ -402,6 +394,14 @@ class Index extends React.Component {
     this.setState({ currentTabIndex: tabIndex })
   }
 
+  // ------------ ChannelBox ------------
+  changeSort = (sortKey) => {
+    let sortOrderBy = this.state.sort.orderBy == "asc" ? "desc" : "asc"
+    config.set('sortKey', sortKey)
+    config.set('sortOrderBy', sortOrderBy)
+    this.setState({ sort: { key: sortKey, orderBy: sortOrderBy } })
+  }
+
   // ------------ ChannelItem ------------
   // お気に入り登録
   registerFavorite = (favoriteIndex, channelName) => {
@@ -436,7 +436,8 @@ class Index extends React.Component {
           <ChannelBox
             channels={this.channels}
             favorites={this.state.favorites}
-            registerFavorite={this.registerFavorite} />
+            registerFavorite={this.registerFavorite}
+            changeSort={this.changeSort} />
       },
       {
         name: `お気に入り(${this.favoriteChannels.length})`,
@@ -444,7 +445,8 @@ class Index extends React.Component {
           <ChannelBox
             channels={this.favoriteChannels}
             favorites={this.state.favorites}
-            registerFavorite={this.registerFavorite} />
+            registerFavorite={this.registerFavorite}
+            changeSort={this.changeSort} />
       },
       {
         name: `検索(${this.searchChannels.length})`,
@@ -452,7 +454,8 @@ class Index extends React.Component {
           <ChannelBox
             channels={this.searchChannels}
             favorites={this.state.favorites}
-            registerFavorite={this.registerFavorite} />
+            registerFavorite={this.registerFavorite}
+            changeSort={this.changeSort} />
       }
     ]
     if(this.state.showGuiTab){

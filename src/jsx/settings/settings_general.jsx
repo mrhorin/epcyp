@@ -35,6 +35,7 @@ export default class SettingsGeneral extends React.Component {
             <option value="time">配信時間</option>
             <option value="kbps">kbps</option>
             <option value="format">フォーマット</option>
+            <option value="name">チャンネル名</option>
           </select>
           <span style={ {margin: '0px 10px'} }>で</span>
           <select ref="sortOrderBy" onChange={this.onChangeSort} value={this.props.sort.orderBy}>

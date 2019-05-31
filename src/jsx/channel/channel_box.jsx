@@ -14,11 +14,14 @@ export default class ChannelBox extends React.Component {
 
   constructor(props){
     super(props)
-    this.registerFavorite = this.registerFavorite.bind(this)
+  }
+
+  onChangeSort = (sortKey) => {
+    this.props.changeSort(sortKey)
   }
 
   // ------------ ChannelItem ------------
-  registerFavorite(favoriteIndex, channelName){
+  registerFavorite = (favoriteIndex, channelName) => {
     this.props.registerFavorite(favoriteIndex, channelName)
   }
 
@@ -34,9 +37,9 @@ export default class ChannelBox extends React.Component {
       <table>
         <thead>
           <tr>
-            <th className="channel-box-col1">チャンネル詳細</th>
-            <th className="channel-box-col2">リスナー</th>
-            <th className="channel-box-col3">kbps</th>
+            <th className="channel-box-col1" onClick={() => this.onChangeSort("name")}>チャンネル詳細</th>
+            <th className="channel-box-col2" onClick={() => this.onChangeSort("listener")}>リスナー</th>
+            <th className="channel-box-col3" onClick={() => this.onChangeSort("kbps")}>kbps</th>
           </tr>
         </thead>
         <tbody>
