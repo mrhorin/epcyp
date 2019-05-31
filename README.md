@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/mrhorin/epcyp/master/LICENSE)  
   
 macOSやLinux環境でも動作するpeercastチャンネルビューワー  
-<img src="https://user-images.githubusercontent.com/6502717/58602945-c2d09e00-82c9-11e9-9671-bc871ea0ff36.png" width="600px" height="atuo" />
+<img src="https://user-images.githubusercontent.com/6502717/58675620-173e5100-8390-11e9-8d81-ee112bf2490e.png" width="600px" height="atuo" />
 ## ダウンロード
 [epcyp v1.3.0 for macOS](https://github.com/mrhorin/epcyp/releases/download/v1.3.0/epcyp_v1.3.0_macos.zip)  
 [epcyp v1.3.0 for Linux](https://github.com/mrhorin/epcyp/releases/download/v1.3.0/epcyp_v1.3.0_linux.zip)
