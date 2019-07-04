@@ -83,8 +83,8 @@ class Settings extends React.Component {
         bbs: settings.bbs,
         fontSize: settings.fontSize,
         sort: { key: settings.sortKey, orderBy: settings.sortOrderBy },
-        theme: settings.theme  
-      })      
+        theme: settings.theme
+      })
     } else if (this.state.currentTabIndex == 1) {
       // PeerCast
       this.setState({
@@ -203,7 +203,7 @@ class Settings extends React.Component {
       showGuiTab: false,
       playerPath: '',
       playerArgs: '"$x"',
-      fontSize: 13
+      fontSize: 12
     }
   }
 
@@ -293,7 +293,7 @@ class Settings extends React.Component {
         name: "PeerCast",
         component:
           <SettingsPeerCast
-            ip={this.state.ip} port={this.state.port}  
+            ip={this.state.ip} port={this.state.port}
             peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
             useMono={this.state.useMono} showGuiTab={this.state.showGuiTab}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
