@@ -1,5 +1,5 @@
 $col1-widrh: auto;
-$col2-widrh: 65px;
+$col2-widrh: 60px;
 $col3-widrh: 40px;
 
 $link-color: #0800ff;
@@ -43,7 +43,15 @@ body::-webkit-scrollbar{
     top: 29px;
   }
   table{
-    margin-bottom: 22px
+    margin-bottom: 22px;
+    thead{
+      position: fixed;
+      display: block;
+    }
+    tbody{
+      margin-top: 19px;
+      display: block;
+    }
   }
 }
 #index.darwin{
@@ -213,7 +221,14 @@ footer{
 }
 
 /* ChannelBox */
+thead{
+  width: 100%;
+  tr{
+    display: flex;
+  }
+}
 th.channel-box-col1{
+  order: 1;
   color: #000;
   font-size: 11px;
   line-height: 18px;
@@ -222,20 +237,26 @@ th.channel-box-col1{
   padding: 0px 10px;
 }
 th.channel-box-col2{
+  order: 2;
   color: #000;
   font-size: 11px;
   line-height: 18px;
   box-sizing: border-box;
-  max-width: $col2-widrh;
-  padding: 0px 5px;
+  min-width: $col2-widrh;
+  padding: 0px;
+  padding-right: 3px;
+  text-align: right;
 }
 th.channel-box-col3{
+  order: 3;
   color: #000;
   font-size: 11px;
   line-height: 18px;
   box-sizing: border-box;
-  max-width: $col3-widrh;
-  padding: 0px 5px;
+  min-width: $col3-widrh;
+  padding: 0px;
+  padding-right: 8px;
+  text-align: right;
 }
 
 /* ChannelItem */
@@ -276,13 +297,13 @@ td.channel-item-col1{
 }
 td.channel-item-col2{
   box-sizing: border-box;
-  max-width: $col2-widrh;
-  padding: 2px 5px;
+  width: $col2-widrh;
+  padding: 2px 3px;
   text-align: right;
 }
 td.channel-item-col3{
   box-sizing: border-box;
-  max-width: $col3-widrh;
+  width: $col3-widrh;
   padding: 2px 8px 2px 4px;
   text-align: right;
 }
@@ -736,7 +757,7 @@ $darktheme-btn-primary-color: #308cff;
       color: #fff;
     }
   }
-  
+
   .toolbar{
     background-color: $darktheme-base-color;
     background-image: linear-gradient(to bottom, $darktheme-base-color 0%, $darktheme-base-color*0.82 100%);
@@ -749,7 +770,7 @@ $darktheme-btn-primary-color: #308cff;
   .toolbar-header{
     border-bottom-color: lighten($darktheme-btn-default-color, 20%);
   }
-  
+
   .btn-default{
     background-color: $darktheme-btn-default-color;
     border-color: lighten($darktheme-btn-default-color, 10%);
@@ -783,7 +804,7 @@ $darktheme-btn-primary-color: #308cff;
   .btn-group .btn + .btn {
     border-left-color: lighten($darktheme-btn-default-color, 10%);
   }
-  
+
   .search-group{
     $base: #222222;
     input#search-word[type="text"]{
@@ -871,7 +892,7 @@ $darktheme-btn-primary-color: #308cff;
       tr.channel-item:nth-child(even):active{
         background-color: darken($darktheme-base-color, 20%);
       }
-    }    
+    }
   }
 }
 
