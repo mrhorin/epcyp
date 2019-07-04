@@ -391,7 +391,9 @@ class Index extends React.Component {
 
   // -------------- TabBox --------------
   selectTab = (tabIndex) => {
-    this.setState({ currentTabIndex: tabIndex })
+    if (this.state.currentTabIndex != tabIndex) {
+      this.setState({ currentTabIndex: tabIndex })
+    }
   }
 
   // ------------ ChannelBox ------------
