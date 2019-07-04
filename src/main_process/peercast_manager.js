@@ -1,4 +1,5 @@
-import {spawn, execSync} from 'child_process'
+import { dialog } from 'electron'
+import { spawn, execSync } from 'child_process'
 import Config from 'electron-config'
 import fixPath from 'fix-path'
 
@@ -21,29 +22,22 @@ export default class PeercastManager{
     this.peercastPath = this.config.get('peercast')
   }
 
-  start(call=()=>{}){
-    if(this.peercastPath&&!this.checkStarted()){
-      try{
-        if(this.config.get('useMono')){
-          this.peercast = spawn('mono', [this.peercastPath])
-        }else{
-          this.peercast = spawn(this.peercastPath, [])
-        }
-      }catch(e){
-        console.log(e)
-      }
-      call()
+  async start() {
+    if (this.peercastPath && !this.checkStarted()) {
+      this.peercast = this.config.get('useMono') ? (
+        spawn('mono', [this.peercastPath])
+      ) : (
+        spawn(this.peercastPath, [])
+      )
+      this.peercast.on('error', (err) => {
+        dialog.showErrorBox('PeerCast本体の起動失敗', `${err}`)
+      })
     }
   }
 
-  stop(call=()=>{}){
-    if(this.config.get('exitPeercast')&&this.peercast){
-      try{
-        this.peercast.kill()
-      }catch(e){
-        console.log(e)
-      }
-      call()
+  stop(){
+    if (this.config.get('exitPeercast') && this.peercast) {
+      this.peercast.kill()
     }
   }
 

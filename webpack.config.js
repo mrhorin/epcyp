@@ -7,7 +7,7 @@ module.exports = {
     'epcyp': './src/jsx/index/index.jsx',
     'settings': './src/jsx/settings/settings.jsx',
     'favorite': './src/jsx/favorite/favorite.jsx',
-    'main': './src/main_process/main.js'
+    'main': ['@babel/polyfill', './src/main_process/main.js']
   },
   output: {
     path: path.resolve('dist'),
