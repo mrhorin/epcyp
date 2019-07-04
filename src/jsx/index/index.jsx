@@ -164,12 +164,15 @@ class Index extends React.Component {
       // ソート
       let sort = { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') }
       let theme = config.get('theme')
-      let ypList = []
-      if(Object.keys(data).length != 0){
-        ypList = data.map((yp, index)=>{
-          return new YP(yp.name, yp.url)
-        })
+      if (Object.keys(data).length == 0) {
+        data = [
+          { name: "SP", url: "http://bayonet.ddo.jp/sp/" },
+          { name: "TP", url: "http://temp.orz.hm/yp/" }
+        ]
       }
+      let ypList = data.map((yp, index)=>{
+        return new YP(yp.name, yp.url)
+      })
       this.setState({
         sort: sort,
         theme: theme,

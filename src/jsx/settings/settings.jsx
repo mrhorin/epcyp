@@ -2,7 +2,6 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {ipcRenderer} from "electron"
 import {remote} from 'electron'
-import css from "scss/style"
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import TabBox from 'jsx/tab/tab_box'
@@ -17,7 +16,6 @@ class Settings extends React.Component {
 
   constructor(props){
     super(props)
-    let yp = this.defaultYp
     let format = this.defaultFormat
     this.config = new Config({ default: this.defaultSettings })
     this.state = {
@@ -31,19 +29,27 @@ class Settings extends React.Component {
       useMono: this.config.get('useMono'),
       showGuiTab: this.config.get('showGuiTab'),
       fontSize: this.config.get('fontSize'),
-      ypList: [yp],
+      ypList: [],
       formatList: [format],
       currentTabIndex: 0,
       currentYpIndex: 0,
       currentFormatIndex: 0
     }
-    storage.get('ypList', (error, data)=>{
+    storage.get('ypList', (error, data) => {
+      console.log(data)
       if(Object.keys(data).length != 0){
         this.setState({ ypList: data })
+      } else {
+        this.setState({
+          ypList: [
+            { name: "SP", url: "http://bayonet.ddo.jp/sp/" },
+            { name: "TP", url: "http://temp.orz.hm/yp/" }
+          ]
+        })
       }
     })
-    storage.get('formatList', (error, data)=>{
-      if(Object.keys(data).length != 0){
+    storage.get('formatList', (error, data) => {
+      if (Object.keys(data).length != 0) {
         this.setState({ formatList: data })
       }
     })
@@ -97,7 +103,7 @@ class Settings extends React.Component {
       })
     } else if (this.state.currentTabIndex == 2) {
       // YP
-      this.setState({ ypList: [this.defaultYp] })
+      this.setState({ ypList: [] })
     } else if (this.state.currentTabIndex == 3) {
       // プレイヤー
       this.setState({ formatList: [this.defaultFormat] })
