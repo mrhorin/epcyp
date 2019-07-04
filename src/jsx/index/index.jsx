@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {ipcRenderer} from 'electron'
-import {shell} from 'electron'
+import { ipcRenderer } from 'electron'
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
 import moment from 'moment'
@@ -302,19 +301,17 @@ class Index extends React.Component {
 
   // 更新処理を開始
   startUpdateTimer = () => {
-    this.updateTimerId = setInterval(()=>{
-      Promise.all([
-        this.updateRelays(),
-        this.updateStatus(),
-        this.updateCount()
-      ]).then((values)=>{
-        this.setState({
-          relays: values[0].result,
-          status: values[1].result,
-          autoUpdateCount: values[2]
+    this.updateTimerId = setInterval(() => {
+      if (this.state.showGuiTab) {
+        this.updateRelaysPromise.then((relays) => {
+          this.setState({ relays: relays })
         })
-      }).catch((err)=>{
-        console.log(err)
+        this.updateStatusPromise.then((status) => {
+          this.setState({ status: status })
+        })
+      }
+      this.updateCountPromise.then((count) => {
+        this.setState({ autoUpdateCount: count })
       })
     }, 1000)
   }
@@ -325,9 +322,9 @@ class Index extends React.Component {
   }
 
   // 自動更新カウントを更新
-  updateCount = () => {
+  get updateCountPromise() {
     return new Promise((resolve, reject)=>{
-      if(this.state.isAutoUpdate&&this.state.updateStatus=='wait'){
+      if (this.state.isAutoUpdate && this.state.updateStatus == 'wait') {
         // 自動更新ON時の処理
         if(this.state.autoUpdateCount < 1){
           this.fetchIndexTxt()
@@ -343,7 +340,7 @@ class Index extends React.Component {
   }
 
   // リレー情報の更新
-  updateRelays = () => {
+  get updateRelaysPromise() {
     return new Promise((resolve, reject)=>{
       Peercast.getChannels((err, res)=>{
         if(res && res.status == 200 && !res.error && res.text){
@@ -356,7 +353,7 @@ class Index extends React.Component {
     })
   }
 
-  updateStatus = () => {
+  get updateStatusPromise() {
     return new Promise((resolve, reject)=>{
       Peercast.getStatus((err, res)=>{
         if(res && res.status == 200 && !res.error && res.text){
