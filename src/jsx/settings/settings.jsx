@@ -1,9 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import {ipcRenderer} from "electron"
-import {remote} from 'electron'
+import { ipcRenderer, remote } from 'electron'
 import Config from 'electron-config'
 import storage from 'electron-json-storage'
+
 import TabBox from 'jsx/tab/tab_box'
 import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsPlayer from 'jsx/settings/settings_player'
@@ -36,7 +36,6 @@ class Settings extends React.Component {
       currentFormatIndex: 0
     }
     storage.get('ypList', (error, data) => {
-      console.log(data)
       if(Object.keys(data).length != 0){
         this.setState({ ypList: data })
       } else {
@@ -192,18 +191,18 @@ class Settings extends React.Component {
   }
 
   get defaultYp(){
-    return { name: "YP", url: "http://" }
+    return { name: 'YP', url: 'https://' }
   }
 
   get defaultSettings() {
     return {
       ip: '127.0.0.1',
       port: 7144,
-      bbs: "",
-      sortKey: "listener",
-      sortOrderBy: "desc",
+      bbs: '',
+      sortKey: 'listener',
+      sortOrderBy: 'desc',
       theme: 'light',
-      peercast: "",
+      peercast: '',
       exitPeercast: true,
       useMono: false,
       showGuiTab: false,
