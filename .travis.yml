@@ -1,12 +1,12 @@
 sudo: false
 language: node_js
 node_js:
+  - 10
+  - 11
+  - 12
   - 'stable'
   - 'lts/*'
 install:
-  - npm install
-  - npm install -g gulp
-  - npm install -g webpack
-  - npm install -g electron
+  - yarn install
 script:
-  - npm run build
+  - yarn run build
