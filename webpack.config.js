@@ -54,13 +54,6 @@ module.exports = {
         }
       },
       {
-        test: /\.jade$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'jade-loader'
-        }
-      },
-      {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [

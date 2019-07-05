@@ -5,7 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && ./node_modules/gulp/bin/gulp.js && webpack --mode=production",
+    "build": "gulp clean && gulp pug && webpack --mode=production",
     "watch": "webpack --watch --mode=development",
     "clean": "./node_modules/gulp/bin/gulp.js clean",
     "start": "electron ./dist/main.js",
@@ -30,11 +30,8 @@
     "electron-packager": "^14.0.1",
     "file-loader": "^4.0.0",
     "gulp": "^4.0.2",
-    "gulp-jade": "^1.1.0",
     "gulp-plumber": "^1.2.1",
-    "jade": "^1.11.0",
-    "jade-loader": "^0.8.0",
-    "node-sass": "^4.12.0",
+    "gulp-pug": "^4.0.1",
     "resolve-url-loader": "^3.1.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
@@ -50,9 +47,10 @@
     "jscolor-picker": "^2.0.4",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
+    "node-sass": "^4.12.0",
     "photonkit": "^0.1.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "superagent": "^5.0.5"
+    "superagent": "^5.1.0"
   }
 }

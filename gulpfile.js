@@ -1,19 +1,19 @@
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
-var jade = require("gulp-jade");
+var pug = require("gulp-pug");
 var del = require('del');
 var packager = require('electron-packager');
 var package = require("./package.json");
 
 gulp.task('watch', function(){
-  gulp.watch(['src/jade/**/*.jade'], ['jade']);
+  gulp.watch(['src/pug/**/*.pug'], ['pug']);
 });
 
-// jadeコンパイル
-gulp.task('jade', function(cb){
-  gulp.src('src/jade/**/*.jade')
+// pugコンパイル
+gulp.task('pug', function(cb){
+  gulp.src('src/pug/**/*.pug')
     .pipe(plumber())
-    .pipe(jade({
+    .pipe(pug({
       pretty: true
     }))
     .pipe(gulp.dest('dist/'));
@@ -26,7 +26,7 @@ gulp.task('clean', function(cb) {
   cb();
 });
 
-gulp.task('default', gulp.series('jade', function (cb) {
+gulp.task('default', gulp.series('pug', function (cb) {
   cb();
 }));
 
