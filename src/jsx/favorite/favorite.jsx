@@ -45,10 +45,11 @@ class Favorite extends React.Component {
         url: false,
         tip: false
       },
-      fontColor: "444444",
+      fontColor: "222222",
       bgColor: "ffffff",
-      notify: false,
-      ignore: false
+      isNotify: false,
+      isIgnore: false,
+      isDisableColor: false
     }
     return favorite
   }
@@ -172,7 +173,7 @@ class Favorite extends React.Component {
             <FavoriteDetail index={this.state.current} favorite={this.state.favorites[this.state.current]}
               onChangeCheckbox={this.onChangeCheckbox}
               onChangeForm={this.onChangeForm} onChangeTarget={this.onChangeTarget}
-              onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />            
+              onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />
           }
           <div id="favorite-btn-group">
             <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>OK</button>
