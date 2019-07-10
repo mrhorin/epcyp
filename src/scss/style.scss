@@ -1,4 +1,4 @@
-$col1-widrh: auto;
+$col1-widrh: 100vh;
 $col2-widrh: 60px;
 $col3-widrh: 40px;
 
@@ -272,7 +272,7 @@ tr.channel-item:hover{
   @extend .hover-item;
 }
 td.channel-item-col1{
-  max-width: 100%;
+  width: $col1-widrh;
   padding: 4px 0px 4px 8px;
   .channel-item-name{
     font-weight: bold;
