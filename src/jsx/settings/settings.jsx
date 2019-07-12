@@ -337,9 +337,9 @@ class Settings extends React.Component {
           {currentComponent}
         </div>
         <div id="settings-btn-group">
-          <button id="settings-ok" className="btn btn-primary" onClick={this.save}>OK</button>
-          <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
           <button id="settings-initialize" className="btn btn-default" onClick={this.onClickInitialize}>初期化</button>
+          <button id="settings-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+          <button id="settings-ok" className="btn btn-primary" onClick={this.save}>保存</button>
         </div>
       </div>
     )

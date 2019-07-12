@@ -506,10 +506,10 @@ ul.gui-connection-box{
   // margin-top: 15px;
   // text-align: right;
 }
-#favorite-ok{
+#favorite-cancel{
   margin-right: 5px;
 }
-#favorite-cancel{
+#favorite-ok{
 }
 
 /* FavoriteDetail */
@@ -597,11 +597,13 @@ ul.gui-connection-box{
     margin-right: 5px;
   }
 }
-#settings-ok{
+#settings-initialize{
   margin-right: 5px;
 }
 #settings-cancel{
   margin-right: 5px;
+}
+#settings-ok{
 }
 
 /* SettingsGeneral */

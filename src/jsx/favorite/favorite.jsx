@@ -176,8 +176,8 @@ class Favorite extends React.Component {
               onClickDelete={this.onClickDelete} onChangeColor={this.onChangeColor} />
           }
           <div id="favorite-btn-group">
-            <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>OK</button>
             <button id="favorite-cancel" className="btn btn-default" onClick={this.close}>キャンセル</button>
+            <button id="favorite-ok" className="btn btn-primary" onClick={this.save}>保存</button>
           </div>
         </div>
       </div>
