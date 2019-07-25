@@ -185,15 +185,31 @@ app.on('window-all-closed', ()=>{
 -----------------------------------------*/
 // ------- index.txtを取得して返す -------
 ipcMain.on('asyn-yp', (event, ypList)=>{
-  let asyns = ypList.map((yp)=>{
-    return getAsyn(yp.url+'index.txt')
+  let getChannelsPromises = ypList.map((yp) => {
+    return new Promise((resolve, reject)=>{
+      request.get(yp.url + 'index.txt').timeout(15000).end((err, res) => {
+        if (res && res.status == 200 && !res.error) {
+          resolve(res)
+        } else {
+          reject(err)
+        }
+      })
+    })
   })
-  Promise.all(asyns).then((values)=>{
-    event.sender.send('asyn-yp-reply', values)
-  }).catch((err)=>{
-    console.log(err)
-    event.sender.send('asyn-yp-reply', [])
-  })
+  let values = []
+  getChannelsPromises.reduce((current, next, currentIndex, array) => {
+    let p = current.then(() => { return next })
+    p.then((res) => {
+      values.push(res)
+    }).catch((err) => {
+      console.log(err)
+    }).finally(() => {
+      if (currentIndex == array.length - 1) {
+        event.sender.send('asyn-yp-reply', values)
+      }
+    })
+    return p
+  }, Promise.resolve())
 })
 
 // ---------- 再生プレイヤーの起動 ----------
@@ -317,19 +333,6 @@ const closeSettingsWindow = ()=>{
   systemPreferences.setAppLevelAppearance(config.get('theme'))
   window.main.setIgnoreMouseEvents(false)
   window.main.send('asyn-settings-window-close-reply')
-}
-
-// Promiseでsuperagent.get
-const getAsyn = (url)=>{
-  return new Promise((resolve, reject)=>{
-    request.get(url).timeout(15000).end((err,res)=>{
-      if(res && res.status == 200 && !res.error){
-        resolve(res)
-      }else{
-        reject(err)
-      }
-    })
-  })
 }
 
 // window.mainの中心の相対座標を取得
