@@ -46,7 +46,7 @@
     "electron-json-storage": "^4.1.6",
     "fix-path": "^2.1.0",
     "jscolor-picker": "^2.0.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "photonkit": "^0.1.2",
     "react": "^16.8.6",
