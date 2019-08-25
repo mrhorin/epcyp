@@ -8,5 +8,8 @@ node_js:
   - 'lts/*'
 install:
   - yarn install
+dist: trusty
+sudo: false
+cache: yarn
 script:
   - yarn run build
