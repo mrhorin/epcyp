@@ -1,12 +1,13 @@
 # epcyp
 [![Build Status](https://travis-ci.org/mrhorin/epcyp.svg?branch=master)](https://travis-ci.org/mrhorin/epcyp)
-[![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/mrhorin/epcyp/master/LICENSE)  
-  
-macOSやLinux環境でも動作するpeercastチャンネルビューワー  
+[![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/mrhorin/epcyp/master/LICENSE)
+
+macOSやLinux環境でも動作するpeercastチャンネルビューワー
 <img src="https://user-images.githubusercontent.com/6502717/58675620-173e5100-8390-11e9-8d81-ee112bf2490e.png" width="600px" height="atuo" />
 ## ダウンロード
-[epcyp v1.3.0 for macOS](https://github.com/mrhorin/epcyp/releases/download/v1.3.0/epcyp_v1.3.0_macos.zip)  
-[epcyp v1.3.0 for Linux](https://github.com/mrhorin/epcyp/releases/download/v1.3.0/epcyp_v1.3.0_linux.zip)
+[epcyp v1.3.1 for macOS](https://github.com/mrhorin/epcyp/releases/download/v1.3.1/epcyp_v1.3.1_macos.zip)
+
+[epcyp v1.3.1 for Linux](https://github.com/mrhorin/epcyp/releases/download/v1.3.1/epcyp_v1.3.1_linux.zip)
 
 ## 特徴
 - クロスプラットフォーム
@@ -23,11 +24,12 @@ macOSやLinux環境でも動作するpeercastチャンネルビューワー
 1. 「monoを使用して起動する」にチェックを入れる
 1. プレイヤータブに移動する
 1. 「再生プレイヤー」でお好みのプレイヤーを指定（おすすめは[VLC](https://www.videolan.org/vlc/index.ja.html) ）__[[^2]](#2)__
-1. OKを押して設定を保存してからepcypを再起動  
-  
-BBSブラウザに[epcviewer](https://github.com/mrhorin/epcviewer)を使用すると掲示板の閲覧や書き込みがしやすくなります。  
-  
-<small id="1">[^1]: PeerCastStationのポート自動開放機能で開放できる場合はこの手順は不要です。</small>  
+1. 保存を押して設定を保存してからepcypを再起動
+
+BBSブラウザに[epcviewer](https://github.com/mrhorin/epcviewer)を使用すると掲示板の閲覧や書き込みがしやすくなります。
+
+<small id="1">[^1]: PeerCastStationのポート自動開放機能で開放できる場合はこの手順は不要です。</small>
+
 <small id="2">[^2]: VLCを使用する場合は「引数」に`"$x" --input-title-format "$0"`を指定するとプレイヤータイトルにチャンネル名が表示されるようになります。</small>
 ## 開発
 - パッケージ化(macOS): `npm run release:darwin`
