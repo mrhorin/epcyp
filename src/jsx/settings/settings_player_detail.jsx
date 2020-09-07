@@ -60,7 +60,7 @@ export default class SettingsPlayerDetail extends React.Component {
           onChange={e => this.props.onChangeFormat(e.target.value, 'name')} />
         {/*再生プレイヤー*/}
         <FormDialog label={"再生プレイヤー"} value={this.props.format.player}
-          onChange={e => this.props.onChangeFormat(e, 'player')}
+          onChange={e => this.props.onChangeFormat(e.target.value, 'player')}
           onClick={e => this.props.onClickDialog(e, this.props.index)} />
         {/*引数*/}
         <div id="settings-player-args" className="form-group">
