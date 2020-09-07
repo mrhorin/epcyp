@@ -1,4 +1,4 @@
-import request from 'superagent'
+import request from 'axios'
 import Config from 'electron-config'
 
 const config = new Config({ defaults: { port: 7144 } })
@@ -11,22 +11,22 @@ export default class Peercaststation{
 
   // 切断
   static stopChannel(channelId, call=()=>{}){
-    this.postRequest('stopChannel', { channelId: channelId }, (err, res)=>{
-      call(err, res)
+    this.postRequest('stopChannel', { channelId: channelId }, (res)=>{
+      call(res)
     })
   }
 
   // 再接続
   static bumpChannel(channelId, call=()=>{}){
-    this.postRequest('bumpChannel', { channelId: channelId }, (err, res)=>{
-      call(err, res)
+    this.postRequest('bumpChannel', { channelId: channelId }, (res)=>{
+      call(res)
     })
   }
 
   // 接続一覧を取得
   static getChannelConnections(channelId, call=()=>{}){
-    this.postRequest('getChannelConnections', { channelId: channelId }, (err, res)=>{
-      call(err, res)
+    this.postRequest('getChannelConnections', { channelId: channelId }, (res)=>{
+      call(res)
     })
   }
 
@@ -35,28 +35,28 @@ export default class Peercaststation{
     this.postRequest(
       'stopChannelConnection',
       { channelId: channelId, connectionId: connectionId },
-      (err, res)=>{ call(err, res) }
+      (res)=>{ call(res) }
     )
   }
 
   // リレツリーを取得
   static getChannelRelayTree(channelId, call=()=>{}){
-    this.postRequest('getChannelRelayTree', { channelId: channelId }, (err, res)=>{
-      call(err, res)
+    this.postRequest('getChannelRelayTree', { channelId: channelId }, (res)=>{
+      call(res)
     })
   }
 
   // PeerCast本体に関するステータスを取得
   static getStatus(call=()=>{}){
-    this.postRequest('getStatus', null, (err, res)=>{
-      call(err, res)
+    this.postRequest('getStatus', null, (res)=>{
+      call(res)
     })
   }
 
   // チャンネル情報一覧を取得
   static getChannels(call=()=>{}){
-    this.postRequest('getChannels', null, (err, res)=>{
-      call(err, res)
+    this.postRequest('getChannels', null, (res)=>{
+      call(res)
     })
   }
 
@@ -67,14 +67,21 @@ export default class Peercaststation{
       id: this.getRandomId,
       method: method
     }
-    if(params) json.params = params
-    request.post(this.API_URL).send(JSON.stringify(json))
-      .set('X-Requested-With', 'XMLHttpRequest')
-      .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
-      .timeout(3000)
-      .end((err, res)=>{
-        call(err, res)
-      })
+    if (params) json.params = params
+    request.post(
+      this.API_URL,
+      JSON.stringify(json),
+      {
+        headers:       {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      }
+    ).then((res) => {
+      call(res)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   static get API_URL(){

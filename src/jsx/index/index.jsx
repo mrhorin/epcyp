@@ -342,12 +342,11 @@ class Index extends React.Component {
   // リレー情報の更新
   get updateRelaysPromise() {
     return new Promise((resolve, reject)=>{
-      Peercast.getChannels((err, res)=>{
-        if(res && res.status == 200 && !res.error && res.text){
-          let json = JSON.parse(res.text)
-          resolve(json)
+      Peercast.getChannels((res) => {
+        if (res && res.status == 200 && res.data) {
+          resolve(res.data)
         }else{
-          reject(err)
+          reject()
         }
       })
     })
@@ -355,12 +354,11 @@ class Index extends React.Component {
 
   get updateStatusPromise() {
     return new Promise((resolve, reject)=>{
-      Peercast.getStatus((err, res)=>{
-        if(res && res.status == 200 && !res.error && res.text){
-          let json = JSON.parse(res.text)
-          resolve(json)
+      Peercast.getStatus((res)=>{
+        if (res && res.status == 200 && res.data) {
+          resolve(res.data)
         }else{
-          reject(err)
+          reject()
         }
       })
     })

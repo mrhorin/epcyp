@@ -1,6 +1,6 @@
 import {systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
 import {exec, execSync} from 'child_process'
-import request from 'superagent'
+import request from 'axios'
 import Config from 'electron-config'
 
 import TrayManager from 'main_process/tray_manager'
@@ -188,18 +188,19 @@ app.on('window-all-closed', ()=>{
 ipcMain.on('asyn-yp', (event, ypList) => {
   let getChannelsPromises = ypList.map((yp) => {
     return new Promise((resolve, reject) => {
-      request.get(yp.url + 'index.txt').timeout(15000).end((err, res) => {
-        if (res && res.status == 200 && !res.error) {
+      request.get(yp.url + 'index.txt', { timeout: 15000 })
+        .then((res) => {
           resolve(res)
-        } else {
+        })
+        .catch((err) => {
+          console.log(err)
           reject(err)
-        }
-      })
+        })
     })
   })
   Promise.all(getChannelsPromises).then((responses) => {
     let channels = responses.map((res) => {
-      return { txt: res.text, url: res.request.url }
+      return { txt: res.data, url: res.config.url }
     })
     event.sender.send('asyn-yp-reply', channels)
   }).catch((e) => {

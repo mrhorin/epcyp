@@ -34,11 +34,10 @@ export default class GuiItem extends React.Component{
 
   // 接続一覧の更新を開始
   startUpdateConnections(call=()=>{}){
-    Peercast.getChannelConnections(this.props.relay.channelId, (err, res)=>{
+    Peercast.getChannelConnections(this.props.relay.channelId, (res)=>{
       let connections = []
-      if(res && res.status == 200 && !res.error && res.text){
-        let json = JSON.parse(res.text)
-        if(json.result) connections = json.result
+      if (res && res.status == 200 && res.data) {
+        if(res.data.result) connections = res.data.result
       }
       if(this._isMounted){
         this.setState({ connections: connections })

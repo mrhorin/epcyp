@@ -42,6 +42,7 @@
     "webpack-notifier": "^1.8.0"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "electron-config": "^2.0.0",
     "electron-json-storage": "^4.1.6",
     "fix-path": "^2.1.0",
@@ -50,7 +51,6 @@
     "moment": "^2.24.0",
     "photonkit": "^0.1.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "superagent": "^5.1.0"
+    "react-dom": "^16.8.6"
   }
 }

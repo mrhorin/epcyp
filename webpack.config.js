@@ -30,7 +30,7 @@ module.exports = {
     'fs',
     'ipc',
     'child_process',
-    'superagent',
+    'axios',
     'electron-config',
     'electron-json-storage',
     'electron-load-devtool',
