@@ -46,7 +46,7 @@ export default class Plsyer{
 
   // 再生用引数を取得
   getPlayArgs(args){
-    let res = ""
+    let res = args
     let variables = {
       "$x": this.playListURL,
       "$y": this.streamURL,
@@ -62,14 +62,9 @@ export default class Plsyer{
       "$9": this.channel.format
     }
     // 変数を置換
-    for (let arg of args.split(/\s/)) {
-      if (variables[arg.replace(/(")/gm, "")]) {
-        res += `'${variables[arg.replace(/(")/gm, "")]}' `
-      } else {
-        res += `${arg} `
-      }
+    for (let key in variables) {
+      res = res.replace(key, variables[key])
     }
-    console.log(res)
     return res
   }
 
