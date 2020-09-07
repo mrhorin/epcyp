@@ -12,11 +12,7 @@ export default class SettingsPlayerDetail extends React.Component {
   }
 
   set arg(value){
-    if(this.textArgs.value){
-      this.textArgs.value += ` ${value}`
-    }else{
-      this.textArgs.value = value
-    }
+    this.textArgs.value += value
     this.props.onChangeFormat(this.textArgs.value, 'args')
   }
 
