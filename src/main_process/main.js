@@ -215,8 +215,8 @@ ipcMain.on('asyn-yp', (event, ypList)=>{
 // ---------- 再生プレイヤーの起動 ----------
 ipcMain.on('asyn-play', (event, player, args) =>{
   let command
-  if(global.process.platform=='darwin'){
-    // Macの場合はopenコマンドで実行
+  if (global.process.platform == 'darwin' && player.match(/.+\.app$/)) {
+    // macOSでAPP形式の場合はopenコマンドで実行
     command = `open -a ${player} -n --args ${args}`
   }else{
     command = `${player} ${args}`
