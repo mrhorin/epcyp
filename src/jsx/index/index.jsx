@@ -51,7 +51,7 @@ class Index extends React.Component {
     // index.txtを取得時
     ipcRenderer.on('asyn-yp-reply', (event, responses) => {
       let newChannels = _.flattenDeep(responses.map((res)=>{
-        return this.state.ypList[0].parseIndexTxt(res.text, res.request.url)
+        return this.state.ypList[0].parseIndexTxt(res.txt, res.url)
       }))
       if(newChannels.length>0){
         this.setChannels(newChannels, (newChannel)=>{

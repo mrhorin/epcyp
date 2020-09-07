@@ -151,6 +151,7 @@ app.on('ready', ()=>{
     icon: `${__dirname}/../src/img/icon/icon_1024x1024.png`,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
     }
   })
   window.main.loadURL(`file://${__dirname}/index.html`)
@@ -184,9 +185,9 @@ app.on('window-all-closed', ()=>{
   イベントをバインド
 -----------------------------------------*/
 // ------- index.txtを取得して返す -------
-ipcMain.on('asyn-yp', (event, ypList)=>{
+ipcMain.on('asyn-yp', (event, ypList) => {
   let getChannelsPromises = ypList.map((yp) => {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       request.get(yp.url + 'index.txt').timeout(15000).end((err, res) => {
         if (res && res.status == 200 && !res.error) {
           resolve(res)
@@ -196,20 +197,15 @@ ipcMain.on('asyn-yp', (event, ypList)=>{
       })
     })
   })
-  let values = []
-  getChannelsPromises.reduce((current, next, currentIndex, array) => {
-    let p = current.then(() => { return next })
-    p.then((res) => {
-      values.push(res)
-    }).catch((err) => {
-      console.log(err)
-    }).finally(() => {
-      if (currentIndex == array.length - 1) {
-        event.sender.send('asyn-yp-reply', values)
-      }
+  Promise.all(getChannelsPromises).then((responses) => {
+    let channels = responses.map((res) => {
+      return { txt: res.text, url: res.request.url }
     })
-    return p
-  }, Promise.resolve())
+    event.sender.send('asyn-yp-reply', channels)
+  }).catch((e) => {
+    console.log(e)
+    event.sender.send('asyn-yp-reply', [])
+  })
 })
 
 // ---------- 再生プレイヤーの起動 ----------
@@ -291,7 +287,8 @@ const openFavoriteWindow = ()=>{
       alwaysOnTop: true,
       resizable: false,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        enableRemoteModule: true,
       }
     })
     window.favorite.loadURL(`file://${__dirname}/favorite.html`)
@@ -319,7 +316,8 @@ const openSettingsWindow = ()=>{
       alwaysOnTop: true,
       resizable: false,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        enableRemoteModule: true,
       }
     })
     window.settings.loadURL(`file://${__dirname}/settings.html`)
