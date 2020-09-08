@@ -1,6 +1,6 @@
 import { dialog } from 'electron'
 import { spawn, execSync } from 'child_process'
-import Config from 'electron-config'
+import Config from 'electron-store'
 import fixPath from 'fix-path'
 
 /*---------------------------------------

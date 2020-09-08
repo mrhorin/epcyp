@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { ipcRenderer, remote } from 'electron'
-import Config from 'electron-config'
+import Config from 'electron-store'
 import storage from 'electron-json-storage'
 
 import TabBox from 'jsx/tab/tab_box'

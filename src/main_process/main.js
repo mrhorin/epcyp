@@ -1,7 +1,7 @@
 import {systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
 import {exec, execSync} from 'child_process'
 import request from 'axios'
-import Config from 'electron-config'
+import Config from 'electron-store'
 
 import TrayManager from 'main_process/tray_manager'
 import MenuManager from 'main_process/menu_manager'

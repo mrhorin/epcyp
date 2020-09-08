@@ -31,7 +31,7 @@ module.exports = {
     'ipc',
     'child_process',
     'axios',
-    'electron-config',
+    'electron-store',
     'electron-json-storage',
     'electron-load-devtool',
     'fix-path',

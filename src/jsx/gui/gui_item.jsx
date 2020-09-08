@@ -1,6 +1,6 @@
 import React from 'react'
 import {ipcRenderer, remote, shell} from 'electron'
-import Config from 'electron-config'
+import Config from 'electron-store'
 
 import Peercast from 'js/peercaststation'
 import Player from 'js/player'

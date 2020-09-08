@@ -1,4 +1,4 @@
-import Config from 'electron-config'
+import Config from 'electron-store'
 import _ from 'lodash'
 const config = new Config({
   defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }

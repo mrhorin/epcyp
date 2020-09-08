@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ipcRenderer } from 'electron'
-import Config from 'electron-config'
+import Config from 'electron-store'
 import storage from 'electron-json-storage'
 import moment from 'moment'
 import _ from 'lodash'

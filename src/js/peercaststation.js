@@ -1,5 +1,5 @@
 import request from 'axios'
-import Config from 'electron-config'
+import Config from 'electron-store'
 
 const config = new Config({ defaults: { port: 7144 } })
 
