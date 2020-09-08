@@ -13,6 +13,26 @@
     "release:darwin": "yarn run build && yarn run gulp package:darwin",
     "release:linux": "yarn run build && yarn run gulp package:linux"
   },
+  "build": {
+    "appId": "com.electron.${name}",
+    "artifactName": "${name}_${version}_${os}_${arch}.${ext}",
+    "directories": {
+      "output": "release"
+    },
+    "asar": false,
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "./src/img/icon/darwin/icon_1024x1024.icns",
+      "darkModeSupport": true
+    }
+  },
   "author": "mrhorin",
   "license": "ISC",
   "devDependencies": {
@@ -26,8 +46,8 @@
     "css-loader": "^4.2.2",
     "del": "^5.0.0",
     "electron": "^10.1.1",
+    "electron-builder": "^22.8.0",
     "electron-load-devtool": "^1.2.0",
-    "electron-packager": "^15.1.0",
     "file-loader": "^6.1.0",
     "gulp": "^4.0.2",
     "gulp-plumber": "^1.2.1",
