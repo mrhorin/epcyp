@@ -10,7 +10,7 @@
     "clean": "yarn run gulp clean",
     "start": "yarn run electron ./dist/main.js",
     "list": "yarn list --depth=0",
-    "release:darwin": "yarn run build && yarn run gulp package:darwin",
+    "release:darwin": "yarn run build && yarn run electron-builder --mac",
     "release:linux": "yarn run build && yarn run gulp package:linux"
   },
   "build": {
