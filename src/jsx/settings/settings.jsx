@@ -120,8 +120,13 @@ class Settings extends React.Component {
   }
 
   onClickDialog = (key) => {
-    let path = dialog.showOpenDialog()
-    this.setState({ [key]: path[0] })
+    dialog.showOpenDialog(null, {
+      properties: ['openFile', 'openDirectory']
+    }).then(res => {
+      this.setState({ [key]: res.filePaths[0] })
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   onChangeSort = (sort) => {
@@ -278,9 +283,14 @@ class Settings extends React.Component {
   }
 
   onClickDialogFormat = (event, index) => {
-    let path = dialog.showOpenDialog()
-    this.state.formatList[index].player = path[0]
-    this.setState({ formats: this.state.formatList })
+    dialog.showOpenDialog(null, {
+      properties: ['openFile', 'openDirectory']
+    }).then(res => {
+      this.state.formatList[index].player = res.filePaths[0]
+      this.setState({ formats: this.state.formatList })
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   render(){
