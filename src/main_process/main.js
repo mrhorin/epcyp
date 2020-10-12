@@ -127,6 +127,20 @@ app.on('ready', ()=>{
         window.main.send('index-window-show', 1)
       }
     },
+    {
+      label: '検索',
+      click: ()=>{
+        window.main.show()
+        window.main.send('index-window-show', 2)
+      }
+    },
+    {
+      label: 'リレー',
+      click: ()=>{
+        window.main.show()
+        window.main.send('index-window-show', 3)
+      }
+    },
     { type: 'separator' },
     { label: 'お気に入り設定', click: ()=>{ openFavoriteWindow() } },
     { label: '環境設定', click: ()=>{ openSettingsWindow() } },
