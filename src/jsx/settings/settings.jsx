@@ -27,7 +27,6 @@ class Settings extends React.Component {
       peercast: this.config.get('peercast'),
       exitPeercast: this.config.get('exitPeercast'),
       useMono: this.config.get('useMono'),
-      showGuiTab: this.config.get('showGuiTab'),
       fontSize: this.config.get('fontSize'),
       ypList: [],
       formatList: [format],
@@ -65,7 +64,6 @@ class Settings extends React.Component {
     this.config.set('peercast', this.state.peercast)
     this.config.set('exitPeercast', this.state.exitPeercast)
     this.config.set('useMono', this.state.useMono)
-    this.config.set('showGuiTab', this.state.showGuiTab)
     this.config.set('fontSize', this.state.fontSize)
     storage.set('ypList', this.state.ypList, (error)=>{
       storage.set('formatList', this.state.formatList, (error)=>{
@@ -97,8 +95,7 @@ class Settings extends React.Component {
         ip: settings.ip,
         peercast: settings.peercast,
         useMono: settings.useMono,
-        exitPeercast: settings.exitPeercast,
-        showGuiTab: settings.showGuiTab
+        exitPeercast: settings.exitPeercast
       })
     } else if (this.state.currentTabIndex == 2) {
       // YP
@@ -210,7 +207,6 @@ class Settings extends React.Component {
       peercast: '',
       exitPeercast: true,
       useMono: false,
-      showGuiTab: false,
       playerPath: '',
       playerArgs: '"$x"',
       fontSize: 12
@@ -309,8 +305,7 @@ class Settings extends React.Component {
         component:
           <SettingsPeerCast
             ip={this.state.ip} port={this.state.port}
-            peercast={this.state.peercast} exitPeercast={this.state.exitPeercast}
-            useMono={this.state.useMono} showGuiTab={this.state.showGuiTab}
+            peercast={this.state.peercast} exitPeercast={this.state.exitPeercast} useMono={this.state.useMono}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
       },
       {

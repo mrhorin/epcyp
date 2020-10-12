@@ -43,16 +43,6 @@ export default class SettingsPeerCast extends React.Component {
             終了時にPeerCastを終了する
           </span>
         </div>
-        {/*リレー管理タブ*/}
-        <div className="form-group">
-          <input
-            className="checkbox" type="checkbox" name="showGuiTab" ref="showGuiTab" value={this.props.showGuiTab}
-            checked={this.props.showGuiTab} onChange={e => { this.props.onChangeCheckbox(e.target) }}
-          />
-          <span onClick={e =>{this.props.onChangeCheckbox(this.refs.showGuiTab)}}>
-            リレー管理タブを表示する（PeerCastStation、YT版のみ）
-          </span>
-        </div>
       </div>
     )
   }

@@ -17,7 +17,7 @@ import ChannelBox from 'jsx/channel/channel_box'
 import GuiBox from 'jsx/gui/gui_box'
 
 const config = new Config({
-  defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", showGuiTab: false, theme: 'light' }
+  defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", theme: 'light' }
 })
 
 class Index extends React.Component {
@@ -31,7 +31,6 @@ class Index extends React.Component {
       relays: [],
       status: { isFirewalled: false },
       searchWord: "",
-      showGuiTab: config.get('showGuiTab'),
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       theme: config.get('theme'),
       isAutoUpdate: config.get('isAutoUpdate'),
@@ -101,32 +100,20 @@ class Index extends React.Component {
     ipcRenderer.on('shortcut-search', (event)=>{
       document.getElementById('search-word').focus()
     })
-    // タブ左移動右ショートカット押下時
+    // タブ左移動ショートカット押下時
     ipcRenderer.on('shortcut-tab-left', (event)=>{
-      if(this.state.currentTabIndex<=0){
-        if(this.state.showGuiTab){
-          this.setState({ currentTabIndex: 3 })
-        }else{
-          this.setState({ currentTabIndex: 2 })
-        }
+      if (this.state.currentTabIndex <= 0) {
+        this.setState({ currentTabIndex: 3 })
       }else{
-        this.setState({ currentTabIndex: this.state.currentTabIndex-1 })
+        this.setState({ currentTabIndex: this.state.currentTabIndex - 1 })
       }
     })
     // タブ右移動ショートカット押下時
     ipcRenderer.on('shortcut-tab-right', (event)=>{
-      if(this.state.showGuiTab){
-        if(this.state.currentTabIndex>=3){
-          this.setState({ currentTabIndex: 0 })
-        }else{
-          this.setState({ currentTabIndex: this.state.currentTabIndex+1 })
-        }
+      if (this.state.currentTabIndex >= 3) {
+        this.setState({ currentTabIndex: 0 })
       }else{
-        if(this.state.currentTabIndex>=2){
-          this.setState({ currentTabIndex: 0 })
-        }else{
-          this.setState({ currentTabIndex: this.state.currentTabIndex+1 })
-        }
+        this.setState({ currentTabIndex: this.state.currentTabIndex + 1 })
       }
     })
   }
@@ -176,7 +163,6 @@ class Index extends React.Component {
         sort: sort,
         theme: theme,
         ypList: ypList,
-        showGuiTab: config.get('showGuiTab'),
         currentTabIndex: 0
       })
     })
@@ -458,17 +444,15 @@ class Index extends React.Component {
             changeSort={this.changeSort} />
       }
     ]
-    if(this.state.showGuiTab){
-      // relaysが空値の瞬間があるので応急処置-------------
-      let relays = this.state.relays
-      if(relays==undefined||relays==null) relays = []
-      // -------------------------------応急処置ここまで
-      components.push({
-        name: `リレー(${relays.length})`,
-        component:
-          <GuiBox relays={relays} status={this.state.status} />
-      })
-    }
+    // relaysが空値の瞬間があるので応急処置-------------
+    let relays = this.state.relays
+    if(relays==undefined||relays==null) relays = []
+    // -------------------------------応急処置ここまで
+    components.push({
+      name: `リレー(${relays.length})`,
+      component:
+        <GuiBox relays={relays} status={this.state.status} />
+    })
     let currentComponent = components[this.state.currentTabIndex].component
 
     return(
