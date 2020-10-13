@@ -288,14 +288,12 @@ class Index extends React.Component {
   // 更新処理を開始
   startUpdateTimer = () => {
     this.updateTimerId = setInterval(() => {
-      if (this.state.showGuiTab) {
-        this.updateRelaysPromise.then((relays) => {
-          this.setState({ relays: relays.result })
-        })
-        this.updateStatusPromise.then((status) => {
-          this.setState({ status: status.result })
-        })
-      }
+      this.updateRelaysPromise.then((relays) => {
+        this.setState({ relays: relays.result })
+      })
+      this.updateStatusPromise.then((status) => {
+        this.setState({ status: status.result })
+      })
       this.updateCountPromise.then((count) => {
         this.setState({ autoUpdateCount: count })
       })
