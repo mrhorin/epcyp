@@ -186,26 +186,26 @@ export default class ChannelItem extends React.Component {
       if (favorite.isIgnore) style['visibility'] = 'collapse'
     }
     if(this.props.channel.url) nameClass += " link"
-    return(
-      <tr className="channel-item" style={style}
+    return (
+      <div className="channel-item" style={style}
         onClick={this.onMiddleClick}
         onDoubleClick={this.play}
         onContextMenu={this.showContextMenu}
         onMouseEnter={this.activateHovered}
         onMouseLeave={this.deactivateHovered}>
-        <td className="channel-item-col1">
+        <div className="channel-item-col1">
           <div className={nameClass}>{this.props.channel.name}</div>
           <div className="channel-item-detail">{this.props.channel.desc}</div>
-        </td>
-        <td className="channel-item-col2">
+        </div>
+        <div className="channel-item-col2">
           <div className="channel-item-listener">{this.props.channel.listener}/{this.props.channel.relay}</div>
           <div className="channel-item-time">{this.props.channel.time}</div>
-        </td>
-        <td className="channel-item-col3">
+        </div>
+        <div className="channel-item-col3">
           <div className="channel-item-kbps">{this.props.channel.kbps}</div>
           <div className="channel-item-format">{this.props.channel.format}</div>
-        </td>
-      </tr>
+        </div>
+      </div>
     )
   }
 

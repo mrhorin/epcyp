@@ -33,19 +33,17 @@ export default class ChannelBox extends React.Component {
           registerFavorite={this.registerFavorite} />
       )
     })
-    return(
-      <table>
-        <thead>
-          <tr>
-            <th className="channel-box-col1" onClick={() => this.onChangeSort("name")}>チャンネル名</th>
-            <th className="channel-box-col2" onClick={() => this.onChangeSort("listener")}>リスナー</th>
-            <th className="channel-box-col3" onClick={() => this.onChangeSort("kbps")}>kbps</th>
-          </tr>
-        </thead>
-        <tbody>
+    return (
+      <div className="channel-box">
+        <div className="channel-box-header">
+          <div className="channel-box-header-col1" onClick={() => this.onChangeSort("name")}>チャンネル名</div>
+          <div className="channel-box-header-col2" onClick={() => this.onChangeSort("listener")}>リスナー</div>
+          <div className="channel-box-header-col3" onClick={() => this.onChangeSort("kbps")}>kbps</div>
+        </div>
+        <div className="channel-box-body">
           {channelItems}
-        </tbody>
-      </table>
+        </div>
+      </div>
     )
   }
 
