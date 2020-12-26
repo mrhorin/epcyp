@@ -48,6 +48,7 @@ class Favorite extends React.Component {
       fontColor: "222222",
       bgColor: "ffffff",
       isNotify: false,
+      isRec: false,
       isIgnore: false,
       isDisableColor: false
     }

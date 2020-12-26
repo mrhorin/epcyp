@@ -72,10 +72,13 @@ export default class FavoriteDetail extends React.Component {
           <label>オプション</label>
           <input ref="isNotify" name="isNotify" type="checkbox" value={this.props.favorite.isNotify} checked={this.props.favorite.isNotify}
             onChange={e=>{this.props.onChangeCheckbox(e.target, this.props.index)}} />
-            <span onClick={e =>{this.props.onChangeCheckbox(this.refs.isNotify, this.props.index)}}>新着時に通知</span>
+            <span onClick={e => { this.props.onChangeCheckbox(this.refs.isNotify, this.props.index) }}>新着時に通知</span>
+          <input ref="isRec" name="isRec" type="checkbox" value={this.props.favorite.isRec} checked={this.props.favorite.isRec}
+            onChange={e=>{this.props.onChangeCheckbox(e.target, this.props.index)}} />
+            <span onClick={e => { this.props.onChangeCheckbox(this.refs.isRec, this.props.index) }}>自動録画</span>
           <input ref="isIgnore" name="isIgnore" type="checkbox" value={this.props.favorite.isIgnore} checked={this.props.favorite.isIgnore}
             onChange={e=>{this.props.onChangeCheckbox(e.target, this.props.index)}} />
-            <span onClick={e =>{this.props.onChangeCheckbox(this.refs.isIgnore, this.props.index)}}>無視リスト</span>
+            <span onClick={e =>{this.props.onChangeCheckbox(this.refs.isIgnore, this.props.index)}}>無視</span>
           <input ref="isDisableColor" name="isDisableColor" type="checkbox" value={this.props.favorite.isDisableColor} checked={this.props.favorite.isDisableColor}
             onChange={e=>{this.props.onChangeCheckbox(e.target, this.props.index)}} />
             <span onClick={e =>{this.props.onChangeCheckbox(this.refs.isDisableColor, this.props.index)}}>色設定を無効</span>

@@ -7,6 +7,7 @@ import moment from 'moment'
 import _ from 'lodash'
 
 import Peercast from 'js/peercaststation'
+import Recorder from 'js/recorder'
 import YP from 'js/yp'
 import css from 'scss/style'
 
@@ -56,15 +57,21 @@ class Index extends React.Component {
         this.setChannels(newChannels, (newChannel)=>{
           // 新着チャンネルか
           let channelIndex = this.findIndexOfChannels(newChannel)
-          if(channelIndex<0){
-            // お気に入りにマッチ&&通知設定されているか
+          if (channelIndex < 0) {
+            // お気に入りチャンネルか
             let favoriteIndex = this.findIndexOfFavorites(newChannel)
-            if (favoriteIndex >= 0 && this.state.favorites[favoriteIndex].isNotify) {
-              // お気に入り通知
-              this.notify('★'+newChannel.name, newChannel.desc)
-              if(!this.state.isMainWindowActive){
-                this.setState({ isUnRead: true })
-                ipcRenderer.send('asyn-set-trayicon', 'linux')
+            if (favoriteIndex >= 0) {
+              // 新着時に通知
+              if (this.state.favorites[favoriteIndex].isNotify) {
+                this.notify(newChannel.name, newChannel.desc)
+                if(!this.state.isMainWindowActive){
+                  this.setState({ isUnRead: true })
+                  ipcRenderer.send('asyn-set-trayicon', 'linux')
+                }
+              }
+              // 自動録画
+              if (this.state.favorites[favoriteIndex].isRec) {
+                Recorder.start(newChannel)
               }
             }
           }
