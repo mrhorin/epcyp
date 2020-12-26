@@ -4,6 +4,7 @@ import {remote} from 'electron'
 import {shell} from 'electron'
 
 import Player from 'js/player'
+import Recorder from 'js/recorder'
 
 export default class ChannelItem extends React.Component {
 
@@ -33,6 +34,11 @@ export default class ChannelItem extends React.Component {
     this.props.registerFavorite(favoriteIndex, channelName)
   }
 
+  // 録画を開始
+  startRec = () => {
+    Recorder.start(this.props.channel)
+  }
+
   // 右クリメニューを表示
   showContextMenu = (e) => {
     const clipboard = remote.clipboard
@@ -54,6 +60,13 @@ export default class ChannelItem extends React.Component {
     menu.append(new MenuItem({
       label: '統計URLを開く',
       click: ()=>{ this.openURL(this.props.channel.statisticsURL) }
+    }))
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+    menu.append(new MenuItem({
+      label: '録画を開始',
+      click: ()=>{ this.startRec() }
     }))
     menu.append(new MenuItem({
       type: 'separator'
@@ -85,19 +98,13 @@ export default class ChannelItem extends React.Component {
         {
           label: 'チャンネル詳細一行',
           click: ()=>{
-            let text = `${this.props.channel.name}(${this.props.channel.listener}/${this.props.channel.relay})`+
-                       `[${this.props.channel.genre} - ${this.props.channel.detail}]`
-            if(this.props.channel.comment) text += `「${this.props.channel.comment}」`
-            clipboard.writeText(text)
+            clipboard.writeText(this.props.channel.detailInOneLine)
           }
         },
         {
           label: 'チャンネル詳細複数行',
           click: ()=>{
-            let text = `${this.props.channel.name}(${this.props.channel.listener}/${this.props.channel.relay})\n`+
-                       `[${this.props.channel.genre} - ${this.props.channel.detail}]`
-            if(this.props.channel.comment) text += `\n「${this.props.channel.comment}」`
-            clipboard.writeText(text)
+            clipboard.writeText(this.props.channel.detailInMultipleLines)
           }
         }
       ]

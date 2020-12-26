@@ -73,4 +73,19 @@ export default class Channel{
     return `${this.yp.url}getgmt.php?cn=${this.name}`
   }
 
+  // チャンネル詳細一行
+  get detailInOneLine() {
+    let text = `${this.name}(${this.listener}/${this.relay})[${this.genre} - ${this.detail}]`
+    if (this.comment) text += `「${this.comment}」`
+    return text
+  }
+
+  // チャンネル詳細複数行
+  get detailInMultipleLines() {
+    let text = `${this.name}(${this.listener}/${this.relay})\n`+
+               `[${this.genre} - ${this.detail}]`
+    if (this.comment) text += `\n「${this.comment}」`
+    return text
+  }
+
 }

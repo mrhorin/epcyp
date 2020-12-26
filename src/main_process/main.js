@@ -241,6 +241,24 @@ ipcMain.on('asyn-play', (event, player, args) =>{
   }
 })
 
+// ---------- 録画を開始 ----------
+ipcMain.on('rec-start', (event, playListURL, streamURL, path) => {
+  let command = `curl ${playListURL} && ffmpeg -i ${streamURL}} -c copy ${path}`
+  try{
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        // 既定回数再チャレンジ処理？
+        console.log(stderr)
+      } else {
+        // 既定回数再チャレンジ処理？
+        console.log(stdout)
+      }
+    })
+  }catch(e){
+    console.log(e)
+  }
+})
+
 // ------------- BBSブラウザの起動 -------------
 ipcMain.on('asyn-open-bbs', (event, url, name) => {
   let command
