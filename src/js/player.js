@@ -8,7 +8,7 @@ const config = new Config({
 /*------------------------------------
   再生プレイヤーを操作するクラス
 -------------------------------------*/
-export default class Plsyer{
+export default class Player{
 
   constructor(channel){
     this.channel = channel
