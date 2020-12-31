@@ -118,7 +118,7 @@ export default class GuiConnectionItem extends React.Component{
     if(this.props.current==this.props.index) className += " gui-connection-item-active"
     return(
       <li className={className} onContextMenu={this.showContextMenu}>
-        <i className={this.connectionStatus} />
+        {this.props.keisen}<i className={this.connectionStatus} />
         {this.displayFormat}
       </li>
     )

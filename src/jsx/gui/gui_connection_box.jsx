@@ -9,10 +9,11 @@ export default class GuiConnectionBox extends React.Component{
   }
 
   render(){
-    let connectionItems = this.props.connections.map((conn, index)=>{
+    let connectionItems = this.props.connections.map((conn, index) => {
+      let keisen = index == this.props.connections.length - 1 ? "└" : "├"
       return(
         <GuiConnectionItem key={conn.connectionId} connection={conn}
-          relay={this.props.relay} current={this.props.current} index={index} />
+          relay={this.props.relay} current={this.props.current} index={index} keisen={keisen} />
       )
     })
     return(

@@ -327,86 +327,91 @@ footer{
 .gui-box{
   width: 100%;
 }
+.gui-box-body{
+  display: flex;
+  flex-direction: column;
+}
 
 /* GuiItem */
 .gui-item{
   color: #000;
   font-size: 13px;
   padding: 2px;
+  display: flex;
+  flex-direction: column;
+  // リレー
   .gui-item-row1{
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     border: 1px solid #fff;
     box-sizing: border-box;
-  }
-}
-.gui-item.gui-item>.gui-item-row1:hover,
-.gui-item.gui-item-active>.gui-item-row1,{
-  @extend .hover-item;
-}
-.gui-item-row2{
-}
-.gui-item-col1{
-  display: table-cell;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  padding: 0px 10px;
-  .gui-item-name{
-    font-weight: bold;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    word-break: break-all;
-    i{
-      margin-right: 5px;
-      vertical-align: sub;
+    .gui-item-col1{
+      order: 1;
+      flex-grow: 2;
+      padding: 1px 10px;
+      display: flex;
+      flex-direction: column;
+      .gui-item-name{
+        order: 1;
+        font-weight: bold;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        word-break: break-all;
+        i{
+          margin-right: 5px;
+          vertical-align: sub;
+        }
+      }
+    }
+    .gui-item-col2{
+      order: 3;
+      display: flex;
+      flex-direction: column;
+      padding: 1px 10px;
+      text-align: right;
+      .gui-item-relay{
+        order: 1;
+      }
+      .gui-item-time{
+        order: 2;
+      }
+    }
+    .gui-item-col3{
+      order: 4;
+      padding: 1px 10px;
+      text-align: right;
+      .gui-item-kbps,
+      .gui-item-format{
+        line-height: 20px;
+      }
     }
   }
-}
-.gui-item-col2{
-  display: table-cell;
-  width: 100px;
-  height: 40px;
-  padding: 0px 5px;
-  white-space: nowrap;
-  box-sizing: border-box;
-  text-align: right;
-  vertical-align: top;
-  .gui-item-relay,
-  .gui-item-time{
-    line-height: 20px;
+  .gui-item-row1:hover{
+    @extend .hover-item;
   }
-}
-.gui-item-col3{
-  display: table-cell;
-  width: 50px;
-  height: 40px;
-  padding: 0px 5px;
-  white-space: nowrap;
-  box-sizing: border-box;
-  text-align: right;
-  vertical-align: top;
-  .gui-item-kbps,
-  .gui-item-format{
-    line-height: 20px;
+  // 接続一覧
+  .gui-item-row2{
+    order: 2;
   }
 }
 
 /* GuiConnectionBox */
 ul.gui-connection-box{
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
   padding: 0px;
   margin: 0px;
-  -webkit-padding-start: 0px;
-  list-style: none;
   li{
     font-size: 12px;
-    padding: 0px 5px 0px 15px;
-    margin: 2px 0px;
-    line-height: 20px;
-    white-space: nowrap;
+    padding: 0px 0px 0px 12px;
+    margin: 0px;
     i{
+      margin-left: 5px;
       margin-right: 3px;
-      vertical-align: sub;
     }
   }
 }
