@@ -65,13 +65,6 @@ export default class ChannelItem extends React.Component {
       type: 'separator'
     }))
     menu.append(new MenuItem({
-      label: '録画を開始',
-      click: ()=>{ this.startRec() }
-    }))
-    menu.append(new MenuItem({
-      type: 'separator'
-    }))
-    menu.append(new MenuItem({
       label: 'お気に入りに登録',
       type: 'submenu',
       submenu: this.props.favorites.map((favorite, index)=>{
@@ -108,6 +101,13 @@ export default class ChannelItem extends React.Component {
           }
         }
       ]
+    }))
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+    menu.append(new MenuItem({
+      label: '録画開始',
+      click: ()=>{ this.startRec() }
     }))
     e.preventDefault()
     menu.popup(remote.getCurrentWindow())
