@@ -22,6 +22,9 @@ export default class Channel{
     this.time = hash.time
     this.comment = this.unEscapeHTML(hash.comment)
     this.yp = hash.yp
+    this.playListURL = `http://${config.get('ip')}:${config.get('port')}/pls/${this.id}?tip=${this.tip}`
+    this.streamURL = `http://${config.get('ip')}:${config.get('port')}/stream/${this.id}.${this.format.toLowerCase()}`
+    this.statisticsURL = `${this.yp.url}getgmt.php?cn=${this.name}`
   }
 
   unEscapeHTML(string){
@@ -50,27 +53,6 @@ export default class Channel{
   get desc(){
     let genre = this.genre&&this.detail ? `${this.genre} - ` : this.genre
     return `${genre}${this.detail} ${this.comment} ${this.track.artist}`
-  }
-
-  // プレイリストURLを取得
-  get playListURL(){
-    let ip = config.get('ip')
-    let port = config.get('port')
-    var url = `http://${ip}:${port}/pls/${this.id}?tip=${this.tip}`
-    return url
-  }
-
-  // ストリームURLを取得
-  get streamURL(){
-    let ip = config.get('ip')
-    let port = config.get('port')
-    var url = `http://${ip}:${port}/stream/${this.id}.${this.format.toLowerCase()}`
-    return url
-  }
-
-  // 統計URLを取得
-  get statisticsURL(){
-    return `${this.yp.url}getgmt.php?cn=${this.name}`
   }
 
   // チャンネル詳細一行

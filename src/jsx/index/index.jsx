@@ -16,6 +16,7 @@ import FooterBox from 'jsx/index/footer_box'
 import TabBox from 'jsx/tab/tab_box'
 import ChannelBox from 'jsx/channel/channel_box'
 import GuiBox from 'jsx/gui/gui_box'
+import RecordBox from 'jsx/record/record_box'
 
 const config = new Config({
   defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", theme: 'light' }
@@ -27,8 +28,9 @@ class Index extends React.Component {
     super(props)
     this.state = {
       ypList: [],
-      favorites: [],
       channels: [],
+      favorites: [],
+      records: [],
       relays: [],
       status: { isFirewalled: false },
       searchWord: "",
@@ -121,6 +123,38 @@ class Index extends React.Component {
         this.setState({ currentTabIndex: 0 })
       }else{
         this.setState({ currentTabIndex: this.state.currentTabIndex + 1 })
+      }
+    })
+    // 録画情報
+    ipcRenderer.on('update-record-info', (event, channel, pid, data) => {
+      data = data.split(/\n/)
+      let regexes = {
+        time: /(?<=out_time=)\d{2}\:\d{2}\:\d{2}/,
+        size: /(?<=total_size=)\d+/,
+        progress: /(?<=progress=)\.+/
+      }
+      let info = { pid: pid, name: channel.name, id: channel.id, time: "", size: "", progress: "" }
+      for (let i = 0; i < data.length; i++){
+        if (regexes.time.test(data[i])) info.time = data[i].match(regexes.time)[0]
+        if (regexes.size.test(data[i])) info.size = data[i].match(regexes.size)[0]
+        if (regexes.progress.test(data[i])) info.progress = data[i].match(regexes.progress)[0]
+      }
+      // 録画情報を更新
+      let recordIndex = this.findIndexOfRecs(channel)
+      let records = this.state.records
+      if (recordIndex >= 0) {
+        records[recordIndex] = info
+      } else {
+        records.push(info)
+      }
+      this.setState({ records: records })
+    })
+    // 録画停止
+    ipcRenderer.on('stop-record', (event, channel, pid, code) => {
+      let recordIndex = this.findIndexOfRecs(channel)
+      if (recordIndex >= 0) {
+        let records = this.state.records
+        this.setState({ records: records.splice(recordIndex + 1, 1) })
       }
     })
   }
@@ -228,6 +262,17 @@ class Index extends React.Component {
         return i
       }else{
         continue
+      }
+    }
+    return index
+  }
+
+  findIndexOfRecs = (channel) => {
+    let index = -1
+    for (let i = 0; i < this.state.records.length; i++){
+      if (this.state.records[i].id == channel.id) {
+        index = i
+        break
       }
     }
     return index
@@ -343,6 +388,7 @@ class Index extends React.Component {
     })
   }
 
+  // PeerCast本体に関する情報を取得
   get updateStatusPromise() {
     return new Promise((resolve, reject)=>{
       Peercast.getStatus((res)=>{
@@ -447,6 +493,10 @@ class Index extends React.Component {
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
             changeSort={this.changeSort} />
+      },
+      {
+        name: `録画(${this.state.records.length})`,
+        component: <RecordBox records={this.state.records} />
       }
     ]
     // relaysが空値の瞬間があるので応急処置-------------

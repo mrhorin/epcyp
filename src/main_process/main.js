@@ -1,5 +1,5 @@
 import {systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
-import {exec, execSync} from 'child_process'
+import {exec, spawn} from 'child_process'
 import request from 'axios'
 import Config from 'electron-store'
 
@@ -241,17 +241,31 @@ ipcMain.on('asyn-play', (event, player, args) =>{
   }
 })
 
-// ---------- 録画を開始 ----------
-ipcMain.on('rec-start', (event, playListURL, streamURL, path) => {
-  let command = `curl ${playListURL} && ffmpeg -i ${streamURL}} -c copy ${path}`
-  try{
-    exec(command, (error, stdout, stderr) => {
+// ---------- 録画開始 ----------
+ipcMain.on('start-record', (event, channel, path) => {
+  try {
+    // リレー開始
+    exec(`curl ${channel.playListURL}`, (error, stdout, stderr) => {
       if (error) {
-        // 既定回数再チャレンジ処理？
-        console.log(stderr)
+        console.log(tderr)
       } else {
-        // 既定回数再チャレンジ処理？
-        console.log(stdout)
+        console.log('stdout: ' + stdout)
+        // ffmpeg起動
+        // !リレーが切れてもタイムアウトしないのでffmpegのプロセスが生き残り続ける問題問題
+        const ffmpeg = spawn('ffmpeg', ['-i', channel.streamURL, '-progress', '-', '-c', 'copy', path])
+        // 録画情報更新
+        ffmpeg.stderr.on('data', (data) => {
+          console.log(data.toString())
+        })
+        ffmpeg.stdout.on('data', (data) => {
+          console.log(data.toString())
+          event.sender.send('update-record-info', channel, ffmpeg.pid, data.toString())
+        })
+        // 停止
+        ffmpeg.on('close', (code) => {
+          console.log(code)
+          event.sender.send('stop-record', channel, ffmpeg.pid, code)
+        })
       }
     })
   }catch(e){

@@ -335,6 +335,101 @@ $col3-width: 50px;
   @extend .hover-item;
 }
 
+/* RecordBox */
+$record-col1-width: 100vh;
+$record-col2-width: 200px;
+$record-col3-width: 200px;
+$record-col4-width: 200px;
+.record-box{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+ .record-box-header{
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background: #eee;
+    border-bottom: 1px solid #ccc;
+    .record-box-header-col{
+      color: #000;
+      font-size: 11px;
+      line-height: 18px;
+      box-sizing: border-box;
+    }
+    .record-box-header-col1{
+      @extend .record-box-header-col;
+      order: 1;
+      flex-basis: $record-col1-width;
+      border-right: 1px solid #ccc;
+      text-align: left;
+      padding: 0px 10px;
+    }
+    .record-box-header-col2{
+      @extend .record-box-header-col;
+      order: 2;
+      flex-basis: $record-col2-width;
+      border-right: 1px solid #ccc;
+      text-align: right;
+      padding: 0px 10px;
+    }
+    .record-box-header-col3{
+      @extend .record-box-header-col;
+      order: 3;
+      flex-basis: $record-col3-width;
+      text-align: right;
+      padding: 0px 10px;
+    }
+    .record-box-header-col4{
+      @extend .record-box-header-col;
+      order: 3;
+      flex-basis: $record-col4-width;
+      text-align: right;
+      padding: 0px 10px;
+    }
+  }
+  .record-box-body{
+    order: 2;
+  }
+}
+
+/* RecordItem */
+.record-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none !important; // .hover-itemのborderを無効化
+  font-size: 12px;
+  color: #000;
+  .record-item-col1{
+    order: 1;
+    width: $record-col1-width;
+    padding: 5px 10px;
+    text-align: left;
+  }
+  .record-item-col2{
+    order: 2;
+    width: $record-col2-width;
+    padding: 5px 10px;
+    text-align: right;
+  }
+  .record-item-col3{
+    order: 3;
+    width: $record-col3-width;
+    padding: 5px 10px;
+    text-align: right;
+  }
+  .record-item-col3{
+    order: 3;
+    width: $record-col4-width;
+    padding: 5px 10px;
+    text-align: right;
+  }
+}
+.record-item:hover{
+  @extend .hover-item;
+}
+
 /* GuiBox */
 .gui-box{
   width: 100%;
@@ -923,6 +1018,34 @@ $darktheme-btn-primary-color: #308cff;
       .channel-item:active,
       .channel-item:nth-child(odd):active,
       .channel-item:nth-child(even):active{
+        background-color: darken($darktheme-base-color, 20%);
+      }
+    }
+  }
+  .record-box{
+    .record-box-header{
+      background-color: darken($darktheme-base-color, 5%);
+      border-bottom: 1px solid darken($darktheme-base-color, 5%);
+      .record-box-header-col{
+        color: #ffffff;
+      }
+      .record-box-header-col:active{
+        background-color: darken($darktheme-base-color, 10%);
+      }
+      .record-box-header-col1,
+      .record-box-header-col2{
+        border-right: 1px solid lighten($darktheme-base-color, 15%);
+      }
+    }
+    .record-box-body{
+      .record-item{
+        background-color: darken($darktheme-base-color, 13%);
+        color: #fff;
+      }
+      .record-item:hover,
+      .record-item:active,
+      .record-item:nth-child(odd):active,
+      .record-item:nth-child(even):active{
         background-color: darken($darktheme-base-color, 20%);
       }
     }
