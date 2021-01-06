@@ -27,12 +27,18 @@ export default class RecordItem extends React.Component{
   }
 
   render() {
+    let progress
+    if (this.props.record.progress == "continue") {
+      progress = "録画中"
+    } else if (this.props.record.progress == "end") {
+      progress = "終了"
+    }
     return(
       <div className="record-item">
         <div className="record-item-col1">{ this.props.record.name }</div>
         <div className="record-item-col2">{ this.convertToByte(this.props.record.size) }</div>
         <div className="record-item-col3">{this.props.record.time}</div>
-        <div className="record-item-col4">{this.props.record.progress}</div>
+        <div className="record-item-col4">{progress}</div>
       </div>
     )
   }

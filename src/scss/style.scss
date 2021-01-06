@@ -7,6 +7,11 @@ $link-color: #0800ff;
 a, .link{
   color: $link-color;
 }
+.ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* Index */
 body{
@@ -337,9 +342,9 @@ $col3-width: 50px;
 
 /* RecordBox */
 $record-col1-width: 100vh;
-$record-col2-width: 200px;
-$record-col3-width: 200px;
-$record-col4-width: 200px;
+$record-col2-width: 70px;
+$record-col3-width: 70px;
+$record-col4-width: 70px;
 .record-box{
   display: flex;
   flex-direction: column;
@@ -358,9 +363,9 @@ $record-col4-width: 200px;
       box-sizing: border-box;
     }
     .record-box-header-col1{
-      @extend .record-box-header-col;
+      @extend .record-box-header-col, .ellipsis;
       order: 1;
-      flex-basis: $record-col1-width;
+      width: $record-col1-width;
       border-right: 1px solid #ccc;
       text-align: left;
       padding: 0px 10px;
@@ -368,23 +373,24 @@ $record-col4-width: 200px;
     .record-box-header-col2{
       @extend .record-box-header-col;
       order: 2;
-      flex-basis: $record-col2-width;
+      min-width: $record-col2-width;
       border-right: 1px solid #ccc;
-      text-align: right;
+      text-align: left;
       padding: 0px 10px;
     }
     .record-box-header-col3{
       @extend .record-box-header-col;
       order: 3;
-      flex-basis: $record-col3-width;
-      text-align: right;
+      min-width: $record-col3-width;
+      border-right: 1px solid #ccc;
+      text-align: left;
       padding: 0px 10px;
     }
     .record-box-header-col4{
       @extend .record-box-header-col;
-      order: 3;
-      flex-basis: $record-col4-width;
-      text-align: right;
+      order: 4;
+      min-width: $record-col4-width;
+      text-align: left;
       padding: 0px 10px;
     }
   }
@@ -402,6 +408,7 @@ $record-col4-width: 200px;
   font-size: 12px;
   color: #000;
   .record-item-col1{
+    @extend .ellipsis;
     order: 1;
     width: $record-col1-width;
     padding: 5px 10px;
@@ -409,19 +416,19 @@ $record-col4-width: 200px;
   }
   .record-item-col2{
     order: 2;
-    width: $record-col2-width;
+    min-width: $record-col2-width;
     padding: 5px 10px;
     text-align: right;
   }
   .record-item-col3{
     order: 3;
-    width: $record-col3-width;
+    min-width: $record-col3-width;
     padding: 5px 10px;
     text-align: right;
   }
-  .record-item-col3{
-    order: 3;
-    width: $record-col4-width;
+  .record-item-col4{
+    order: 4;
+    min-width: $record-col4-width;
     padding: 5px 10px;
     text-align: right;
   }

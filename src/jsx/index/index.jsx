@@ -131,7 +131,7 @@ class Index extends React.Component {
       let regexes = {
         time: /(?<=out_time=)\d{2}\:\d{2}\:\d{2}/,
         size: /(?<=total_size=)\d+/,
-        progress: /(?<=progress=)\.+/
+        progress: /(?<=progress=).+/
       }
       let info = { pid: pid, name: channel.name, id: channel.id, time: "", size: "", progress: "" }
       for (let i = 0; i < data.length; i++){
@@ -151,11 +151,7 @@ class Index extends React.Component {
     })
     // 録画停止
     ipcRenderer.on('stop-record', (event, channel, pid, code) => {
-      let recordIndex = this.findIndexOfRecs(channel)
-      if (recordIndex >= 0) {
-        let records = this.state.records
-        this.setState({ records: records.splice(recordIndex + 1, 1) })
-      }
+      console.log(code)
     })
   }
 

@@ -19,7 +19,8 @@ export default class RecordBox extends React.Component{
         <div className="record-box-header">
           <div className="record-box-header-col1">チャンネル名</div>
           <div className="record-box-header-col2">容量</div>
-          <div className="record-box-header-col3">録画時間</div>
+          <div className="record-box-header-col3">時間</div>
+          <div className="record-box-header-col4">状態</div>
         </div>
         <div className="record-box-body">{recordItems}</div>
       </div>
