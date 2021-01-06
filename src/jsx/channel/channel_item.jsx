@@ -100,8 +100,12 @@ export default class ChannelItem extends React.Component {
       type: 'separator'
     }))
     menu.append(new MenuItem({
-      label: '録画開始',
-      click: ()=>{ this.props.startRecord(this.props.channel) }
+      label: '録画',
+      type: 'submenu',
+      submenu: [
+        { label: '開始', click: () => { this.props.startRecord(this.props.channel) } },
+        { label: '停止', click: () => { this.props.stopRecord(this.props.channel) } }
+      ]
     }))
     e.preventDefault()
     menu.popup(remote.getCurrentWindow())

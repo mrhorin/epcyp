@@ -1,5 +1,5 @@
-import {systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell} from 'electron'
-import {exec, spawn} from 'child_process'
+import { systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell } from 'electron'
+import { exec, spawn } from 'child_process'
 import request from 'axios'
 import Config from 'electron-store'
 
@@ -269,6 +269,15 @@ ipcMain.on('start-record', (event, channel, path) => {
         })
       }
     })
+  }catch(e){
+    console.log(e)
+  }
+})
+
+// ---------- 録画停止 ----------
+ipcMain.on('stop-record', (event, pid) => {
+  try {
+    if (pid) process.kill(pid)
   }catch(e){
     console.log(e)
   }

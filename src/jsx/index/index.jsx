@@ -375,6 +375,13 @@ class Index extends React.Component {
     }
   }
 
+  stopRecord = (channel) => {
+    let recordIndex = this.findIndexOfRecs(channel)
+    if (recordIndex >= 0) {
+      Recorder.stop(this.state.records[recordIndex].pid)
+    }
+  }
+
   // 自動更新カウントを更新
   get updateCountPromise() {
     return new Promise((resolve, reject)=>{
@@ -493,6 +500,7 @@ class Index extends React.Component {
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
             startRecord={this.startRecord}
+            stopRecord={this.stopRecord}
             changeSort={this.changeSort} />
       },
       {
@@ -503,6 +511,7 @@ class Index extends React.Component {
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
             startRecord={this.startRecord}
+            stopRecord={this.stopRecord}
             changeSort={this.changeSort} />
       },
       {
@@ -513,6 +522,7 @@ class Index extends React.Component {
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
             startRecord={this.startRecord}
+            stopRecord={this.stopRecord}
             changeSort={this.changeSort} />
       },
       {
