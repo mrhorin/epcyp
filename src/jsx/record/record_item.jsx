@@ -32,6 +32,8 @@ export default class RecordItem extends React.Component{
       progress = "録画中"
     } else if (this.props.record.progress == "end") {
       progress = "終了"
+    } else if (this.props.record.progress == "connecting") {
+      progress = "接続中"
     }
     let style = { fontSize: `${this.props.fontSize}px` }
     return(

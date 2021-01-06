@@ -125,6 +125,18 @@ class Index extends React.Component {
         this.setState({ currentTabIndex: this.state.currentTabIndex + 1 })
       }
     })
+    // 録画開始
+    ipcRenderer.on('start-record-reply', (event, channel) => {
+      let info = { pid: "", name: channel.name, id: channel.id, time: "00:00:00", size: "0", progress: "connecting" }
+      let recordIndex = this.findIndexOfRecs(channel)
+      let records = this.state.records
+      if (recordIndex >= 0) {
+        records[recordIndex] = info
+      } else {
+        records.push(info)
+      }
+      this.setState({ records: records })
+    })
     // 録画情報
     ipcRenderer.on('update-record-info', (event, channel, pid, data) => {
       data = data.split(/\n/)

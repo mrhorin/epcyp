@@ -244,6 +244,7 @@ ipcMain.on('asyn-play', (event, player, args) =>{
 // ---------- 録画開始 ----------
 ipcMain.on('start-record', (event, channel, path) => {
   try {
+    event.sender.send('start-record-reply', channel)
     // リレー開始
     exec(`curl ${channel.playListURL}`, (error, stdout, stderr) => {
       if (error) {
