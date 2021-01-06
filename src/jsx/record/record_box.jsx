@@ -1,6 +1,13 @@
 import React from 'react'
+import Config from 'electron-store'
 
 import RecordItem from 'jsx/record/record_item.jsx'
+
+const config = new Config({
+  defaults: {
+    fontSize: 13
+  }
+})
 
 export default class RecordBox extends React.Component{
 
@@ -11,7 +18,7 @@ export default class RecordBox extends React.Component{
   render() {
     let recordItems = this.props.records.map((record, index) => {
       return (
-        <RecordItem key={index} record={record} />
+        <RecordItem key={index} record={record} fontSize={config.get('fontSize')}/>
       )
     })
     return(

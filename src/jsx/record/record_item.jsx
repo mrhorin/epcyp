@@ -33,8 +33,9 @@ export default class RecordItem extends React.Component{
     } else if (this.props.record.progress == "end") {
       progress = "終了"
     }
+    let style = { fontSize: `${this.props.fontSize}px` }
     return(
-      <div className="record-item">
+      <div className="record-item" style={style}>
         <div className="record-item-col1">{ this.props.record.name }</div>
         <div className="record-item-col2">{ this.convertToByte(this.props.record.size) }</div>
         <div className="record-item-col3">{this.props.record.time}</div>

@@ -342,9 +342,9 @@ $col3-width: 50px;
 
 /* RecordBox */
 $record-col1-width: 100vh;
-$record-col2-width: 70px;
-$record-col3-width: 70px;
-$record-col4-width: 70px;
+$record-col2-width: 90px;
+$record-col3-width: 90px;
+$record-col4-width: 90px;
 .record-box{
   display: flex;
   flex-direction: column;
@@ -415,18 +415,21 @@ $record-col4-width: 70px;
     text-align: left;
   }
   .record-item-col2{
+    @extend .ellipsis;
     order: 2;
     min-width: $record-col2-width;
     padding: 5px 10px;
     text-align: right;
   }
   .record-item-col3{
+    @extend .ellipsis;
     order: 3;
     min-width: $record-col3-width;
     padding: 5px 10px;
     text-align: right;
   }
   .record-item-col4{
+    @extend .ellipsis;
     order: 4;
     min-width: $record-col4-width;
     padding: 5px 10px;
@@ -1040,7 +1043,8 @@ $darktheme-btn-primary-color: #308cff;
         background-color: darken($darktheme-base-color, 10%);
       }
       .record-box-header-col1,
-      .record-box-header-col2{
+      .record-box-header-col2,
+      .record-box-header-col3{
         border-right: 1px solid lighten($darktheme-base-color, 15%);
       }
     }
