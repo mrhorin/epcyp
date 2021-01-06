@@ -62,7 +62,7 @@
     "webpack-notifier": "^1.8.0"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "electron-json-storage": "^4.1.6",
     "electron-store": "^6.0.1",
     "fix-path": "^3.0.0",
