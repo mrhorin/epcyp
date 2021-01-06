@@ -1,5 +1,7 @@
 import React from 'react'
-import { remote } from 'electron'
+import { ipcRenderer, remote, shell } from 'electron'
+
+import Player from 'js/player'
 
 export default class RecordItem extends React.Component{
 
@@ -7,13 +9,76 @@ export default class RecordItem extends React.Component{
     super(props)
   }
 
+  // プレイヤーで再生する
+  play = () => {
+    let player = new Player(this.props.record.channel)
+    player.play()
+  }
+
+  // BBSブラウザで開く
+  openBBS = (url, name) => {
+    ipcRenderer.send('asyn-open-bbs', url, name)
+  }
+
+  // 既定ブラウザで開く
+  openURL = (url) => {
+    shell.openExternal(url)
+  }
+
   showContextMenu = (e) => {
+    const clipboard = remote.clipboard
     const Menu =  remote.Menu
     const MenuItem =  remote.MenuItem
     let menu = new Menu()
     menu.append(new MenuItem({
-      label: '停止',
+      label: '録画停止',
       click: ()=>{ this.props.stopRecord(this.props.record.channel) }
+    }))
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+    menu.append(new MenuItem({
+      label: '再生',
+      click: ()=>{ this.play() }
+    }))
+    menu.append(new MenuItem({
+      label: 'コンタクトURLを開く',
+      click: ()=>{ this.openURL(this.props.record.channel.url) }
+    }))
+    menu.append(new MenuItem({
+      label: 'BBSブラウザで開く',
+      click: ()=>{ this.openBBS(this.props.record.channel.url, this.props.record.channel.name) }
+    }))
+    menu.append(new MenuItem({
+      label: '統計URLを開く',
+      click: ()=>{ this.openURL(this.props.record.channel.statisticsURL) }
+    }))
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+    menu.append(new MenuItem({
+      label: 'コピー',
+      type: 'submenu',
+      submenu: [
+        { label: 'チャンネル名', click: ()=>{ clipboard.writeText(this.props.record.channel.name) } },
+        { label: 'コンタクトURL', click: ()=>{ clipboard.writeText(this.props.record.channel.url) } },
+        { label: 'プレイリストURL', click: ()=>{ clipboard.writeText(this.props.record.channel.playListURL) } },
+        { label: 'ストリームURL', click: ()=>{ clipboard.writeText(this.props.record.channel.streamURL) } },
+        { label: 'IPアドレス', click: ()=>{ clipboard.writeText(this.props.record.channel.tip.replace(/:\d+$/,"")) } },
+        { type: 'separator' },
+        {
+          label: 'チャンネル詳細一行',
+          click: ()=>{
+            clipboard.writeText(this.props.record.channel.detailInOneLine)
+          }
+        },
+        {
+          label: 'チャンネル詳細複数行',
+          click: ()=>{
+            clipboard.writeText(this.props.record.channel.detailInMultipleLines)
+          }
+        }
+      ]
     }))
     e.preventDefault()
     menu.popup(remote.getCurrentWindow())
