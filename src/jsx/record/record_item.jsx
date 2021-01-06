@@ -1,9 +1,22 @@
 import React from 'react'
+import { remote } from 'electron'
 
 export default class RecordItem extends React.Component{
 
   constructor(props){
     super(props)
+  }
+
+  showContextMenu = (e) => {
+    const Menu =  remote.Menu
+    const MenuItem =  remote.MenuItem
+    let menu = new Menu()
+    menu.append(new MenuItem({
+      label: '停止',
+      click: ()=>{ this.props.stopRecord(this.props.record.channel) }
+    }))
+    e.preventDefault()
+    menu.popup(remote.getCurrentWindow())
   }
 
   // バイト表記に変換
@@ -37,8 +50,8 @@ export default class RecordItem extends React.Component{
     }
     let style = { fontSize: `${this.props.fontSize}px` }
     return(
-      <div className="record-item" style={style}>
-        <div className="record-item-col1">{ this.props.record.name }</div>
+      <div className="record-item" style={style} onContextMenu={this.showContextMenu}>
+        <div className="record-item-col1">{ this.props.record.channel.name }</div>
         <div className="record-item-col2">{ this.convertToByte(this.props.record.size) }</div>
         <div className="record-item-col3">{this.props.record.time}</div>
         <div className="record-item-col4">{progress}</div>

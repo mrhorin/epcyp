@@ -127,7 +127,7 @@ class Index extends React.Component {
     })
     // 録画開始
     ipcRenderer.on('start-record-reply', (event, channel) => {
-      let info = { pid: "", name: channel.name, id: channel.id, time: "00:00:00", size: "0", progress: "connecting" }
+      let info = { pid: "", channel: channel, time: "00:00:00", size: "0", progress: "connecting" }
       let recordIndex = this.findIndexOfRecs(channel)
       let records = this.state.records
       if (recordIndex >= 0) {
@@ -145,7 +145,7 @@ class Index extends React.Component {
         size: /(?<=total_size=)\d+/,
         progress: /(?<=progress=).+/
       }
-      let info = { pid: pid, name: channel.name, id: channel.id, time: "", size: "", progress: "" }
+      let info = { pid: pid, channel: channel, time: "", size: "", progress: "" }
       for (let i = 0; i < data.length; i++){
         if (regexes.time.test(data[i])) info.time = data[i].match(regexes.time)[0]
         if (regexes.size.test(data[i])) info.size = data[i].match(regexes.size)[0]
@@ -156,8 +156,6 @@ class Index extends React.Component {
       let records = this.state.records
       if (recordIndex >= 0) {
         records[recordIndex] = info
-      } else {
-        records.push(info)
       }
       this.setState({ records: records })
     })
@@ -278,7 +276,7 @@ class Index extends React.Component {
   findIndexOfRecs = (channel) => {
     let index = -1
     for (let i = 0; i < this.state.records.length; i++){
-      if (this.state.records[i].id == channel.id) {
+      if (this.state.records[i].channel.id == channel.id) {
         index = i
         break
       }
@@ -527,7 +525,10 @@ class Index extends React.Component {
       },
       {
         name: `録画(${this.state.records.length})`,
-        component: <RecordBox records={this.state.records} />
+        component:
+          <RecordBox
+            records={this.state.records}
+            stopRecord={this.stopRecord} />
       }
     ]
     // relaysが空値の瞬間があるので応急処置-------------

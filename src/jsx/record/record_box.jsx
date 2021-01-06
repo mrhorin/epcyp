@@ -18,7 +18,7 @@ export default class RecordBox extends React.Component{
   render() {
     let recordItems = this.props.records.map((record, index) => {
       return (
-        <RecordItem key={index} record={record} fontSize={config.get('fontSize')}/>
+        <RecordItem key={index} record={record} fontSize={config.get('fontSize')} stopRecord={this.props.stopRecord}/>
       )
     })
     return(
