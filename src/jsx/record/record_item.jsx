@@ -29,7 +29,7 @@ export default class RecordItem extends React.Component{
   render() {
     let progress
     if (this.props.record.progress == "continue") {
-      progress = "録画中"
+      progress = "🔴録画中"
     } else if (this.props.record.progress == "end") {
       progress = "終了"
     } else if (this.props.record.progress == "connecting") {

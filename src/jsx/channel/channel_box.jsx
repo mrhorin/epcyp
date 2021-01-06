@@ -30,7 +30,7 @@ export default class ChannelBox extends React.Component {
       return (
         <ChannelItem
           key={channel.key} channel={channel} favorites={this.props.favorites} fontSize={config.get('fontSize')}
-          registerFavorite={this.registerFavorite} />
+          registerFavorite={this.registerFavorite} startRecord={this.props.startRecord} />
       )
     })
     return (

@@ -4,7 +4,6 @@ import {remote} from 'electron'
 import {shell} from 'electron'
 
 import Player from 'js/player'
-import Recorder from 'js/recorder'
 
 export default class ChannelItem extends React.Component {
 
@@ -32,11 +31,6 @@ export default class ChannelItem extends React.Component {
   // お気に入り登録
   registerFavorite = (favoriteIndex, channelName) => {
     this.props.registerFavorite(favoriteIndex, channelName)
-  }
-
-  // 録画を開始
-  startRec = () => {
-    Recorder.start(this.props.channel)
   }
 
   // 右クリメニューを表示
@@ -107,7 +101,7 @@ export default class ChannelItem extends React.Component {
     }))
     menu.append(new MenuItem({
       label: '録画開始',
-      click: ()=>{ this.startRec() }
+      click: ()=>{ this.props.startRecord(this.props.channel) }
     }))
     e.preventDefault()
     menu.popup(remote.getCurrentWindow())

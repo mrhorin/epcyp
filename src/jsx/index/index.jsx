@@ -365,6 +365,16 @@ class Index extends React.Component {
     clearTimeout(this.updateTimerId)
   }
 
+  // 録画開始
+  startRecord = (channel) => {
+    let recordIndex = this.findIndexOfRecs(channel)
+    if (recordIndex < 0) {
+      Recorder.start(channel)
+    } else {
+      this.notify(`${channel.name} は既に録画リストに存在しています`)
+    }
+  }
+
   // 自動更新カウントを更新
   get updateCountPromise() {
     return new Promise((resolve, reject)=>{
@@ -482,6 +492,7 @@ class Index extends React.Component {
             channels={this.channels}
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
+            startRecord={this.startRecord}
             changeSort={this.changeSort} />
       },
       {
@@ -491,6 +502,7 @@ class Index extends React.Component {
             channels={this.favoriteChannels}
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
+            startRecord={this.startRecord}
             changeSort={this.changeSort} />
       },
       {
@@ -500,6 +512,7 @@ class Index extends React.Component {
             channels={this.searchChannels}
             favorites={this.state.favorites}
             registerFavorite={this.registerFavorite}
+            startRecord={this.startRecord}
             changeSort={this.changeSort} />
       },
       {
