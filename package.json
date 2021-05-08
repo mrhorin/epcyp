@@ -67,7 +67,7 @@
     "electron-store": "^6.0.1",
     "fix-path": "^3.0.0",
     "jscolor-picker": "^2.0.4",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "photonkit": "^0.1.2",
     "react": "^16.8.6",
