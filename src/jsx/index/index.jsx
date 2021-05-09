@@ -161,7 +161,7 @@ class Index extends React.Component {
     })
     // 録画停止
     ipcRenderer.on('stop-record', (event, channel, pid, code) => {
-      console.log(code)
+      this.stopRecord(channel)
     })
   }
 
@@ -377,8 +377,12 @@ class Index extends React.Component {
 
   stopRecord = (channel) => {
     let recordIndex = this.findIndexOfRecs(channel)
-    if (recordIndex >= 0) {
+    if (recordIndex >= 0 && this.state.records[recordIndex].progress == "continue") {
       Recorder.stop(this.state.records[recordIndex].pid)
+    } else if (recordIndex >= 0 && this.state.records[recordIndex].progress == "connecting") {
+      let records = this.state.records
+      records[recordIndex].progress = "end"
+      this.setState({ records: records })
     }
   }
 

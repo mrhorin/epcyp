@@ -252,7 +252,8 @@ ipcMain.on('start-record', (event, channel, path) => {
     // リレー開始
     exec(`curl ${channel.playListURL}`, (error, stdout, stderr) => {
       if (error) {
-        console.log(tderr)
+        console.log(stderr)
+        event.sender.send('stop-record', channel)
       } else {
         console.log('stdout: ' + stdout)
         // ffmpeg起動
