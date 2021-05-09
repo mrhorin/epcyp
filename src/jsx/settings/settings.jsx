@@ -28,6 +28,7 @@ class Settings extends React.Component {
       exitPeercast: this.config.get('exitPeercast'),
       useMono: this.config.get('useMono'),
       fontSize: this.config.get('fontSize'),
+      descNowrap: this.config.get('descNowrap'),
       ypList: [],
       formatList: [format],
       currentTabIndex: 0,
@@ -65,6 +66,7 @@ class Settings extends React.Component {
     this.config.set('exitPeercast', this.state.exitPeercast)
     this.config.set('useMono', this.state.useMono)
     this.config.set('fontSize', this.state.fontSize)
+    this.config.set('descNowrap', this.state.descNowrap)
     storage.set('ypList', this.state.ypList, (error)=>{
       storage.set('formatList', this.state.formatList, (error)=>{
         this.close()
@@ -85,6 +87,7 @@ class Settings extends React.Component {
       this.setState({
         bbs: settings.bbs,
         fontSize: settings.fontSize,
+        descNowrap: settings.descNowrap,
         sort: { key: settings.sortKey, orderBy: settings.sortOrderBy },
         theme: settings.theme
       })
@@ -209,7 +212,8 @@ class Settings extends React.Component {
       useMono: false,
       playerPath: '',
       playerArgs: '"$x"',
-      fontSize: 12
+      fontSize: 12,
+      descNowrap: true
     }
   }
 
@@ -296,8 +300,8 @@ class Settings extends React.Component {
         name: "全般",
         component:
           <SettingsGeneral
-            bbs={this.state.bbs} sort={this.state.sort} theme={this.state.theme} fontSize={this.state.fontSize}
-            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm}
+            bbs={this.state.bbs} sort={this.state.sort} theme={this.state.theme} fontSize={this.state.fontSize} descNowrap={this.state.descNowrap}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox}
             onChangeTheme={this.onChangeTheme} onChangeSort={this.onChangeSort} />
       },
       {

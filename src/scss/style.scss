@@ -254,7 +254,6 @@ $col3-width: 50px;
     }
     .channel-box-header-col2{
       @extend .channel-box-header-col;
-      flex-basis: $col2-width;
       padding: 0px;
       padding-right: 3px;
       text-align: right;
@@ -262,7 +261,6 @@ $col3-width: 50px;
     }
     .channel-box-header-col3{
       @extend .channel-box-header-col;
-      flex-basis: $col3-width;
       padding: 0px;
       padding-right: 8px;
       text-align: right;
@@ -289,6 +287,7 @@ $col3-width: 50px;
     order: 1;
     flex-grow: 2;
     padding: 4px 0px 4px 8px;
+    min-width: 0;
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -302,16 +301,19 @@ $col3-width: 50px;
       color: $link-color !important;
     }
     // 詳細
-    .channel-item-detail{
+    .channel-item-desc{
       order: 2;
-      flex-basis: 15px;
+    }
+    .channel-item-desc-nowrap{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .channel-item-col2{
     order: 2;
     padding: 2px 3px;
     text-align: right;
-    flex-basis: $col2-width;
     display: flex;
     flex-direction: column;
     .channel-item-listener{
@@ -325,7 +327,6 @@ $col3-width: 50px;
     order: 3;
     padding: 2px 8px 2px 4px;
     text-align: right;
-    flex-basis: $col3-width;
     display: flex;
     flex-direction: column;
     .channel-item-kbps{
@@ -745,11 +746,16 @@ ul.gui-connection-box{
 
 /* SettingsGeneral */
 #settings-general{
+  input.checkbox{
+    width: auto;
+    display: inline-block;
+  }
   .form-group{
     margin-bottom: 0px;
   }
 }
-#settings-sort{
+#settings-sort,
+#settings-theme{
   padding-bottom: 10px;
 }
 

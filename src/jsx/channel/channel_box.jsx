@@ -6,7 +6,8 @@ import ChannelItem from 'jsx/channel/channel_item.jsx'
 
 const config = new Config({
   defaults: {
-    fontSize: 13
+    fontSize: 13,
+    descNowrap: true
   }
 })
 
@@ -29,7 +30,7 @@ export default class ChannelBox extends React.Component {
     let channelItems = this.props.channels.map((channel) => {
       return (
         <ChannelItem
-          key={channel.key} channel={channel} favorites={this.props.favorites} fontSize={config.get('fontSize')}
+          key={channel.key} channel={channel} favorites={this.props.favorites} fontSize={config.get('fontSize')} descNowrap={config.get('descNowrap')}
           registerFavorite={this.registerFavorite} startRecord={this.props.startRecord} stopRecord={this.props.stopRecord} />
       )
     })

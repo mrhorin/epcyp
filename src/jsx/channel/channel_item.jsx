@@ -176,6 +176,8 @@ export default class ChannelItem extends React.Component {
     let favorite = this.favorite
     let style = { fontSize: `${this.props.fontSize}px` }
     let nameClass = "channel-item-name"
+    let descClass = "channel-item-desc"
+    if (this.props.descNowrap) descClass += " channel-item-desc-nowrap"
     if (favorite && !favorite.isDisableColor) {
       if(this.props.channel.url) nameClass += ' channel-item-name-favorite'
       style['color'] = `#${favorite.fontColor}`
@@ -199,7 +201,7 @@ export default class ChannelItem extends React.Component {
         onMouseLeave={this.deactivateHovered}>
         <div className="channel-item-col1">
           <div className={nameClass}>{this.props.channel.name}</div>
-          <div className="channel-item-detail">{this.props.channel.desc}</div>
+          <div className={descClass}>{this.props.channel.desc}</div>
         </div>
         <div className="channel-item-col2">
           <div className="channel-item-listener">{this.props.channel.listener}/{this.props.channel.relay}</div>
