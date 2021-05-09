@@ -368,8 +368,10 @@ class Index extends React.Component {
     let recordIndex = this.findIndexOfRecs(channel)
     if (recordIndex < 0) {
       Recorder.start(channel)
+    } else if (this.state.records[recordIndex].progress == "end") {
+      Recorder.start(channel)
     } else {
-      this.notify(`${channel.name} は既に録画リストに存在しています`)
+      this.notify(`${channel.name} は既に録画中です`)
     }
   }
 
@@ -528,6 +530,7 @@ class Index extends React.Component {
         component:
           <RecordBox
             records={this.state.records}
+            startRecord={this.startRecord}
             stopRecord={this.stopRecord} />
       }
     ]

@@ -30,10 +30,27 @@ export default class RecordItem extends React.Component{
     const Menu =  remote.Menu
     const MenuItem =  remote.MenuItem
     let menu = new Menu()
-    menu.append(new MenuItem({
-      label: '録画停止',
-      click: ()=>{ this.props.stopRecord(this.props.record.channel) }
-    }))
+    if (this.props.record.progress == "end") {
+      menu.append(new MenuItem({
+        label: '録画開始',
+        click: ()=>{ this.props.startRecord(this.props.record.channel) }
+      }))
+      menu.append(new MenuItem({
+        label: '録画停止',
+        enabled: false,
+        click: () => { this.props.stopRecord(this.props.record.channel) }
+      }))
+    } else {
+      menu.append(new MenuItem({
+        label: '録画開始',
+        enabled: false,
+        click: () => { this.props.startRecord(this.props.record.channel) }
+      }))
+      menu.append(new MenuItem({
+        label: '録画停止',
+        click: () => { this.props.stopRecord(this.props.record.channel) }
+      }))
+    }
     menu.append(new MenuItem({
       type: 'separator'
     }))
