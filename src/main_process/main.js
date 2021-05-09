@@ -208,13 +208,17 @@ ipcMain.on('asyn-yp', (event, ypList) => {
         })
         .catch((err) => {
           console.log(err)
-          reject(err)
+          resolve(err)
         })
     })
   })
   Promise.all(getChannelsPromises).then((responses) => {
     let channels = responses.map((res) => {
-      return { txt: res.data, url: res.config.url }
+      if (res.status && res.status == 200) {
+        return { txt: res.data, url: res.config.url }
+      } else {
+        return { txt: '', url: res.config.url}
+      }
     })
     event.sender.send('asyn-yp-reply', channels)
   }).catch((e) => {
