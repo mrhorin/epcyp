@@ -177,7 +177,7 @@ export default class ChannelItem extends React.Component {
     let style = { fontSize: `${this.props.fontSize}px` }
     let nameClass = "channel-item-name"
     if (favorite && !favorite.isDisableColor) {
-      nameClass += ' channel-item-name-favorite'
+      if(this.props.channel.url) nameClass += ' channel-item-name-favorite'
       style['color'] = `#${favorite.fontColor}`
       // hover時は背景を暗くする
       if (this.state.hovered) {
@@ -188,6 +188,7 @@ export default class ChannelItem extends React.Component {
       // 無視リストの時は非表示に
       if (favorite.isIgnore) style['visibility'] = 'collapse'
     }
+    // コンタクトURLがある場合はリンク色に
     if(this.props.channel.url) nameClass += " link"
     return (
       <div className="channel-item" style={style}
