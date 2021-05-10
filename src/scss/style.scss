@@ -899,7 +899,8 @@ select{
 }
 
 /* dark theme */
-$darktheme-base-color: #444444;
+$darktheme-base-color: rgb(68, 68, 68);
+$darktheme-base-color-bottom: rgb(55, 55, 55);
 $darktheme-btn-default-color: darken($darktheme-base-color, 3%);
 $darktheme-btn-primary-color: #308cff;
 
@@ -930,10 +931,9 @@ $darktheme-btn-primary-color: #308cff;
     .icon-check:before{ color: #00d22e; }
     .icon-cancel:before{ color: #ff3838; }
   }
-
   .toolbar{
     background-color: $darktheme-base-color;
-    background-image: linear-gradient(to bottom, $darktheme-base-color 0%, $darktheme-base-color*0.82 100%);
+    background-image: linear-gradient(to bottom, $darktheme-base-color 0%, $darktheme-base-color-bottom 100%);
     box-shadow: none;
     color: #ffffff;
   }
@@ -1027,7 +1027,7 @@ $darktheme-btn-primary-color: #308cff;
     }
     .tab-item.active{
       background-color: $darktheme-base-color;
-      background-image: linear-gradient(to bottom, $darktheme-base-color*0.82 0%, $darktheme-base-color*0.82 100%);
+      background-image: linear-gradient(to bottom, $darktheme-base-color-bottom 0%, $darktheme-base-color-bottom 100%);
     }
     .tab-item:hover,
     .tab-item.active:hover{
