@@ -135,10 +135,17 @@ app.on('ready', ()=>{
       }
     },
     {
-      label: 'リレー',
+      label: '録画',
       click: ()=>{
         window.main.show()
         window.main.send('index-window-show', 3)
+      }
+    },
+    {
+      label: 'リレー',
+      click: ()=>{
+        window.main.show()
+        window.main.send('index-window-show', 4)
       }
     },
     { type: 'separator' },
