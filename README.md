@@ -5,16 +5,17 @@
 macOSやLinux環境でも動作するpeercastチャンネルビューワー
 <img src="https://user-images.githubusercontent.com/6502717/58675620-173e5100-8390-11e9-8d81-ee112bf2490e.png" width="600px" height="atuo" />
 ## ダウンロード
-[epcyp v1.5.1 for macOS](https://github.com/mrhorin/epcyp/releases/download/v1.5.1/epcyp_1.5.1_mac.dmg)
+[epcyp v2.0.0 for macOS](https://github.com/mrhorin/epcyp/releases/download/v2.0.0/epcyp_2.0.0_mac.dmg)
 
 ## 特徴
 - クロスプラットフォーム
 - リレー管理機能
-- 録画機能（要FFmpeg）
+- 録画機能
 - ダーク/ライトテーマの切り替え機能
 - その他標準的なチャンネルビューワー機能
 
 ## macOSでpeercastを視聴する方法
+[PeerCastStation](http://www.pecastation.org/)または[PeerCast YT](https://github.com/plonk/peercast-yt)に対応しています。ここでは[PeerCastStation](http://www.pecastation.org/)での視聴方法を解説します。
 1. [PeerCastStation](http://www.pecastation.org/)のZIP版をダウンロードして任意のフォルダに展開
 1. [PeerCastStation](http://www.pecastation.org/)をmacOS環境で動かす為に[mono](https://www.mono-project.com/download/stable/)をインストール
 1. 7144番のポートを開放 __[[^1]](#1)__
