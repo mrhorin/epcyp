@@ -10,6 +10,7 @@ macOSやLinux環境でも動作するpeercastチャンネルビューワー
 ## 特徴
 - クロスプラットフォーム
 - リレー管理機能
+- 録画機能（要FFmpeg）
 - ダーク/ライトテーマの切り替え機能
 - その他標準的なチャンネルビューワー機能
 
@@ -31,6 +32,9 @@ BBSブラウザに[epcviewer](https://github.com/mrhorin/epcviewer)を使用す�
 <small id="2">[^2]: IINAを使用する場合は「再生プレイヤー」に`/your_app_path/IINA.app/Contents/MacOS/iina-cli`、「引数」に`"$x" --mpv-force-media-title="$0"`を指定するとプレイヤータイトルにチャンネル名が表示されるようになります。</small>
 
 <small id="3">[^3]: VLCを使用する場合は「引数」に`"$x" --input-title-format "$0"`を指定するとプレイヤータイトルにチャンネル名が表示されるようになります。</small>
+
+## 録画方法
+録画するには[FFmpeg](https://www.ffmpeg.org/)をインストールする必要があります。インストール方法は[公式サイト](https://www.ffmpeg.org/)を参照して下さい。録画フォルダやFFmpegへのフルパスを指定したい場合は環境設定を開き「録画」タブに移動すると設定項目があります。
 
 ## License
 [GPL-2.0](https://opensource.org/licenses/GPL-2.0)
