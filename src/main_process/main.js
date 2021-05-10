@@ -160,8 +160,8 @@ app.on('ready', () => {
   peercast.start()
 
   // メインウィンドウ
-  const { width, height, x, y } = config.get('bounds')
-  const baseColor = config.get('theme') == 'dark' ? '#444444' : '#f5f4f5'
+  let { width, height, x, y } = config.get('bounds')
+  let baseColor = config.get('theme') == 'dark' ? '#444444' : '#f5f4f5'
   window.main = new BrowserWindow({
     width: width,
     height: height,
@@ -347,9 +347,11 @@ ipcMain.on('asyn-set-trayicon', (event, platform) =>{
 const openFavoriteWindow = ()=>{
   if(window.favorite == null){
     let bounds = getChildBoundsFromMain(490, 375)
+    let baseColor = config.get('theme') == 'dark' ? '#444444' : '#f5f4f5'
     window.favorite = new BrowserWindow({
       x: bounds.x,
       y: bounds.y,
+      backgroundColor: baseColor,
       width: bounds.width,
       height: bounds.height,
       center: false,
@@ -376,11 +378,13 @@ const closeFavoriteWindow = ()=>{
 const openSettingsWindow = ()=>{
   if(window.settings == null){
     let bounds = getChildBoundsFromMain(400, 350)
+    let baseColor = config.get('theme') == 'dark' ? '#444444' : '#f5f4f5'
     window.settings = new BrowserWindow({
       x: bounds.x,
       y: bounds.y,
       width: bounds.width,
       height: bounds.height,
+      backgroundColor: baseColor,
       center: false,
       frame: false,
       alwaysOnTop: true,
