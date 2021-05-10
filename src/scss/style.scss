@@ -38,8 +38,6 @@ body::-webkit-scrollbar{
 }
 #index{
   .tab-group{
-    border-top: none;
-    border-bottom: 1px solid #999;
     width: 100%;
     position: fixed;
     top: 29px;
@@ -880,6 +878,11 @@ nav#rule-box-nav{
   color: #fff;
 }
 
+.btn .icon,
+.btn-default{
+  color: #5a5a5a;
+}
+
 .tab-item{
   font-size: 10px !important;
   padding: 1px !important;
@@ -888,11 +891,9 @@ nav#rule-box-nav{
 select{
   height: 20px;
 }
-
 .btn-group{
   display: -webkit-inline-box !important;
 }
-
 .toolbar:before, .toolbar:after {
   display: none;
 }
@@ -1017,6 +1018,7 @@ $darktheme-btn-primary-color: #308cff;
   .tab-group{
     $base: darken($darktheme-base-color, 5%);
     border-bottom-color: lighten($base, 10%);
+    border-top: none;
     .tab-item{
       background-color: $base;
       background-image: linear-gradient(to bottom, $base 0%, darken($base, 5%) 100%);

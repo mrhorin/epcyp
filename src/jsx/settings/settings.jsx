@@ -8,6 +8,7 @@ import TabBox from 'jsx/tab/tab_box'
 import SettingsGeneral from 'jsx/settings/settings_general'
 import SettingsPlayer from 'jsx/settings/settings_player'
 import SettingsPeerCast from 'jsx/settings/settings_peercast'
+import SettingsRecorder from 'jsx/settings/settings_recorder'
 import SettingsYP from 'jsx/settings/settings_yp'
 
 const dialog = remote.dialog
@@ -27,6 +28,8 @@ class Settings extends React.Component {
       peercast: this.config.get('peercast'),
       exitPeercast: this.config.get('exitPeercast'),
       useMono: this.config.get('useMono'),
+      ffmpeg: this.config.get('ffmpeg'),
+      recPath: this.config.get('recPath'),
       fontSize: this.config.get('fontSize'),
       descNowrap: this.config.get('descNowrap'),
       ypList: [],
@@ -65,6 +68,8 @@ class Settings extends React.Component {
     this.config.set('peercast', this.state.peercast)
     this.config.set('exitPeercast', this.state.exitPeercast)
     this.config.set('useMono', this.state.useMono)
+    this.config.set('ffmpeg', this.state.ffmpeg)
+    this.config.set('recPath', this.state.recPath)
     this.config.set('fontSize', this.state.fontSize)
     this.config.set('descNowrap', this.state.descNowrap)
     storage.set('ypList', this.state.ypList, (error)=>{
@@ -101,9 +106,15 @@ class Settings extends React.Component {
         exitPeercast: settings.exitPeercast
       })
     } else if (this.state.currentTabIndex == 2) {
+      // 録画
+      this.setState({
+        ffmpeg: settings.ffmpeg,
+        recPath: settings.recPath
+      })
+    } else if (this.state.currentTabIndex == 3) {
       // YP
       this.setState({ ypList: [] })
-    } else if (this.state.currentTabIndex == 3) {
+    } else if (this.state.currentTabIndex == 4) {
       // プレイヤー
       this.setState({ formatList: [this.defaultFormat] })
     }
@@ -210,6 +221,8 @@ class Settings extends React.Component {
       peercast: '',
       exitPeercast: true,
       useMono: false,
+      ffmpeg: 'ffmpeg',
+      recPath: '',
       playerPath: '',
       playerArgs: '"$x"',
       fontSize: 12,
@@ -311,6 +324,13 @@ class Settings extends React.Component {
             ip={this.state.ip} port={this.state.port}
             peercast={this.state.peercast} exitPeercast={this.state.exitPeercast} useMono={this.state.useMono}
             onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} onChangeCheckbox={this.onChangeCheckbox} />
+      },
+      {
+        name: "録画",
+        component:
+          <SettingsRecorder
+            ffmpeg={this.state.ffmpeg} recPath={this.state.recPath}
+            onClickDialog={this.onClickDialog} onChangeForm={this.onChangeForm} />
       },
       {
         name: "YP",

@@ -13,7 +13,8 @@ const config = new Config({
     playerPath: '',
     playerArgs: '"$x"',
     bbs: "",
-    theme: 'light'
+    theme: 'light',
+    ffmpeg: 'ffmpeg'
   }
 })
 
@@ -269,7 +270,7 @@ ipcMain.on('start-record', (event, channel, path) => {
         if (index < 0) {
           records.push(channel)
           // ffmpeg起動
-          const ffmpeg = spawn('ffmpeg', ['-i', channel.streamURL, '-progress', '-', '-c', 'copy', path])
+          const ffmpeg = spawn(config.get('ffmpeg'), ['-i', channel.streamURL, '-progress', '-', '-c', 'copy', path])
           // 録画情報更新
           ffmpeg.stderr.on('data', (data) => {
             console.log(data.toString())

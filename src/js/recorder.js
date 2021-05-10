@@ -1,5 +1,8 @@
 import {ipcRenderer} from 'electron'
 import moment from 'moment'
+import Config from 'electron-store'
+
+const config = new Config()
 
 /*------------------------------------
   録画機能を操作するクラス
@@ -7,11 +10,10 @@ import moment from 'moment'
 export default class Recorder{
 
   // 開始
-  // 録画パスを指定できるように
   // 切断（停止ではなく）された時に規定回数 or 延々トライするように
   static start(channel) {
     let now = moment().format("YYYYMMDDHHmmss")
-    let path = `/Users/mrhorin/Downloads/${now}${channel.name}.${String(channel.format).toLowerCase()}`
+    let path = `${config.get('recPath')}/${now}${channel.name}.${String(channel.format).toLowerCase()}`
     ipcRenderer.send('start-record', channel, path)
   }
 
