@@ -254,6 +254,7 @@ ipcMain.on('asyn-play', (event, player, args) =>{
 })
 
 // ---------- 録画開始 ----------
+let records = [] // 録画channelリスト
 ipcMain.on('start-record', (event, channel, path) => {
   try {
     event.sender.send('start-record-reply', channel)
@@ -263,23 +264,29 @@ ipcMain.on('start-record', (event, channel, path) => {
         console.log(stderr)
         event.sender.send('stop-record', channel)
       } else {
-        console.log('stdout: ' + stdout)
-        // ffmpeg起動
-        // !リレーが切れてもタイムアウトしないのでffmpegのプロセスが生き残り続ける問題問題
-        const ffmpeg = spawn('ffmpeg', ['-i', channel.streamURL, '-progress', '-', '-c', 'copy', path])
-        // 録画情報更新
-        ffmpeg.stderr.on('data', (data) => {
-          console.log(data.toString())
-        })
-        ffmpeg.stdout.on('data', (data) => {
-          console.log(data.toString())
-          event.sender.send('update-record-info', channel, ffmpeg.pid, data.toString())
-        })
-        // 停止
-        ffmpeg.on('close', (code) => {
-          console.log(code)
-          event.sender.send('stop-record', channel, ffmpeg.pid, code)
-        })
+        // 二重録画予防
+        let index = findIndexOfRecs(channel)
+        if (index < 0) {
+          records.push(channel)
+          // ffmpeg起動
+          const ffmpeg = spawn('ffmpeg', ['-i', channel.streamURL, '-progress', '-', '-c', 'copy', path])
+          // 録画情報更新
+          ffmpeg.stderr.on('data', (data) => {
+            console.log(data.toString())
+          })
+          ffmpeg.stdout.on('data', (data) => {
+            console.log(data.toString())
+            event.sender.send('update-record-info', channel, ffmpeg.pid, data.toString())
+          })
+          // 停止
+          ffmpeg.on('close', (code) => {
+            let index = findIndexOfRecs(channel)
+            records.splice(index, 1)
+            event.sender.send('stop-record', channel, ffmpeg.pid, code)
+          })
+        } else {
+          console.log(`${channel.name} is still being recorded`)
+        }
       }
     })
   }catch(e){
@@ -417,4 +424,15 @@ const getChildBoundsFromMain = (childWidth, childHeight)=>{
     parrent.y + (parrent.height/2) - (childHeight/2)
   )
   return { x: x, y: y, width: childWidth, height: childHeight }
+}
+
+const findIndexOfRecs = (channel) => {
+  let index = -1
+  for (let i = 0; i < records.length; i++){
+    if (records[i].streamURL == channel.streamURL) {
+      index = i
+      break
+    }
+  }
+  return index
 }

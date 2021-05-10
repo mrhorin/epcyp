@@ -7,10 +7,8 @@ import moment from 'moment'
 export default class Recorder{
 
   // 開始
-  // 二重録画防止
   // 録画パスを指定できるように
   // 切断（停止ではなく）された時に規定回数 or 延々トライするように
-  // 録画状況がわかるように
   static start(channel) {
     let now = moment().format("YYYYMMDDHHmmss")
     let path = `/Users/mrhorin/Downloads/${now}${channel.name}.${String(channel.format).toLowerCase()}`
