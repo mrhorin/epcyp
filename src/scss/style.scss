@@ -217,11 +217,16 @@ footer{
     order: 1;
     text-align: left;
     padding: 0px 10px;
-    .icon{ font-size: 14px; }
-    .icon-help:before{ color: #ffa600; }
-    .icon-check:before{ color: #00d22e; }
+    .icon-help:before{
+      color: #ff992e;
+      font-size: 14px;
+    }
+    .icon-check:before{
+      color: #00d22e;
+      font-size: 16px;
+    }
     .icon-cancel:before{
-      color: #f10000;
+      color: #ff6262;
       font-size: 18px;
     }
   }
@@ -917,6 +922,11 @@ $darktheme-btn-primary-color: #308cff;
     .title{
       color: #fff;
     }
+  }
+  footer > .footer-icons{
+    .icon-help:before{ color: #ff8f00; }
+    .icon-check:before{ color: #00d22e; }
+    .icon-cancel:before{ color: #ff3838; }
   }
 
   .toolbar{
