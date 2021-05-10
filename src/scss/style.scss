@@ -291,6 +291,7 @@ $col3-width: 50px;
     text-align: left;
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
     // チャンネル名
     .channel-item-name{
       order: 1;
