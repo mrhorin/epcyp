@@ -22,7 +22,7 @@ export default class PeercastManager{
   }
 
   async start() {
-    if (this.peercastPath && !this.checkStarted()) {
+    if (this.peercastPath && !this.isRunning) {
       this.peercast = this.config.get('useMono') ? (
         spawn('mono', [this.peercastPath])
       ) : (
@@ -35,37 +35,18 @@ export default class PeercastManager{
     }
   }
 
-  stop(){
-    if (this.peercast) {
+  stop() {
+    if (this.isRunning) {
       this.peercast.kill()
       this.peercast = null
     }
   }
 
   // PeerCastが起動済みか
-  checkStarted(){
-    // 起動確認コマンド
-    let psCmd
-    if(global.process.platform == 'win32'){
-      psCmd = `tasklist | find "${this.peercastPath}"`
-    }else{
-      psCmd = `ps x | grep "${this.peercastPath}"`
-    }
-
-    // psコマンド実行結果からPeerCast起動コマンドを含む行を抽出
-    let stdout = execSync(psCmd).toString()
-    stdout = stdout.split(/\n/).map((line, index)=>{
-      // grepを含む行を除外
-      if(line.match(/grep/)) return
-      // PeerCast起動コマンドを含む行は返す
-      if(line.match(this.peercastPath)) return line
-      return
-    }).join()
-
-    let pattern = new RegExp(this.peercastPath, 'gi')
-    if(!stdout.match(pattern)&&this.config.get("peercast")){
+  get isRunning(){
+    if (this.peercast == null) {
       return false
-    }else{
+    } else {
       return true
     }
   }
