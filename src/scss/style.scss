@@ -1,4 +1,5 @@
 $link-color: #0800ff;
+$lighttheme-base-color: #f5f4f5;
 
 .hover-item{
   background: #cbe4f4;
@@ -17,7 +18,7 @@ a, .link{
 body{
   height: 100%;
   font-size: 11px;
-  background: #fff;
+  background: $lighttheme-base-color;
   overflow-y: scroll;
   overflow-x: hidden;
 }

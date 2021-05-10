@@ -28,7 +28,7 @@ systemPreferences.setAppLevelAppearance(config.get('theme'))
 /*-----------------------------------------
   アプリケーション起動準備完了時
 -----------------------------------------*/
-app.on('ready', ()=>{
+app.on('ready', () => {
   // アプリケーションメニュー
   menu.setContextMenu([
     {
@@ -160,11 +160,13 @@ app.on('ready', ()=>{
   peercast.start()
 
   // メインウィンドウ
-  const {width, height, x, y} = config.get('bounds')
+  const { width, height, x, y } = config.get('bounds')
+  const baseColor = config.get('theme') == 'dark' ? '#444444' : '#f5f4f5'
   window.main = new BrowserWindow({
     width: width,
     height: height,
     minWidth: 150,
+    backgroundColor: baseColor,
     x: x,
     y: y,
     frame: true,
