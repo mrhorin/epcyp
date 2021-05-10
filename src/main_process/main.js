@@ -190,9 +190,8 @@ app.on('ready', ()=>{
 /*-----------------------------------------
   すべてのウィンドウが閉じられた時
 -----------------------------------------*/
-app.on('window-all-closed', ()=>{
+app.on('will-quit', ()=>{
   if(config.get('exitPeercast')) peercast.stop()
-  if(process.platform != 'darwin') app.quit()
 })
 
 /*-----------------------------------------

@@ -1,4 +1,3 @@
-import { dialog } from 'electron'
 import { spawn, execSync } from 'child_process'
 import Config from 'electron-store'
 import fixPath from 'fix-path'
@@ -29,15 +28,17 @@ export default class PeercastManager{
       ) : (
         spawn(this.peercastPath, [])
       )
-      this.peercast.on('error', (err) => {
-        dialog.showErrorBox('PeerCast本体の起動失敗', `${err}`)
+      this.peercast.on('close', (err) => {
+        console.log(err)
+        this.stop()
       })
     }
   }
 
   stop(){
-    if (this.config.get('exitPeercast') && this.peercast) {
+    if (this.peercast) {
       this.peercast.kill()
+      this.peercast = null
     }
   }
 
