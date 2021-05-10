@@ -217,6 +217,13 @@ footer{
     order: 1;
     text-align: left;
     padding: 0px 10px;
+    .icon{ font-size: 14px; }
+    .icon-help:before{ color: #ffa600; }
+    .icon-check:before{ color: #00d22e; }
+    .icon-cancel:before{
+      color: #f10000;
+      font-size: 18px;
+    }
   }
   .footer-count{
     order: 2;
