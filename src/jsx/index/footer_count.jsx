@@ -27,8 +27,8 @@ export default class FooterCount extends React.Component {
       counter = "停止中"
     }
     return(
-      <div className="footer-right">
-        {counter}
+      <div className="footer-count">
+        {counter} ({this.props.lastUpdateTime.format("HH:mm")})
       </div>
     )
   }

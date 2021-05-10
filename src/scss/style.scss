@@ -209,13 +209,17 @@ footer{
   position: fixed;
   bottom: 0px;
   width: 100%;
-  .footer-left{
-    float: left;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .footer-icons{
+    order: 1;
     text-align: left;
     padding: 0px 10px;
   }
-  .footer-right{
-    float: right;
+  .footer-count{
+    order: 2;
     text-align: right;
     padding: 0px 10px;
   }
@@ -874,6 +878,10 @@ select{
 
 .btn-group{
   display: -webkit-inline-box !important;
+}
+
+.toolbar:before, .toolbar:after {
+  display: none;
 }
 
 /* dark theme */

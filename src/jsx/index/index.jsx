@@ -32,7 +32,7 @@ class Index extends React.Component {
       favorites: [],
       records: [],
       relays: [],
-      status: { isFirewalled: false },
+      status: { isFirewalled: null },
       searchWord: "",
       sort: { key: config.get('sortKey'), orderBy: config.get('sortOrderBy') },
       theme: config.get('theme'),
@@ -556,7 +556,7 @@ class Index extends React.Component {
          setSearchWord={this.setSearchWord} />
         <TabBox components={components} currentTabIndex={this.state.currentTabIndex} selectTab={this.selectTab} />
         {currentComponent}
-        <FooterBox isAutoUpdate={this.state.isAutoUpdate} autoUpdateCount={this.state.autoUpdateCount}
+        <FooterBox isAutoUpdate={this.state.isAutoUpdate} isFirewalled={this.state.status.isFirewalled} autoUpdateCount={this.state.autoUpdateCount}
           lastUpdateTime={this.state.lastUpdateTime} updateStatus={this.state.updateStatus} />
       </div>
     )

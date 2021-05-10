@@ -5,11 +5,20 @@ import FooterCount from 'jsx/index/footer_count'
 export default class FooterBox extends React.Component {
 
 
-  render(){
+  render() {
+    let portStatus
+    if (this.props.isFirewalled === null) {
+      portStatus = "?"
+    } else if (this.props.isFirewalled === true) {
+      portStatus = "NG"
+    }else if (this.props.isFirewalled === false) {
+      portStatus = "OK"
+    }
     return(
       <footer className="toolbar toolbar-footer">
-        <div className="footer-left">
-          {this.props.lastUpdateTime.format("HH:mm")}
+        <div className="footer-icons">
+          Port: {portStatus}
+          {/* <span className="icon icon-megaphone"></span> */}
         </div>
         <FooterCount
           isAutoUpdate={this.props.isAutoUpdate}
