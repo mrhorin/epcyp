@@ -14,7 +14,8 @@ const config = new Config({
     playerArgs: '"$x"',
     bbs: "",
     theme: 'light',
-    ffmpeg: 'ffmpeg'
+    ffmpeg: 'ffmpeg',
+    recPath: '~/'
   }
 })
 
