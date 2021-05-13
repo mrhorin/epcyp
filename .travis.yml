@@ -9,6 +9,7 @@ node_js:
   - 'stable'
   - 'lts/*'
 install:
+  - npm install -g yarn
   - yarn install
 dist: trusty
 sudo: false
