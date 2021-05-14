@@ -5,7 +5,7 @@
 macOSやLinux環境でも動作するpeercastチャンネルビューワー
 <img src="https://user-images.githubusercontent.com/6502717/58675620-173e5100-8390-11e9-8d81-ee112bf2490e.png" width="600px" height="atuo" />
 ## ダウンロード
-[epcyp v2.0.0 for macOS](https://github.com/mrhorin/epcyp/releases/download/v2.0.0/epcyp_2.0.0_mac.dmg)
+[epcyp](https://github.com/mrhorin/epcyp/releases)
 
 ## 特徴
 - クロスプラットフォーム
