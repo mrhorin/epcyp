@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import { ipcRenderer, remote } from 'electron'
 import Config from 'electron-store'
 import storage from 'electron-json-storage'
+import log from 'electron-log'
 
 import TabBox from 'jsx/tab/tab_box'
 import SettingsGeneral from 'jsx/settings/settings_general'
@@ -12,6 +13,11 @@ import SettingsRecorder from 'jsx/settings/settings_recorder'
 import SettingsYP from 'jsx/settings/settings_yp'
 
 const dialog = remote.dialog
+
+window.onerror = (message) => {
+  log.error(message)
+  alert(message)
+}
 
 class Settings extends React.Component {
 

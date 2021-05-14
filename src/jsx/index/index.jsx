@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom'
 import { ipcRenderer } from 'electron'
 import Config from 'electron-store'
 import storage from 'electron-json-storage'
+import log from 'electron-log'
 import moment from 'moment'
 import _ from 'lodash'
+
+import css from 'scss/style'
 
 import Peercast from 'js/peercaststation'
 import Recorder from 'js/recorder'
 import YP from 'js/yp'
-import css from 'scss/style'
 
 import HeaderBox from 'jsx/index/header_box'
 import FooterBox from 'jsx/index/footer_box'
@@ -21,6 +23,11 @@ import RecordBox from 'jsx/record/record_box'
 const config = new Config({
   defaults: { isAutoUpdate: false, sortKey: "listener", sortOrderBy: "desc", theme: 'light' }
 })
+
+window.onerror = (message) => {
+  log.error(message)
+  alert(message)
+}
 
 class Index extends React.Component {
 

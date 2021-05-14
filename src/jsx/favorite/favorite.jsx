@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import Config from 'electron-store'
 import storage from 'electron-json-storage'
-import css from 'scss/style'
+import log from 'electron-log'
+
 import RuleBox from 'jsx/rule/rule_box'
 import FavoriteDetail from 'jsx/favorite/favorite_detail'
 
@@ -12,6 +13,11 @@ const config = new Config({
     theme: 'light'
   }
 })
+
+window.onerror = (message) => {
+  log.error(message)
+  alert(message)
+}
 
 class Favorite extends React.Component {
 
