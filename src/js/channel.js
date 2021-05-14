@@ -24,7 +24,7 @@ export default class Channel{
     this.yp = hash.yp
     this.playListURL = `http://${config.get('ip')}:${config.get('port')}/pls/${this.id}?tip=${this.tip}`
     this.streamURL = `http://${config.get('ip')}:${config.get('port')}/stream/${this.id}.${this.format.toLowerCase()}`
-    this.statisticsURL = `${this.yp.url}getgmt.php?cn=${this.name}`
+    if(this.yp) this.statisticsURL = `${this.yp.url}getgmt.php?cn=${this.name}`
   }
 
   unEscapeHTML(string){
