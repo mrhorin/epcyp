@@ -34,6 +34,7 @@ module.exports = {
     'electron-store',
     'electron-json-storage',
     'electron-load-devtool',
+    'electron-log',
     'fix-path',
     'moment'
   ],

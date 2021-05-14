@@ -64,6 +64,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "electron-json-storage": "^4.5.0",
+    "electron-log": "^4.3.5",
     "electron-store": "^8.0.0",
     "fix-path": "^3.0.0",
     "jscolor-picker": "^2.0.4",

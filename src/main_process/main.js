@@ -1,7 +1,8 @@
-import { systemPreferences, ipcMain, app, BrowserWindow, Tray, Menu, shell } from 'electron'
+import { systemPreferences, ipcMain, app, BrowserWindow, shell, dialog } from 'electron'
 import { exec, spawn } from 'child_process'
 import request from 'axios'
 import Config from 'electron-store'
+import log from 'electron-log'
 
 import TrayManager from 'main_process/tray_manager'
 import MenuManager from 'main_process/menu_manager'
@@ -348,6 +349,12 @@ ipcMain.on('asyn-set-trayicon', (event, platform) =>{
   if(global.process.platform=='darwin'){
     tray.setImage(platform)
   }
+})
+
+// ---------------- 例外発生時 ----------------
+process.on('uncaughtException', (err) => {
+  log.error(err)
+  dialog.showErrorBox('予期せぬエラー', err.toString())
 })
 
 /*-----------------------------------------
