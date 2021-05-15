@@ -39,6 +39,7 @@ export default class ChannelItem extends React.Component {
     let menu = new Menu()
     menu.append(new MenuItem({
       label: '再生',
+      toolTip: this.props.channel.detailInMultipleLines,
       click: ()=>{ this.play() }
     }))
     menu.append(new MenuItem({
