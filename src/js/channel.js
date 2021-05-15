@@ -1,8 +1,6 @@
 import Config from 'electron-store'
 import _ from 'lodash'
-const config = new Config({
-  defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
-})
+const config = new Config({ defaults: { ip: "127.0.0.1", port: 7144 } })
 
 export default class Channel{
 
