@@ -62,7 +62,7 @@ class Index extends React.Component {
       let newChannels = _.flattenDeep(responses.map((res)=>{
         return this.state.ypList[0].parseIndexTxt(res.txt, res.url)
       }))
-      if(newChannels.length>0){
+      if (newChannels.length > 0) {
         this.setChannels(newChannels, (newChannel)=>{
           // 新着チャンネルか
           let channelIndex = this.findIndexOfChannels(newChannel)
@@ -85,9 +85,8 @@ class Index extends React.Component {
             }
           }
         })
-      }else{
-        this.setState({ autoUpdateCount: 60, updateStatus: 'wait' })
       }
+      this.setState({ lastUpdateTime: moment(), autoUpdateCount: 60, updateStatus: 'wait' })
     })
     // メインウィンドウを表示
     ipcRenderer.on('index-window-show', (event, tabIndex)=>{
@@ -177,12 +176,7 @@ class Index extends React.Component {
     for(let channel of channels){
       call(channel)
     }
-    this.setState({
-      channels: channels,
-      lastUpdateTime: moment(),
-      autoUpdateCount: 60,
-      updateStatus: 'wait'
-    })
+    this.setState({ channels: channels })
   }
 
   // チャンネルを並び替えて返す
