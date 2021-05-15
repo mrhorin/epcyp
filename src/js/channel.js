@@ -17,7 +17,7 @@ export default class Channel{
     this.listener = this.toNumber(hash.listener)
     this.relay = this.toNumber(hash.relay)
     this.kbps = this.toNumber(hash.kbps)
-    this.format = hash.format
+    this.format = hash.format ? hash.format : ""
     this.track = hash.track
     this.time = hash.time
     this.comment = this.unEscapeHTML(hash.comment)
