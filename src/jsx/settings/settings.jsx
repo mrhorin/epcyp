@@ -65,24 +65,36 @@ class Settings extends React.Component {
 
   // 設定保存
   save = () => {
-    this.config.set('ip', this.state.ip)
-    this.config.set('port', this.state.port)
-    this.config.set('bbs', this.state.bbs)
-    this.config.set('sortKey', this.state.sort.key)
-    this.config.set('sortOrderBy', this.state.sort.orderBy)
-    this.config.set('theme', this.state.theme)
-    this.config.set('peercast', this.state.peercast)
-    this.config.set('exitPeercast', this.state.exitPeercast)
-    this.config.set('useMono', this.state.useMono)
-    this.config.set('ffmpeg', this.state.ffmpeg)
-    this.config.set('recPath', this.state.recPath)
-    this.config.set('fontSize', this.state.fontSize)
-    this.config.set('descNowrap', this.state.descNowrap)
-    storage.set('ypList', this.state.ypList, (error)=>{
-      storage.set('formatList', this.state.formatList, (error)=>{
+    this.setConfig('ip', this.state.ip)
+    this.setConfig('port', this.state.port)
+    this.setConfig('bbs', this.state.bbs)
+    this.setConfig('sortKey', this.state.sort.key)
+    this.setConfig('sortOrderBy', this.state.sort.orderBy)
+    this.setConfig('theme', this.state.theme)
+    this.setConfig('peercast', this.state.peercast)
+    this.setConfig('exitPeercast', this.state.exitPeercast)
+    this.setConfig('useMono', this.state.useMono)
+    this.setConfig('ffmpeg', this.state.ffmpeg)
+    this.setConfig('recPath', this.state.recPath)
+    this.setConfig('fontSize', this.state.fontSize)
+    this.setConfig('descNowrap', this.state.descNowrap)
+    storage.set('ypList', this.state.ypList, (error) => {
+      if (error) throw error
+      storage.set('formatList', this.state.formatList, (error) => {
+        if (error) throw error
         this.close()
       })
     })
+  }
+
+  setConfig = (key, value) => {
+    if (typeof value == "undefined" ||
+      typeof value == "function" ||
+      typeof value == "symbol") {
+      this.config.set(key, this.defaultSettings[key])
+    } else {
+      this.config.set(key, value)
+    }
   }
 
   // 設定ウィンドウを閉じる
