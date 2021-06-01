@@ -210,10 +210,10 @@ app.on('will-quit', ()=>{
   イベントをバインド
 -----------------------------------------*/
 // ------- index.txtを取得して返す -------
-ipcMain.on('asyn-yp', (event, ypList) => {
+ipcMain.on('fetch-index-txt', (event, ypList) => {
   let getChannelsPromises = ypList.map((yp) => {
     return new Promise((resolve, reject) => {
-      request.get(yp.url + 'index.txt', { timeout: 15000 })
+      request.get(yp.url + 'index.txt', { timeout: 10000 })
         .then((res) => {
           resolve(res)
         })
@@ -231,10 +231,10 @@ ipcMain.on('asyn-yp', (event, ypList) => {
         return { txt: '', url: res.config.url}
       }
     })
-    event.sender.send('asyn-yp-reply', channels)
+    event.sender.send('fetch-index-txt-reply', channels)
   }).catch((e) => {
     console.log(e)
-    event.sender.send('asyn-yp-reply', [])
+    event.sender.send('fetch-index-txt-reply', [])
   })
 })
 

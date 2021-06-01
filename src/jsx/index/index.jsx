@@ -58,7 +58,7 @@ class Index extends React.Component {
 
   bindEvents = () => {
     // index.txtを取得時
-    ipcRenderer.on('asyn-yp-reply', (event, responses) => {
+    ipcRenderer.on('fetch-index-txt-reply', (event, responses) => {
       let newChannels = _.flattenDeep(responses.map((res)=>{
         return this.state.ypList[0].parseIndexTxt(res.txt, res.url)
       }))
@@ -335,7 +335,7 @@ class Index extends React.Component {
   fetchIndexTxt = () => {
     if(this.checkElapsed()&&this.state.updateStatus!='updating'){
       this.setState({ updateStatus: 'updating' })
-      ipcRenderer.send('asyn-yp', this.state.ypList)
+      ipcRenderer.send('fetch-index-txt', this.state.ypList)
     }else if(this.state.updateStatus!='updating'){
       let sec = 30 - Math.round(moment().unix() - this.state.lastUpdateTime.unix())
       if(sec<0) sec = 30
