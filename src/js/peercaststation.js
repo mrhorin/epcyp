@@ -4,7 +4,7 @@ import Config from 'electron-store'
 const config = new Config({ defaults: { port: 7144 } })
 
 /*-----------------------------------------------------------------
-  PeerCastStionを操作するクラス
+  PeercastStation JSON API
   参考: PeerCastStation.UI.HTTP/html/js/peercaststation.1.0.0.js
 ------------------------------------------------------------------*/
 export default class Peercaststation{
@@ -49,6 +49,13 @@ export default class Peercaststation{
   // PeerCast本体に関するステータスを取得
   static getStatus(call=()=>{}){
     this.postRequest('getStatus', null, (res)=>{
+      call(res)
+    })
+  }
+
+  // ポート開放状態をチェック
+  static checkPorts(call=()=>{}){
+    this.postRequest('checkPorts', null, (res)=>{
       call(res)
     })
   }

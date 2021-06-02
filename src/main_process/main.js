@@ -35,6 +35,17 @@ app.on('ready', () => {
   // アプリケーションメニュー
   menu.setContextMenu([
     {
+      label: 'PeerCast',
+      submenu: [
+        {
+          label: 'ポートチェック',
+          click: ()=>{
+            window.main.send('shortcut-check-ports')
+          }
+        },
+      ]
+    },
+    {
       label: '編集',
       submenu: [
         {

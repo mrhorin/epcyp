@@ -131,6 +131,10 @@ class Index extends React.Component {
         this.setState({ currentTabIndex: this.state.currentTabIndex + 1 })
       }
     })
+    // ポートチェックショートカット押下時
+    ipcRenderer.on('shortcut-check-ports', (event)=>{
+      this.checkPortsPromise.then((ports) => { })
+    })
     // 録画開始
     ipcRenderer.on('start-record-reply', (event, channel) => {
       let info = { pid: "", channel: channel, time: "00:00:00", size: "0", progress: "connecting" }
@@ -422,6 +426,18 @@ class Index extends React.Component {
   get updateStatusPromise() {
     return new Promise((resolve, reject)=>{
       Peercast.getStatus((res)=>{
+        if (res && res.status == 200 && res.data) {
+          resolve(res.data)
+        }else{
+          reject()
+        }
+      })
+    })
+  }
+
+  get checkPortsPromise() {
+    return new Promise((resolve, reject)=>{
+      Peercast.checkPorts((res)=>{
         if (res && res.status == 200 && res.data) {
           resolve(res.data)
         }else{
