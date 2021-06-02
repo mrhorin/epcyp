@@ -38,8 +38,21 @@ app.on('ready', () => {
       label: 'PeerCast',
       submenu: [
         {
+          label: '起動',
+          click: () => {
+            if(!peercast.isRunning) peercast.start()
+          }
+        },
+        {
+          label: '停止',
+          click: () => {
+            if(peercast.isRunning) peercast.stop()
+          }
+        },
+        { type: 'separator' },
+        {
           label: 'ポートチェック',
-          click: ()=>{
+          click: () => {
             window.main.send('shortcut-check-ports')
           }
         },
