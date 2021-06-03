@@ -51,6 +51,13 @@ app.on('ready', () => {
         },
         { type: 'separator' },
         {
+          label: '全リレー切断',
+          click: () => {
+            window.main.send('shortcut-stop-all-channels')
+          }
+        },
+        { type: 'separator' },
+        {
           label: 'ポートチェック',
           click: () => {
             window.main.send('shortcut-check-ports')

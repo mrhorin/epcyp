@@ -93,30 +93,30 @@ class Index extends React.Component {
       this.setState({ currentTabIndex: tabIndex })
     })
     // メインウィンドウが非アクティブ時
-    ipcRenderer.on('index-window-blur', (event)=>{
+    ipcRenderer.on('index-window-blur', ()=>{
       this.setState({ isMainWindowActive: false })
     })
     // メインウィンドウがアクティブ時
-    ipcRenderer.on('index-window-focus', (event)=>{
+    ipcRenderer.on('index-window-focus', ()=>{
       if(this.state.isUnRead){
         ipcRenderer.send('asyn-set-trayicon', 'darwin')
       }
       this.setState({ isMainWindowActive: true, isUnRead: false })
     })
     // お気に入りウィンドウを閉じた時
-    ipcRenderer.on('asyn-favorite-window-close-reply', (event)=>{
+    ipcRenderer.on('asyn-favorite-window-close-reply', ()=>{
       this.loadFavorites()
     })
     // 設定ウィンドウを閉じた時
-    ipcRenderer.on('asyn-settings-window-close-reply', (event)=>{
+    ipcRenderer.on('asyn-settings-window-close-reply', ()=>{
       this.loadSettings()
     })
     // 検索ショートカット押下時
-    ipcRenderer.on('shortcut-search', (event)=>{
+    ipcRenderer.on('shortcut-search', ()=>{
       document.getElementById('search-word').focus()
     })
     // タブ左移動ショートカット押下時
-    ipcRenderer.on('shortcut-tab-left', (event)=>{
+    ipcRenderer.on('shortcut-tab-left', ()=>{
       if (this.state.currentTabIndex <= 0) {
         this.setState({ currentTabIndex: 3 })
       }else{
@@ -124,7 +124,7 @@ class Index extends React.Component {
       }
     })
     // タブ右移動ショートカット押下時
-    ipcRenderer.on('shortcut-tab-right', (event)=>{
+    ipcRenderer.on('shortcut-tab-right', ()=>{
       if (this.state.currentTabIndex >= 3) {
         this.setState({ currentTabIndex: 0 })
       }else{
@@ -132,8 +132,14 @@ class Index extends React.Component {
       }
     })
     // ポートチェックショートカット押下時
-    ipcRenderer.on('shortcut-check-ports', (event)=>{
+    ipcRenderer.on('shortcut-check-ports', ()=>{
       this.checkPortsPromise.then((ports) => { })
+    })
+    // 全リレー切断ショートカット押下時
+    ipcRenderer.on('shortcut-stop-all-channels', ()=>{
+      for (const relay of this.state.relays) {
+        Peercast.stopChannel(relay.channelId)
+      }
     })
     // 録画開始
     ipcRenderer.on('start-record-reply', (event, channel) => {
