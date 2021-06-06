@@ -12,7 +12,7 @@ const config = new Config({
   defaults: {
     bounds: { width: 300, height: 600 },
     playerPath: '',
-    playerArgs: '"$x"',
+    playerArgs: '\'$x\'',
     bbs: "",
     theme: 'light',
     ffmpeg: 'ffmpeg',

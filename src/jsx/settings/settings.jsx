@@ -242,7 +242,7 @@ class Settings extends React.Component {
       ffmpeg: 'ffmpeg',
       recPath: '',
       playerPath: '',
-      playerArgs: '"$x"',
+      playerArgs: '\'$x\'',
       fontSize: 12,
       descNowrap: true
     }
@@ -304,7 +304,7 @@ class Settings extends React.Component {
   }
 
   get defaultFormat(){
-    return { name: 'WMV|FLV', player: '', args: '"$x"' }
+    return { name: 'WMV|FLV', player: '', args: '\'$x\'' }
   }
 
   // --------- SettingsPlayerDetail ---------

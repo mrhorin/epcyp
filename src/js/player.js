@@ -2,7 +2,7 @@ import {ipcRenderer} from 'electron'
 import Config from 'electron-store'
 import storage from 'electron-json-storage'
 const config = new Config({
-  defaults: { port: 7144, playerPath: '', playerArgs: '"$x"' }
+  defaults: { port: 7144, playerPath: '', playerArgs: '\'$x\'' }
 })
 
 /*------------------------------------
