@@ -23,51 +23,47 @@ body{
   overflow-x: hidden;
 }
 body::-webkit-scrollbar{
-  display: none !important;
+  display: none;
 }
 #container{
-  height: 100%;
-  position: relative;
-  padding-top: 47px;
-  padding-bottom: 20px;
+  height: 100vh;
+  #index{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    header{
+      order: 1;
+      border-bottom: none;
+      padding-bottom: 3px;
+    }
+    .tab-group{
+      order: 2;
+    }
+    .channel-box,
+    .record-box,
+    .gui-box{
+      order: 3;
+      overflow: hidden;
+    }
+    .channel-box>.channel-box-body,
+    .record-box>.record-box-body,
+    .gui-box>.gui-box-body{
+      height: 100vh;
+      overflow-y: scroll;
+    }
+    footer{
+      order: 4;
+    }
+  }
 }
 .flex-container{
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 }
-#index{
-  .tab-group{
-    width: 100%;
-    position: fixed;
-    top: 29px;
-  }
-  table{
-    margin-bottom: 22px;
-    thead{
-      position: fixed;
-      display: block;
-    }
-    tbody{
-      margin-top: 19px;
-      display: block;
-    }
-  }
-}
-#index.darwin{
-  padding-top: 20px;
-  .tab-group{
-    top: 65px;
-  }
-  header{
-    padding-top: 20px;
-  }
-}
 
 /* HeaderBox */
 header{
-  position: fixed;
-  top: 0px;
   width: 100%;
   -webkit-app-region: drag; /* ドラッグ可能に */
   -webkit-user-select: none; /* ドラッグはテキスト選択と競合するので禁止 */
@@ -205,8 +201,6 @@ header .toolbar-actions{
 /* FooterBox */
 footer{
   font-size: 12px;
-  position: fixed;
-  bottom: 0px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -245,7 +239,6 @@ $col3-width: 45px;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  padding-bottom: 22px;
   .channel-box-header{
     order: 1;
     display: flex;
@@ -280,6 +273,7 @@ $col3-width: 45px;
       @extend .channel-box-header-col;
       padding: 0px;
       padding-right: 8px;
+      margin-right: 15px;
       text-align: right;
       min-width: $col3-width;
     }
@@ -648,12 +642,11 @@ ul.gui-connection-box{
 #container-favorite{
   height: 100%;
   overflow: hidden;
-  padding-top: 10px;
   header{
   }
   #favorite-main{
     height: 100%;
-    padding: 25px 15px;
+    padding: 15px;
   }
 }
 #favorite{
@@ -717,7 +710,6 @@ ul.gui-connection-box{
 #container-settings{
   height: 100%;
   overflow: hidden;
-  padding-top: 15px;
 }
 #settings{
   overflow: hidden;
@@ -733,9 +725,7 @@ ul.gui-connection-box{
   }
   .tab-group{
     width: 100%;
-    padding-top: 6px;
     .tab-item{
-      border-top: 1px solid #989698;
       background: #bababa;
     }
     .tab-item:hover{
@@ -1007,20 +997,6 @@ $darktheme-btn-primary-color: #308cff;
       color: #ffffff;
     }
   }
-  .gui-box{
-    .gui-item{
-      color: #ffffff;
-      .gui-item-row1{
-        border: 1px solid darken($darktheme-base-color, 5%);
-        box-sizing: border-box;
-      }
-      .gui-item-row2{
-        ul.gui-connection-box>li.gui-connection-item{
-          border: 1px solid darken($darktheme-base-color, 5%);
-        }
-      }
-    }
-  }
   .tab-group{
     $base: darken($darktheme-base-color, 5%);
     border-bottom-color: lighten($base, 10%);
@@ -1102,6 +1078,33 @@ $darktheme-btn-primary-color: #308cff;
       }
     }
   }
+  .gui-box{
+    .gui-item{
+      color: #ffffff;
+      .gui-item-row1{
+        border: 1px solid darken($darktheme-base-color, 5%);
+        box-sizing: border-box;
+      }
+      .gui-item-row2{
+        ul.gui-connection-box>li.gui-connection-item{
+          border: 1px solid darken($darktheme-base-color, 5%);
+        }
+      }
+    }
+  }
+  /* scrollbar */
+  .channel-box>.channel-box-body::-webkit-scrollbar,
+  .record-box>.record-box-body::-webkit-scrollbar,
+  .gui-box>.gui-box-body::-webkit-scrollbar{
+    background: darken($darktheme-base-color, 7%) !important;
+    border-left: 1px solid lighten($darktheme-base-color, 3%) !important;
+  }
+  .channel-box>.channel-box-body::-webkit-scrollbar-thumb,
+  .record-box>.record-box-body::-webkit-scrollbar-thumb,
+  .gui-box>.gui-box-body::-webkit-scrollbar-thumb{
+    background: darken($darktheme-base-color, 14%) !important;
+    border-left: 1px solid lighten($darktheme-base-color, 3%) !important;
+  }
 }
 
 #settings.dark{
@@ -1115,7 +1118,7 @@ $darktheme-btn-primary-color: #308cff;
 
 #favorite.dark{
   .toolbar-header{
+    border-top: 1px solid lighten($darktheme-base-color, 5%);
     border-bottom: 1px solid lighten($darktheme-base-color, 5%);
   }
 }
-
