@@ -6,19 +6,19 @@ export default class Channel{
 
   constructor(hash){
     this.key = hash.key
-    this.name = this.unEscapeHTML(hash.name)
+    this.name = `${this.unEscapeHTML(hash.name)}`
     this.id = hash.id
-    this.tip = hash.tip
-    this.url = hash.url
-    this.genre = this.unEscapeHTML(hash.genre)
-    this.detail = this.unEscapeHTML(hash.detail).replace(/(<Free>)|(<Open>)/, '').replace(/(- )$/, '')
+    this.tip = `${hash.tip}`
+    this.url = `${hash.url}`
+    this.genre = `${this.unEscapeHTML(hash.genre)}`
+    this.detail = `${this.unEscapeHTML(hash.detail).replace(/(<Free>)|(<Open>)/, '').replace(/(- )$/, '')}`
     this.listener = this.toNumber(hash.listener)
     this.relay = this.toNumber(hash.relay)
     this.kbps = this.toNumber(hash.kbps)
     this.format = hash.format ? hash.format : ""
     this.track = hash.track
     this.time = hash.time
-    this.comment = this.unEscapeHTML(hash.comment)
+    this.comment = `${this.unEscapeHTML(hash.comment)}`
     this.yp = hash.yp
     this.playListURL = `http://${config.get('ip')}:${config.get('port')}/pls/${this.id}?tip=${this.tip}`
     this.streamURL = `http://${config.get('ip')}:${config.get('port')}/stream/${this.id}.${this.format.toLowerCase()}`
