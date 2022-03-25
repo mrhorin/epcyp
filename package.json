@@ -45,7 +45,7 @@
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "css-loader": "^5.2.4",
     "del": "^6.0.0",
-    "electron": "10.4.5",
+    "electron": "13.6.6",
     "electron-builder": "^22.8.1",
     "electron-load-devtool": "^1.2.0",
     "file-loader": "^6.1.1",
